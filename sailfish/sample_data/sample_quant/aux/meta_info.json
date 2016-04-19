@@ -1,0 +1,14 @@
+{
+    "sf_version": "0.9.2",
+    "samp_type": "none",
+    "frag_dist_length": 999,
+    "bias_correct": false,
+    "num_bias_bins": 4096,
+    "num_targets": 15,
+    "num_bootstraps": 0,
+    "num_processed": 10000,
+    "num_mapped": 10000,
+    "percent_mapped": 100,
+    "call": "quant",
+    "start_time": "Tue Mar 29 00:07:34 2016"
+}

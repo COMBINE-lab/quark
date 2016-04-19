@@ -1,0 +1,13 @@
+/home/hirak/RapCompress/sailfish/external/install/lib/libgff.a
+/home/hirak/RapCompress/sailfish/external/install/include/codons.h
+/home/hirak/RapCompress/sailfish/external/install/include/gff.h
+/home/hirak/RapCompress/sailfish/external/install/include/GHash.hh
+/home/hirak/RapCompress/sailfish/external/install/include/GFaSeqGet.h
+/home/hirak/RapCompress/sailfish/external/install/include/GFastaIndex.h
+/home/hirak/RapCompress/sailfish/external/install/include/GStr.h
+/home/hirak/RapCompress/sailfish/external/install/include/GArgs.h
+/home/hirak/RapCompress/sailfish/external/install/include/GBase.h
+/home/hirak/RapCompress/sailfish/external/install/include/gff_utils.h
+/home/hirak/RapCompress/sailfish/external/install/include/gdna.h
+/home/hirak/RapCompress/sailfish/external/install/include/GList.hh
+/home/hirak/RapCompress/sailfish/external/install/include/GVec.hh

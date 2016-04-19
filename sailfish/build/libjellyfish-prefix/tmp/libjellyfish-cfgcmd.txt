@@ -1,0 +1,1 @@
+cmd='/home/hirak/RapCompress/sailfish/external/jellyfish-2.2.3/configure;--prefix=<INSTALL_DIR>;CC=/usr/bin/cc;CXX=/usr/bin/c++;CXXFLAGS='

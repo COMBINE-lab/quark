@@ -1,0 +1,1 @@
+cmd='/usr/bin/cmake;-DCMAKE_INSTALL_PREFIX:PATH=/home/hirak/RapCompress/sailfish/external/install;-GUnix Makefiles;/home/hirak/RapCompress/sailfish/external/libgff'

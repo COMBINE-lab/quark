@@ -1,0 +1,10 @@
+prefix=/home/hirak/RapCompress/sailfish/external/install
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib
+includedir=${prefix}/include
+
+Name: Jellyfish
+Description: A multi-threaded hash based k-mer counter.
+Version: 2.2.3
+Libs: -L${libdir} -ljellyfish-2.0 -lpthread
+Cflags: -I${includedir}/jellyfish-2.2.3

@@ -1,0 +1,9 @@
+{
+    "value0": {
+        "IndexType": 1,
+        "IndexVersion": "q1",
+        "UsesKmers": true,
+        "KmerLen": 31,
+        "BigSA": false
+    }
+}
