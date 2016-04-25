@@ -15,7 +15,7 @@
 #include <queue>
 #include <ostream>
 // for std::cout
- 
+
 // Boost
 typedef std::pair<int,int> Edge;
 typedef std::vector<int> Path ;
@@ -104,15 +104,21 @@ int main(int argc,char *argv[]){
 
 
 
-  	AdjList gadj; 
+  	AdjList gadj;
   	EdgeList gedg;
   	Vertices vs,seenVertices;
   	Path path_t ;
 
   	std::ifstream is ;
 	is.open(argv[1], std::ifstream::in);
+    int readCnt = 0;
 	for(std::string line; std::getline(is,line); ){
 		if(line.empty()) continue;
+        if (readCnt % 10000 == 0){
+            std::cout << readCnt + 1 << " Edges processed \r" << std::flush ;
+        }
+        readCnt++;
+
 		int u,v ;
 		double w;
 		std::istringstream linestream(line);
@@ -138,7 +144,7 @@ int main(int argc,char *argv[]){
 	}
 	int numVertices = vs.size();
 
-	//Graph Loaded 
+	//Graph Loaded
 	//We can start doing bfs from random node
 	while(seenVertices.size() < numVertices){
 		int randomNode = RandomSample(vs);
@@ -150,29 +156,32 @@ int main(int argc,char *argv[]){
 		DFS(gadj,gedg,vs,seenVertices,randomNode,path_t);
 
 		//increase seenVertices;
-		
+
 	}
 
 	EqClasses eqc ;
 	std::ifstream ieq ;
-	ieq.open(argv[1], std::ifstream::in);
+	ieq.open(argv[2], std::ifstream::in);
 	for(std::string line; std::getline(ieq,line); ){
 		int key,numReads;
 		std::istringstream linestream(line);
 		linestream >> key;
-		std::getline(ieq,line);
-		std::istringstream linestream(line);
-		line >> numReads;
-		std::list<std:string> readNames = {};
+        std::string line2 ;
+        std::getline(ieq,line2);
+        std::istringstream iss(line2);
+        iss >> numReads;
+		std::list<std::string> readNames = {};
 		while(numReads){
-			std::getline(ieq,line);
-			readNames.push_back(line);
+            std::string rname;
+            std::getline(ieq,rname);
+            readNames.push_back(rname);
+            numReads--;
 		}
 		eqc[key] = readNames ;
 	}
 
 	std::ofstream ofs;
-	ofs.open(args[2], std::ofstream::out);
+	ofs.open(argv[3], std::ofstream::out);
 	for(auto i: path_t){
 		std::list<std::string> readIds = eqc[i];
 		for(auto rid: readIds)
