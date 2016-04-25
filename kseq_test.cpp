@@ -113,3 +113,5 @@ int main(int argc, char *argv[])
 	gzclose(fp);
 	return 0;
 }
+//How to run
+// ./kseq_test <original seq file> <custom seq of read headers> <shuffled file>
