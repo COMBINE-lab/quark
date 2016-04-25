@@ -112,10 +112,11 @@ int main(int argc,char *argv[]){
   	std::ifstream is ;
 	is.open(argv[1], std::ifstream::in);
     int readCnt = 0;
+    std::cout << "\n Loading the graph \n";
 	for(std::string line; std::getline(is,line); ){
 		if(line.empty()) continue;
         if (readCnt % 10000 == 0){
-            std::cout << readCnt + 1 << " Edges processed \r" << std::flush ;
+            std::cout << readCnt   << " Edges processed \r" << std::flush ;
         }
         readCnt++;
 
@@ -144,10 +145,15 @@ int main(int argc,char *argv[]){
 	}
 	int numVertices = vs.size();
 
+    std::cout << "\n Graph Loaded : V: "<<numVertices << " E: "<<readCnt<<"\n";
 	//Graph Loaded
 	//We can start doing bfs from random node
+    std::cout << "\n DFS started on connected components \n" ;
+    int concComp = 0;
 	while(seenVertices.size() < numVertices){
 		int randomNode = RandomSample(vs);
+        std::cout << "\n DFS on component "<<concComp + 1 << " Seed node: "<< randomNode << "\r\n" << std::flush;
+        concComp++;
 		//test random sample
 		//std::cout<<"random node "<<randomNode<<"\n";
 		//sample a random node from vs
@@ -159,6 +165,8 @@ int main(int argc,char *argv[]){
 
 	}
 
+    std::cout<<"\n DFS finished \n";
+    std::cout<<"\n Reading read ids with eq Classes \n";
 	EqClasses eqc ;
 	std::ifstream ieq ;
 	ieq.open(argv[2], std::ifstream::in);
@@ -180,6 +188,7 @@ int main(int argc,char *argv[]){
 		eqc[key] = readNames ;
 	}
 
+    std::cout<<"\n Writing read ids in DFS order \n";
 	std::ofstream ofs;
 	ofs.open(argv[3], std::ofstream::out);
 	for(auto i: path_t){
