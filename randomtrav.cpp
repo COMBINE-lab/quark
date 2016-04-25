@@ -214,3 +214,7 @@ int main(int argc,char *argv[]){
 	*/
 
 }
+
+
+//How to run
+//./randomtrav /mnt/scratch1/hirak/RapCompressData/gv2.net /mnt/scratch1/hirak/RapCompressData/sailfish/sailfish_quant/aux/eq2readID.txt /mnt/scratch1/hirak/RapCompressData/gv2.seq
