@@ -40,12 +40,12 @@ int main(int argc, char *argv[])
 	fp = gzopen(argv[1], "r");
     std::ifstream ifs;
     ifs.open(argv[2],std::ifstream::in) ;
-    int rank = 0;
+    int rank = 1;
     std::cout << "Start reading read ids from "<<argv[2] << "\n";
 
 
     for(std::string line; std::getline(ifs, line) ;){
-        if (line.empty() || (std::isdigit(line[0]))) continue ;
+        //if (line.empty() || (line[0] == "-")) continue ;
         nameToRank[line] = rank ;
         if (rank%10000 == 0){
             std::cout << rank+1 << " reads processed \r" << std::flush ;
@@ -76,7 +76,7 @@ int main(int argc, char *argv[])
         numReads++;
 	}
 
-    std::cout << "\n Start sorting \n" ;
+    std::cout << "\n Start sorting in reverse\n" ;
     timespec startt,endt,result;
     clock_gettime(CLOCK_REALTIME, &startt);
     std::sort(allreads.begin(), allreads.end(), [&nameToRank](const read_record& r1,
@@ -84,7 +84,7 @@ int main(int argc, char *argv[])
                 //std::cout << r1.name << "\n";
                 //std::cout << r2.name << "\n";
                 //std::cout<< nameToRank[r1.name] << nameToRank[r2.name] << "\n" ;
-                return nameToRank[r1.name] < nameToRank[r2.name]; }) ;
+                return nameToRank[r1.name] > nameToRank[r2.name]; }) ;
 
     clock_gettime(CLOCK_REALTIME, &endt);
     //inttimeval_subtract(&result,&startt,&endt);

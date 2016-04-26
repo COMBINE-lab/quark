@@ -199,7 +199,7 @@ int main(int argc,char *argv[]){
 
 	for(auto i: path_t){
 		std::list<std::string> readIds = eqc[i];
-        ofs <<readIds.size() << "\n";
+        //ofs <<readIds.size() << "\n";
         oftmp << readIds.size() << "\n";
 		for(auto rid: readIds)
 			ofs << rid << "\n";
