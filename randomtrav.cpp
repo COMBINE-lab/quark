@@ -103,11 +103,11 @@ int main(int argc,char *argv[]){
   	}
 
 
-
+  	Path path_t ;
+    {
   	AdjList gadj;
   	EdgeList gedg;
   	Vertices vs,seenVertices;
-  	Path path_t ;
 
   	std::ifstream is ;
 	is.open(argv[1], std::ifstream::in);
@@ -166,6 +166,8 @@ int main(int argc,char *argv[]){
 	}
 
     std::cout<<"\n DFS finished \n";
+    } // get rid of things we no longer need
+
     std::cout<<"\n Reading read ids with eq Classes \n";
 	EqClasses eqc ;
 	std::ifstream ieq ;
@@ -191,8 +193,14 @@ int main(int argc,char *argv[]){
     std::cout<<"\n Writing read ids in DFS order \n";
 	std::ofstream ofs;
 	ofs.open(argv[3], std::ofstream::out);
+    std::string tmpFile = "tmpeq.aux";
+    std::ofstream oftmp ;
+    oftmp.open(tmpFile, std::ofstream::out) ;
+
 	for(auto i: path_t){
 		std::list<std::string> readIds = eqc[i];
+        ofs <<readIds.size() << "\n";
+        oftmp << readIds.size() << "\n";
 		for(auto rid: readIds)
 			ofs << rid << "\n";
 	}

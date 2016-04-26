@@ -45,6 +45,7 @@ int main(int argc, char *argv[])
 
 
     for(std::string line; std::getline(ifs, line) ;){
+        if (line.empty() || (std::isdigit(line[0]))) continue ;
         nameToRank[line] = rank ;
         if (rank%10000 == 0){
             std::cout << rank+1 << " reads processed \r" << std::flush ;
