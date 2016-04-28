@@ -292,7 +292,7 @@ src/CMakeFiles/unitTests.dir/__/tests/UnitTests.cpp.o
  ../include/spdlog/spdlog.h
  ../include/spdlog/tweakme.h
  ../include/xxhash.h
- /home/hirak/RapCompress/sailfish/tests/KmerHistTests.cpp
- /home/hirak/RapCompress/sailfish/tests/LibraryTypeTests.cpp
- /home/hirak/RapCompress/sailfish/tests/UnitTests.cpp
- /home/hirak/RapCompress/sailfish/tests/catch.hpp
+ /home/hirak/quark/sailfish/tests/KmerHistTests.cpp
+ /home/hirak/quark/sailfish/tests/LibraryTypeTests.cpp
+ /home/hirak/quark/sailfish/tests/UnitTests.cpp
+ /home/hirak/quark/sailfish/tests/catch.hpp

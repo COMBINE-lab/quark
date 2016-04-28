@@ -50,10 +50,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/hirak/RapCompress/sailfish
+CMAKE_SOURCE_DIR = /home/hirak/quark/sailfish
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/hirak/RapCompress/sailfish/build
+CMAKE_BINARY_DIR = /home/hirak/quark/sailfish/build
 
 #=============================================================================
 # Target rules for target CMakeFiles/libdivsufsort.dir
@@ -62,7 +62,7 @@ CMAKE_BINARY_DIR = /home/hirak/RapCompress/sailfish/build
 CMakeFiles/libdivsufsort.dir/all:
 	$(MAKE) -f CMakeFiles/libdivsufsort.dir/build.make CMakeFiles/libdivsufsort.dir/depend
 	$(MAKE) -f CMakeFiles/libdivsufsort.dir/build.make CMakeFiles/libdivsufsort.dir/build
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/hirak/RapCompress/sailfish/build/CMakeFiles  1 2 3 4 5 6 7 8
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/hirak/quark/sailfish/build/CMakeFiles  1 2 3 4 5 6 7 8
 	@echo "Built target libdivsufsort"
 .PHONY : CMakeFiles/libdivsufsort.dir/all
 
@@ -72,9 +72,9 @@ all: CMakeFiles/libdivsufsort.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/libdivsufsort.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/hirak/RapCompress/sailfish/build/CMakeFiles 8
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/hirak/quark/sailfish/build/CMakeFiles 8
 	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/libdivsufsort.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/hirak/RapCompress/sailfish/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/hirak/quark/sailfish/build/CMakeFiles 0
 .PHONY : CMakeFiles/libdivsufsort.dir/rule
 
 # Convenience name for target.
@@ -97,7 +97,7 @@ clean: CMakeFiles/libdivsufsort.dir/clean
 CMakeFiles/libgff.dir/all:
 	$(MAKE) -f CMakeFiles/libgff.dir/build.make CMakeFiles/libgff.dir/depend
 	$(MAKE) -f CMakeFiles/libgff.dir/build.make CMakeFiles/libgff.dir/build
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/hirak/RapCompress/sailfish/build/CMakeFiles  9 10 11 12 13 14 15 16
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/hirak/quark/sailfish/build/CMakeFiles  9 10 11 12 13 14 15 16
 	@echo "Built target libgff"
 .PHONY : CMakeFiles/libgff.dir/all
 
@@ -107,9 +107,9 @@ all: CMakeFiles/libgff.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/libgff.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/hirak/RapCompress/sailfish/build/CMakeFiles 8
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/hirak/quark/sailfish/build/CMakeFiles 8
 	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/libgff.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/hirak/RapCompress/sailfish/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/hirak/quark/sailfish/build/CMakeFiles 0
 .PHONY : CMakeFiles/libgff.dir/rule
 
 # Convenience name for target.
@@ -132,7 +132,7 @@ clean: CMakeFiles/libgff.dir/clean
 CMakeFiles/libjellyfish.dir/all:
 	$(MAKE) -f CMakeFiles/libjellyfish.dir/build.make CMakeFiles/libjellyfish.dir/depend
 	$(MAKE) -f CMakeFiles/libjellyfish.dir/build.make CMakeFiles/libjellyfish.dir/build
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/hirak/RapCompress/sailfish/build/CMakeFiles  17 18 19 20 21 22 23 24
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/hirak/quark/sailfish/build/CMakeFiles  17 18 19 20 21 22 23 24
 	@echo "Built target libjellyfish"
 .PHONY : CMakeFiles/libjellyfish.dir/all
 
@@ -142,9 +142,9 @@ all: CMakeFiles/libjellyfish.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/libjellyfish.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/hirak/RapCompress/sailfish/build/CMakeFiles 8
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/hirak/quark/sailfish/build/CMakeFiles 8
 	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/libjellyfish.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/hirak/RapCompress/sailfish/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/hirak/quark/sailfish/build/CMakeFiles 0
 .PHONY : CMakeFiles/libjellyfish.dir/rule
 
 # Convenience name for target.
@@ -167,7 +167,7 @@ clean: CMakeFiles/libjellyfish.dir/clean
 CMakeFiles/libsparsehash.dir/all:
 	$(MAKE) -f CMakeFiles/libsparsehash.dir/build.make CMakeFiles/libsparsehash.dir/depend
 	$(MAKE) -f CMakeFiles/libsparsehash.dir/build.make CMakeFiles/libsparsehash.dir/build
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/hirak/RapCompress/sailfish/build/CMakeFiles  25 26 27 28 29 30 31 32
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/hirak/quark/sailfish/build/CMakeFiles  25 26 27 28 29 30 31 32
 	@echo "Built target libsparsehash"
 .PHONY : CMakeFiles/libsparsehash.dir/all
 
@@ -177,9 +177,9 @@ all: CMakeFiles/libsparsehash.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/libsparsehash.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/hirak/RapCompress/sailfish/build/CMakeFiles 8
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/hirak/quark/sailfish/build/CMakeFiles 8
 	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/libsparsehash.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/hirak/RapCompress/sailfish/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/hirak/quark/sailfish/build/CMakeFiles 0
 .PHONY : CMakeFiles/libsparsehash.dir/rule
 
 # Convenience name for target.
@@ -202,7 +202,7 @@ clean: CMakeFiles/libsparsehash.dir/clean
 CMakeFiles/libtbb.dir/all:
 	$(MAKE) -f CMakeFiles/libtbb.dir/build.make CMakeFiles/libtbb.dir/depend
 	$(MAKE) -f CMakeFiles/libtbb.dir/build.make CMakeFiles/libtbb.dir/build
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/hirak/RapCompress/sailfish/build/CMakeFiles  33 34 35 36 37 38 39 40 41
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/hirak/quark/sailfish/build/CMakeFiles  33 34 35 36 37 38 39 40 41
 	@echo "Built target libtbb"
 .PHONY : CMakeFiles/libtbb.dir/all
 
@@ -212,9 +212,9 @@ all: CMakeFiles/libtbb.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/libtbb.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/hirak/RapCompress/sailfish/build/CMakeFiles 9
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/hirak/quark/sailfish/build/CMakeFiles 9
 	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/libtbb.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/hirak/RapCompress/sailfish/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/hirak/quark/sailfish/build/CMakeFiles 0
 .PHONY : CMakeFiles/libtbb.dir/rule
 
 # Convenience name for target.
@@ -256,7 +256,7 @@ src/preinstall:
 src/CMakeFiles/sailfish.dir/all: src/CMakeFiles/sailfish_core.dir/all
 	$(MAKE) -f src/CMakeFiles/sailfish.dir/build.make src/CMakeFiles/sailfish.dir/depend
 	$(MAKE) -f src/CMakeFiles/sailfish.dir/build.make src/CMakeFiles/sailfish.dir/build
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/hirak/RapCompress/sailfish/build/CMakeFiles  42
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/hirak/quark/sailfish/build/CMakeFiles  42
 	@echo "Built target sailfish"
 .PHONY : src/CMakeFiles/sailfish.dir/all
 
@@ -266,9 +266,9 @@ all: src/CMakeFiles/sailfish.dir/all
 
 # Build rule for subdir invocation for target.
 src/CMakeFiles/sailfish.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/hirak/RapCompress/sailfish/build/CMakeFiles 20
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/hirak/quark/sailfish/build/CMakeFiles 20
 	$(MAKE) -f CMakeFiles/Makefile2 src/CMakeFiles/sailfish.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/hirak/RapCompress/sailfish/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/hirak/quark/sailfish/build/CMakeFiles 0
 .PHONY : src/CMakeFiles/sailfish.dir/rule
 
 # Convenience name for target.
@@ -291,7 +291,7 @@ clean: src/CMakeFiles/sailfish.dir/clean
 src/CMakeFiles/sailfish_core.dir/all:
 	$(MAKE) -f src/CMakeFiles/sailfish_core.dir/build.make src/CMakeFiles/sailfish_core.dir/depend
 	$(MAKE) -f src/CMakeFiles/sailfish_core.dir/build.make src/CMakeFiles/sailfish_core.dir/build
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/hirak/RapCompress/sailfish/build/CMakeFiles  43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/hirak/quark/sailfish/build/CMakeFiles  43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61
 	@echo "Built target sailfish_core"
 .PHONY : src/CMakeFiles/sailfish_core.dir/all
 
@@ -301,9 +301,9 @@ all: src/CMakeFiles/sailfish_core.dir/all
 
 # Build rule for subdir invocation for target.
 src/CMakeFiles/sailfish_core.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/hirak/RapCompress/sailfish/build/CMakeFiles 19
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/hirak/quark/sailfish/build/CMakeFiles 19
 	$(MAKE) -f CMakeFiles/Makefile2 src/CMakeFiles/sailfish_core.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/hirak/RapCompress/sailfish/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/hirak/quark/sailfish/build/CMakeFiles 0
 .PHONY : src/CMakeFiles/sailfish_core.dir/rule
 
 # Convenience name for target.
@@ -326,7 +326,7 @@ clean: src/CMakeFiles/sailfish_core.dir/clean
 src/CMakeFiles/unitTests.dir/all: src/CMakeFiles/sailfish_core.dir/all
 	$(MAKE) -f src/CMakeFiles/unitTests.dir/build.make src/CMakeFiles/unitTests.dir/depend
 	$(MAKE) -f src/CMakeFiles/unitTests.dir/build.make src/CMakeFiles/unitTests.dir/build
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/hirak/RapCompress/sailfish/build/CMakeFiles  62
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/hirak/quark/sailfish/build/CMakeFiles  62
 	@echo "Built target unitTests"
 .PHONY : src/CMakeFiles/unitTests.dir/all
 
@@ -336,9 +336,9 @@ all: src/CMakeFiles/unitTests.dir/all
 
 # Build rule for subdir invocation for target.
 src/CMakeFiles/unitTests.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/hirak/RapCompress/sailfish/build/CMakeFiles 20
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/hirak/quark/sailfish/build/CMakeFiles 20
 	$(MAKE) -f CMakeFiles/Makefile2 src/CMakeFiles/unitTests.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/hirak/RapCompress/sailfish/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/hirak/quark/sailfish/build/CMakeFiles 0
 .PHONY : src/CMakeFiles/unitTests.dir/rule
 
 # Convenience name for target.

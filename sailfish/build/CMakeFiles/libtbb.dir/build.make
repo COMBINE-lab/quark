@@ -38,10 +38,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/hirak/RapCompress/sailfish
+CMAKE_SOURCE_DIR = /home/hirak/quark/sailfish
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/hirak/RapCompress/sailfish/build
+CMAKE_BINARY_DIR = /home/hirak/quark/sailfish/build
 
 # Utility rule file for libtbb.
 
@@ -59,63 +59,63 @@ CMakeFiles/libtbb-complete: libtbb-prefix/src/libtbb-stamp/libtbb-configure
 CMakeFiles/libtbb-complete: libtbb-prefix/src/libtbb-stamp/libtbb-build
 CMakeFiles/libtbb-complete: libtbb-prefix/src/libtbb-stamp/libtbb-install
 CMakeFiles/libtbb-complete: libtbb-prefix/src/libtbb-stamp/libtbb-reconfigure
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/hirak/RapCompress/sailfish/build/CMakeFiles $(CMAKE_PROGRESS_1)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/hirak/quark/sailfish/build/CMakeFiles $(CMAKE_PROGRESS_1)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold "Completed 'libtbb'"
-	/usr/bin/cmake -E make_directory /home/hirak/RapCompress/sailfish/build/CMakeFiles
-	/usr/bin/cmake -E touch /home/hirak/RapCompress/sailfish/build/CMakeFiles/libtbb-complete
-	/usr/bin/cmake -E touch /home/hirak/RapCompress/sailfish/build/libtbb-prefix/src/libtbb-stamp/libtbb-done
+	/usr/bin/cmake -E make_directory /home/hirak/quark/sailfish/build/CMakeFiles
+	/usr/bin/cmake -E touch /home/hirak/quark/sailfish/build/CMakeFiles/libtbb-complete
+	/usr/bin/cmake -E touch /home/hirak/quark/sailfish/build/libtbb-prefix/src/libtbb-stamp/libtbb-done
 
 libtbb-prefix/src/libtbb-stamp/libtbb-install: libtbb-prefix/src/libtbb-stamp/libtbb-build
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/hirak/RapCompress/sailfish/build/CMakeFiles $(CMAKE_PROGRESS_2)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/hirak/quark/sailfish/build/CMakeFiles $(CMAKE_PROGRESS_2)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold "Performing install step for 'libtbb'"
-	cd /home/hirak/RapCompress/sailfish/external/tbb43_20140724oss && sh -c "cp /home/hirak/RapCompress/sailfish/external/tbb43_20140724oss/build/LIBS_release/*.so* /home/hirak/RapCompress/sailfish/external/install/lib && cp -r /home/hirak/RapCompress/sailfish/external/tbb43_20140724oss/include/* /home/hirak/RapCompress/sailfish/external/install/include"
-	cd /home/hirak/RapCompress/sailfish/external/tbb43_20140724oss && /usr/bin/cmake -E touch /home/hirak/RapCompress/sailfish/build/libtbb-prefix/src/libtbb-stamp/libtbb-install
+	cd /home/hirak/quark/sailfish/external/tbb43_20140724oss && sh -c "cp /home/hirak/quark/sailfish/external/tbb43_20140724oss/build/LIBS_release/*.so* /home/hirak/quark/sailfish/external/install/lib && cp -r /home/hirak/quark/sailfish/external/tbb43_20140724oss/include/* /home/hirak/quark/sailfish/external/install/include"
+	cd /home/hirak/quark/sailfish/external/tbb43_20140724oss && /usr/bin/cmake -E touch /home/hirak/quark/sailfish/build/libtbb-prefix/src/libtbb-stamp/libtbb-install
 
 libtbb-prefix/src/libtbb-stamp/libtbb-mkdir:
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/hirak/RapCompress/sailfish/build/CMakeFiles $(CMAKE_PROGRESS_3)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/hirak/quark/sailfish/build/CMakeFiles $(CMAKE_PROGRESS_3)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold "Creating directories for 'libtbb'"
-	/usr/bin/cmake -E make_directory /home/hirak/RapCompress/sailfish/external/tbb43_20140724oss
-	/usr/bin/cmake -E make_directory /home/hirak/RapCompress/sailfish/external/tbb43_20140724oss
-	/usr/bin/cmake -E make_directory /home/hirak/RapCompress/sailfish/external/install
-	/usr/bin/cmake -E make_directory /home/hirak/RapCompress/sailfish/build/libtbb-prefix/tmp
-	/usr/bin/cmake -E make_directory /home/hirak/RapCompress/sailfish/build/libtbb-prefix/src/libtbb-stamp
-	/usr/bin/cmake -E make_directory /home/hirak/RapCompress/sailfish/external
-	/usr/bin/cmake -E touch /home/hirak/RapCompress/sailfish/build/libtbb-prefix/src/libtbb-stamp/libtbb-mkdir
+	/usr/bin/cmake -E make_directory /home/hirak/quark/sailfish/external/tbb43_20140724oss
+	/usr/bin/cmake -E make_directory /home/hirak/quark/sailfish/external/tbb43_20140724oss
+	/usr/bin/cmake -E make_directory /home/hirak/quark/sailfish/external/install
+	/usr/bin/cmake -E make_directory /home/hirak/quark/sailfish/build/libtbb-prefix/tmp
+	/usr/bin/cmake -E make_directory /home/hirak/quark/sailfish/build/libtbb-prefix/src/libtbb-stamp
+	/usr/bin/cmake -E make_directory /home/hirak/quark/sailfish/external
+	/usr/bin/cmake -E touch /home/hirak/quark/sailfish/build/libtbb-prefix/src/libtbb-stamp/libtbb-mkdir
 
 libtbb-prefix/src/libtbb-stamp/libtbb-download: libtbb-prefix/src/libtbb-stamp/libtbb-mkdir
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/hirak/RapCompress/sailfish/build/CMakeFiles $(CMAKE_PROGRESS_4)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/hirak/quark/sailfish/build/CMakeFiles $(CMAKE_PROGRESS_4)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold "Performing download step for 'libtbb'"
-	cd /home/hirak/RapCompress/sailfish/external && curl -k -L http://www.threadingbuildingblocks.org/sites/default/files/software_releases/source/tbb43_20140724oss_src.tgz -o tbb_20140724oss_src.tgz && tar -xzvf tbb_20140724oss_src.tgz
-	cd /home/hirak/RapCompress/sailfish/external && /usr/bin/cmake -E touch /home/hirak/RapCompress/sailfish/build/libtbb-prefix/src/libtbb-stamp/libtbb-download
+	cd /home/hirak/quark/sailfish/external && curl -k -L http://www.threadingbuildingblocks.org/sites/default/files/software_releases/source/tbb43_20140724oss_src.tgz -o tbb_20140724oss_src.tgz && tar -xzvf tbb_20140724oss_src.tgz
+	cd /home/hirak/quark/sailfish/external && /usr/bin/cmake -E touch /home/hirak/quark/sailfish/build/libtbb-prefix/src/libtbb-stamp/libtbb-download
 
 libtbb-prefix/src/libtbb-stamp/libtbb-update: libtbb-prefix/src/libtbb-stamp/libtbb-download
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/hirak/RapCompress/sailfish/build/CMakeFiles $(CMAKE_PROGRESS_5)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/hirak/quark/sailfish/build/CMakeFiles $(CMAKE_PROGRESS_5)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold "No update step for 'libtbb'"
-	/usr/bin/cmake -E touch /home/hirak/RapCompress/sailfish/build/libtbb-prefix/src/libtbb-stamp/libtbb-update
+	/usr/bin/cmake -E touch /home/hirak/quark/sailfish/build/libtbb-prefix/src/libtbb-stamp/libtbb-update
 
 libtbb-prefix/src/libtbb-stamp/libtbb-patch: libtbb-prefix/src/libtbb-stamp/libtbb-download
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/hirak/RapCompress/sailfish/build/CMakeFiles $(CMAKE_PROGRESS_6)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/hirak/quark/sailfish/build/CMakeFiles $(CMAKE_PROGRESS_6)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold "No patch step for 'libtbb'"
-	cd /home/hirak/RapCompress/sailfish/external/tbb43_20140724oss && /usr/bin/cmake -E touch /home/hirak/RapCompress/sailfish/build/libtbb-prefix/src/libtbb-stamp/libtbb-patch
+	cd /home/hirak/quark/sailfish/external/tbb43_20140724oss && /usr/bin/cmake -E touch /home/hirak/quark/sailfish/build/libtbb-prefix/src/libtbb-stamp/libtbb-patch
 
 libtbb-prefix/src/libtbb-stamp/libtbb-configure: libtbb-prefix/tmp/libtbb-cfgcmd.txt
 libtbb-prefix/src/libtbb-stamp/libtbb-configure: libtbb-prefix/src/libtbb-stamp/libtbb-update
 libtbb-prefix/src/libtbb-stamp/libtbb-configure: libtbb-prefix/src/libtbb-stamp/libtbb-patch
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/hirak/RapCompress/sailfish/build/CMakeFiles $(CMAKE_PROGRESS_7)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/hirak/quark/sailfish/build/CMakeFiles $(CMAKE_PROGRESS_7)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold "No configure step for 'libtbb'"
-	cd /home/hirak/RapCompress/sailfish/external/tbb43_20140724oss && /usr/bin/cmake -E touch /home/hirak/RapCompress/sailfish/build/libtbb-prefix/src/libtbb-stamp/libtbb-configure
+	cd /home/hirak/quark/sailfish/external/tbb43_20140724oss && /usr/bin/cmake -E touch /home/hirak/quark/sailfish/build/libtbb-prefix/src/libtbb-stamp/libtbb-configure
 
 libtbb-prefix/src/libtbb-stamp/libtbb-build: libtbb-prefix/src/libtbb-stamp/libtbb-configure
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/hirak/RapCompress/sailfish/build/CMakeFiles $(CMAKE_PROGRESS_8)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/hirak/quark/sailfish/build/CMakeFiles $(CMAKE_PROGRESS_8)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold "Performing build step for 'libtbb'"
-	cd /home/hirak/RapCompress/sailfish/external/tbb43_20140724oss && make "CXXFLAGS= -UDO_ITT_NOTIFY" lambdas=1 compiler=gcc cfg=release tbb_build_prefix=LIBS
-	cd /home/hirak/RapCompress/sailfish/external/tbb43_20140724oss && /usr/bin/cmake -E touch /home/hirak/RapCompress/sailfish/build/libtbb-prefix/src/libtbb-stamp/libtbb-build
+	cd /home/hirak/quark/sailfish/external/tbb43_20140724oss && make "CXXFLAGS= -UDO_ITT_NOTIFY" lambdas=1 compiler=gcc cfg=release tbb_build_prefix=LIBS
+	cd /home/hirak/quark/sailfish/external/tbb43_20140724oss && /usr/bin/cmake -E touch /home/hirak/quark/sailfish/build/libtbb-prefix/src/libtbb-stamp/libtbb-build
 
 libtbb-prefix/src/libtbb-stamp/libtbb-reconfigure: libtbb-prefix/src/libtbb-stamp/libtbb-install
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/hirak/RapCompress/sailfish/build/CMakeFiles $(CMAKE_PROGRESS_9)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/hirak/quark/sailfish/build/CMakeFiles $(CMAKE_PROGRESS_9)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold "Performing reconfigure step for 'libtbb'"
-	/usr/bin/cmake /home/hirak/RapCompress/sailfish -DTBB_WILL_RECONFIGURE=FALSE -DTBB_RECONFIGURE=TRUE
-	/usr/bin/cmake -E touch /home/hirak/RapCompress/sailfish/build/libtbb-prefix/src/libtbb-stamp/libtbb-reconfigure
+	/usr/bin/cmake /home/hirak/quark/sailfish -DTBB_WILL_RECONFIGURE=FALSE -DTBB_RECONFIGURE=TRUE
+	/usr/bin/cmake -E touch /home/hirak/quark/sailfish/build/libtbb-prefix/src/libtbb-stamp/libtbb-reconfigure
 
 libtbb: CMakeFiles/libtbb
 libtbb: CMakeFiles/libtbb-complete
@@ -139,6 +139,6 @@ CMakeFiles/libtbb.dir/clean:
 .PHONY : CMakeFiles/libtbb.dir/clean
 
 CMakeFiles/libtbb.dir/depend:
-	cd /home/hirak/RapCompress/sailfish/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/hirak/RapCompress/sailfish /home/hirak/RapCompress/sailfish /home/hirak/RapCompress/sailfish/build /home/hirak/RapCompress/sailfish/build /home/hirak/RapCompress/sailfish/build/CMakeFiles/libtbb.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/hirak/quark/sailfish/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/hirak/quark/sailfish /home/hirak/quark/sailfish /home/hirak/quark/sailfish/build /home/hirak/quark/sailfish/build /home/hirak/quark/sailfish/build/CMakeFiles/libtbb.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/libtbb.dir/depend
 

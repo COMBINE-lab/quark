@@ -1,1 +1,1 @@
-cmd='/usr/bin/cmake;-DCMAKE_INSTALL_PREFIX:PATH=<INSTALL_DIR>;-DBUILD_DIVSUFSORT64=TRUE;-DUSE_OPENMP=TRUE;-DBUILD_SHARED_LIBS=FALSE;-GUnix Makefiles;/home/hirak/RapCompress/sailfish/external/libdivsufsort-master'
+cmd='/usr/bin/cmake;-DCMAKE_INSTALL_PREFIX:PATH=<INSTALL_DIR>;-DBUILD_DIVSUFSORT64=TRUE;-DUSE_OPENMP=TRUE;-DBUILD_SHARED_LIBS=FALSE;-GUnix Makefiles;/home/hirak/quark/sailfish/external/libdivsufsort-master'

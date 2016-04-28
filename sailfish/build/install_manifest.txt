@@ -1,9 +1,0 @@
-/home/hirak/RapCompress/sailfish/lib/libtbbmalloc.so
-/home/hirak/RapCompress/sailfish/lib/libtbbmalloc_proxy.so
-/home/hirak/RapCompress/sailfish/lib/libtbb.so.2
-/home/hirak/RapCompress/sailfish/lib/libtbbmalloc.so.2
-/home/hirak/RapCompress/sailfish/lib/libtbb.so
-/home/hirak/RapCompress/sailfish/lib/libtbbmalloc_proxy.so.2
-/home/hirak/RapCompress/sailfish/bin/sailfish
-/home/hirak/RapCompress/sailfish/lib/libsailfish_core.a
-/home/hirak/RapCompress/sailfish/tests/unitTests

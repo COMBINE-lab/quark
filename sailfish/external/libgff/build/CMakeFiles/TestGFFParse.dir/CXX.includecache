@@ -72,7 +72,7 @@ GList.hh
 GHash.hh
 ../include/GHash.hh
 
-/home/hirak/RapCompress/sailfish/external/libgff/src/TestGFFParse.cpp
+/home/hirak/quark/sailfish/external/libgff/src/TestGFFParse.cpp
 iostream
 -
 cstdio
@@ -80,5 +80,5 @@ cstdio
 cstdlib
 -
 gff.h
-/home/hirak/RapCompress/sailfish/external/libgff/src/gff.h
+/home/hirak/quark/sailfish/external/libgff/src/gff.h
 

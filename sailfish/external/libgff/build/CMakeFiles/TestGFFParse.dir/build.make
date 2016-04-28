@@ -35,10 +35,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/hirak/RapCompress/sailfish/external/libgff
+CMAKE_SOURCE_DIR = /home/hirak/quark/sailfish/external/libgff
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/hirak/RapCompress/sailfish/external/libgff/build
+CMAKE_BINARY_DIR = /home/hirak/quark/sailfish/external/libgff/build
 
 # Include any dependencies generated for this target.
 include CMakeFiles/TestGFFParse.dir/depend.make
@@ -51,17 +51,17 @@ include CMakeFiles/TestGFFParse.dir/flags.make
 
 CMakeFiles/TestGFFParse.dir/src/TestGFFParse.cpp.o: CMakeFiles/TestGFFParse.dir/flags.make
 CMakeFiles/TestGFFParse.dir/src/TestGFFParse.cpp.o: ../src/TestGFFParse.cpp
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/hirak/RapCompress/sailfish/external/libgff/build/CMakeFiles $(CMAKE_PROGRESS_1)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/hirak/quark/sailfish/external/libgff/build/CMakeFiles $(CMAKE_PROGRESS_1)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/TestGFFParse.dir/src/TestGFFParse.cpp.o"
-	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/TestGFFParse.dir/src/TestGFFParse.cpp.o -c /home/hirak/RapCompress/sailfish/external/libgff/src/TestGFFParse.cpp
+	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/TestGFFParse.dir/src/TestGFFParse.cpp.o -c /home/hirak/quark/sailfish/external/libgff/src/TestGFFParse.cpp
 
 CMakeFiles/TestGFFParse.dir/src/TestGFFParse.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/TestGFFParse.dir/src/TestGFFParse.cpp.i"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/hirak/RapCompress/sailfish/external/libgff/src/TestGFFParse.cpp > CMakeFiles/TestGFFParse.dir/src/TestGFFParse.cpp.i
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/hirak/quark/sailfish/external/libgff/src/TestGFFParse.cpp > CMakeFiles/TestGFFParse.dir/src/TestGFFParse.cpp.i
 
 CMakeFiles/TestGFFParse.dir/src/TestGFFParse.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/TestGFFParse.dir/src/TestGFFParse.cpp.s"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/hirak/RapCompress/sailfish/external/libgff/src/TestGFFParse.cpp -o CMakeFiles/TestGFFParse.dir/src/TestGFFParse.cpp.s
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/hirak/quark/sailfish/external/libgff/src/TestGFFParse.cpp -o CMakeFiles/TestGFFParse.dir/src/TestGFFParse.cpp.s
 
 CMakeFiles/TestGFFParse.dir/src/TestGFFParse.cpp.o.requires:
 .PHONY : CMakeFiles/TestGFFParse.dir/src/TestGFFParse.cpp.o.requires
@@ -98,6 +98,6 @@ CMakeFiles/TestGFFParse.dir/clean:
 .PHONY : CMakeFiles/TestGFFParse.dir/clean
 
 CMakeFiles/TestGFFParse.dir/depend:
-	cd /home/hirak/RapCompress/sailfish/external/libgff/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/hirak/RapCompress/sailfish/external/libgff /home/hirak/RapCompress/sailfish/external/libgff /home/hirak/RapCompress/sailfish/external/libgff/build /home/hirak/RapCompress/sailfish/external/libgff/build /home/hirak/RapCompress/sailfish/external/libgff/build/CMakeFiles/TestGFFParse.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/hirak/quark/sailfish/external/libgff/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/hirak/quark/sailfish/external/libgff /home/hirak/quark/sailfish/external/libgff /home/hirak/quark/sailfish/external/libgff/build /home/hirak/quark/sailfish/external/libgff/build /home/hirak/quark/sailfish/external/libgff/build/CMakeFiles/TestGFFParse.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/TestGFFParse.dir/depend
 

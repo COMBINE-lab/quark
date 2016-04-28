@@ -1,7 +1,7 @@
-prefix=/home/hirak/RapCompress/sailfish/external/install
+prefix=/home/hirak/quark/sailfish/external/install
 exec_prefix=${prefix}
-libdir=/home/hirak/RapCompress/sailfish/external/install/lib
-includedir=/home/hirak/RapCompress/sailfish/external/install/include
+libdir=/home/hirak/quark/sailfish/external/install/lib
+includedir=/home/hirak/quark/sailfish/external/install/include
 
 Name: libdivsufsort
 Description: A lightweight suffix sorting library

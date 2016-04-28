@@ -38,10 +38,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/hirak/RapCompress/sailfish
+CMAKE_SOURCE_DIR = /home/hirak/quark/sailfish
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/hirak/RapCompress/sailfish/build
+CMAKE_BINARY_DIR = /home/hirak/quark/sailfish/build
 
 # Utility rule file for libjellyfish.
 
@@ -58,58 +58,58 @@ CMakeFiles/libjellyfish-complete: libjellyfish-prefix/src/libjellyfish-stamp/lib
 CMakeFiles/libjellyfish-complete: libjellyfish-prefix/src/libjellyfish-stamp/libjellyfish-configure
 CMakeFiles/libjellyfish-complete: libjellyfish-prefix/src/libjellyfish-stamp/libjellyfish-build
 CMakeFiles/libjellyfish-complete: libjellyfish-prefix/src/libjellyfish-stamp/libjellyfish-install
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/hirak/RapCompress/sailfish/build/CMakeFiles $(CMAKE_PROGRESS_1)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/hirak/quark/sailfish/build/CMakeFiles $(CMAKE_PROGRESS_1)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold "Completed 'libjellyfish'"
-	/usr/bin/cmake -E make_directory /home/hirak/RapCompress/sailfish/build/CMakeFiles
-	/usr/bin/cmake -E touch /home/hirak/RapCompress/sailfish/build/CMakeFiles/libjellyfish-complete
-	/usr/bin/cmake -E touch /home/hirak/RapCompress/sailfish/build/libjellyfish-prefix/src/libjellyfish-stamp/libjellyfish-done
+	/usr/bin/cmake -E make_directory /home/hirak/quark/sailfish/build/CMakeFiles
+	/usr/bin/cmake -E touch /home/hirak/quark/sailfish/build/CMakeFiles/libjellyfish-complete
+	/usr/bin/cmake -E touch /home/hirak/quark/sailfish/build/libjellyfish-prefix/src/libjellyfish-stamp/libjellyfish-done
 
 libjellyfish-prefix/src/libjellyfish-stamp/libjellyfish-install: libjellyfish-prefix/src/libjellyfish-stamp/libjellyfish-build
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/hirak/RapCompress/sailfish/build/CMakeFiles $(CMAKE_PROGRESS_2)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/hirak/quark/sailfish/build/CMakeFiles $(CMAKE_PROGRESS_2)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold "Performing install step for 'libjellyfish'"
-	cd /home/hirak/RapCompress/sailfish/external/jellyfish-2.2.3 && make install && cp config.h /home/hirak/RapCompress/sailfish/external/install/include/jellyfish-2.2.3/jellyfish/ && cp config.h /home/hirak/RapCompress/sailfish/external/install/include/
-	cd /home/hirak/RapCompress/sailfish/external/jellyfish-2.2.3 && /usr/bin/cmake -E touch /home/hirak/RapCompress/sailfish/build/libjellyfish-prefix/src/libjellyfish-stamp/libjellyfish-install
+	cd /home/hirak/quark/sailfish/external/jellyfish-2.2.3 && make install && cp config.h /home/hirak/quark/sailfish/external/install/include/jellyfish-2.2.3/jellyfish/ && cp config.h /home/hirak/quark/sailfish/external/install/include/
+	cd /home/hirak/quark/sailfish/external/jellyfish-2.2.3 && /usr/bin/cmake -E touch /home/hirak/quark/sailfish/build/libjellyfish-prefix/src/libjellyfish-stamp/libjellyfish-install
 
 libjellyfish-prefix/src/libjellyfish-stamp/libjellyfish-mkdir:
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/hirak/RapCompress/sailfish/build/CMakeFiles $(CMAKE_PROGRESS_3)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/hirak/quark/sailfish/build/CMakeFiles $(CMAKE_PROGRESS_3)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold "Creating directories for 'libjellyfish'"
-	/usr/bin/cmake -E make_directory /home/hirak/RapCompress/sailfish/external/jellyfish-2.2.3
-	/usr/bin/cmake -E make_directory /home/hirak/RapCompress/sailfish/external/jellyfish-2.2.3
-	/usr/bin/cmake -E make_directory /home/hirak/RapCompress/sailfish/external/install
-	/usr/bin/cmake -E make_directory /home/hirak/RapCompress/sailfish/build/libjellyfish-prefix/tmp
-	/usr/bin/cmake -E make_directory /home/hirak/RapCompress/sailfish/build/libjellyfish-prefix/src/libjellyfish-stamp
-	/usr/bin/cmake -E make_directory /home/hirak/RapCompress/sailfish/external
-	/usr/bin/cmake -E touch /home/hirak/RapCompress/sailfish/build/libjellyfish-prefix/src/libjellyfish-stamp/libjellyfish-mkdir
+	/usr/bin/cmake -E make_directory /home/hirak/quark/sailfish/external/jellyfish-2.2.3
+	/usr/bin/cmake -E make_directory /home/hirak/quark/sailfish/external/jellyfish-2.2.3
+	/usr/bin/cmake -E make_directory /home/hirak/quark/sailfish/external/install
+	/usr/bin/cmake -E make_directory /home/hirak/quark/sailfish/build/libjellyfish-prefix/tmp
+	/usr/bin/cmake -E make_directory /home/hirak/quark/sailfish/build/libjellyfish-prefix/src/libjellyfish-stamp
+	/usr/bin/cmake -E make_directory /home/hirak/quark/sailfish/external
+	/usr/bin/cmake -E touch /home/hirak/quark/sailfish/build/libjellyfish-prefix/src/libjellyfish-stamp/libjellyfish-mkdir
 
 libjellyfish-prefix/src/libjellyfish-stamp/libjellyfish-download: libjellyfish-prefix/src/libjellyfish-stamp/libjellyfish-mkdir
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/hirak/RapCompress/sailfish/build/CMakeFiles $(CMAKE_PROGRESS_4)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/hirak/quark/sailfish/build/CMakeFiles $(CMAKE_PROGRESS_4)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold "Performing download step for 'libjellyfish'"
-	cd /home/hirak/RapCompress/sailfish/external && curl -k -L https://github.com/gmarcais/Jellyfish/releases/download/v2.2.3/jellyfish-2.2.3.tar.gz -o jellyfish-2.2.3.tgz && rm -fr jellyfish-2.2.3 && tar -xzvf jellyfish-2.2.3.tgz
-	cd /home/hirak/RapCompress/sailfish/external && /usr/bin/cmake -E touch /home/hirak/RapCompress/sailfish/build/libjellyfish-prefix/src/libjellyfish-stamp/libjellyfish-download
+	cd /home/hirak/quark/sailfish/external && curl -k -L https://github.com/gmarcais/Jellyfish/releases/download/v2.2.3/jellyfish-2.2.3.tar.gz -o jellyfish-2.2.3.tgz && rm -fr jellyfish-2.2.3 && tar -xzvf jellyfish-2.2.3.tgz
+	cd /home/hirak/quark/sailfish/external && /usr/bin/cmake -E touch /home/hirak/quark/sailfish/build/libjellyfish-prefix/src/libjellyfish-stamp/libjellyfish-download
 
 libjellyfish-prefix/src/libjellyfish-stamp/libjellyfish-update: libjellyfish-prefix/src/libjellyfish-stamp/libjellyfish-download
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/hirak/RapCompress/sailfish/build/CMakeFiles $(CMAKE_PROGRESS_5)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/hirak/quark/sailfish/build/CMakeFiles $(CMAKE_PROGRESS_5)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold "No update step for 'libjellyfish'"
-	/usr/bin/cmake -E touch /home/hirak/RapCompress/sailfish/build/libjellyfish-prefix/src/libjellyfish-stamp/libjellyfish-update
+	/usr/bin/cmake -E touch /home/hirak/quark/sailfish/build/libjellyfish-prefix/src/libjellyfish-stamp/libjellyfish-update
 
 libjellyfish-prefix/src/libjellyfish-stamp/libjellyfish-patch: libjellyfish-prefix/src/libjellyfish-stamp/libjellyfish-download
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/hirak/RapCompress/sailfish/build/CMakeFiles $(CMAKE_PROGRESS_6)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/hirak/quark/sailfish/build/CMakeFiles $(CMAKE_PROGRESS_6)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold "No patch step for 'libjellyfish'"
-	/usr/bin/cmake -E touch /home/hirak/RapCompress/sailfish/build/libjellyfish-prefix/src/libjellyfish-stamp/libjellyfish-patch
+	/usr/bin/cmake -E touch /home/hirak/quark/sailfish/build/libjellyfish-prefix/src/libjellyfish-stamp/libjellyfish-patch
 
 libjellyfish-prefix/src/libjellyfish-stamp/libjellyfish-configure: libjellyfish-prefix/tmp/libjellyfish-cfgcmd.txt
 libjellyfish-prefix/src/libjellyfish-stamp/libjellyfish-configure: libjellyfish-prefix/src/libjellyfish-stamp/libjellyfish-update
 libjellyfish-prefix/src/libjellyfish-stamp/libjellyfish-configure: libjellyfish-prefix/src/libjellyfish-stamp/libjellyfish-patch
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/hirak/RapCompress/sailfish/build/CMakeFiles $(CMAKE_PROGRESS_7)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/hirak/quark/sailfish/build/CMakeFiles $(CMAKE_PROGRESS_7)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold "Performing configure step for 'libjellyfish'"
-	cd /home/hirak/RapCompress/sailfish/external/jellyfish-2.2.3 && /home/hirak/RapCompress/sailfish/external/jellyfish-2.2.3/configure --prefix=/home/hirak/RapCompress/sailfish/external/install CC=/usr/bin/cc CXX=/usr/bin/c++ CXXFLAGS=
-	cd /home/hirak/RapCompress/sailfish/external/jellyfish-2.2.3 && /usr/bin/cmake -E touch /home/hirak/RapCompress/sailfish/build/libjellyfish-prefix/src/libjellyfish-stamp/libjellyfish-configure
+	cd /home/hirak/quark/sailfish/external/jellyfish-2.2.3 && /home/hirak/quark/sailfish/external/jellyfish-2.2.3/configure --prefix=/home/hirak/quark/sailfish/external/install CC=/usr/bin/cc CXX=/usr/bin/c++ CXXFLAGS=
+	cd /home/hirak/quark/sailfish/external/jellyfish-2.2.3 && /usr/bin/cmake -E touch /home/hirak/quark/sailfish/build/libjellyfish-prefix/src/libjellyfish-stamp/libjellyfish-configure
 
 libjellyfish-prefix/src/libjellyfish-stamp/libjellyfish-build: libjellyfish-prefix/src/libjellyfish-stamp/libjellyfish-configure
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/hirak/RapCompress/sailfish/build/CMakeFiles $(CMAKE_PROGRESS_8)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/hirak/quark/sailfish/build/CMakeFiles $(CMAKE_PROGRESS_8)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold "Performing build step for 'libjellyfish'"
-	cd /home/hirak/RapCompress/sailfish/external/jellyfish-2.2.3 && CC=/usr/bin/cc CXX=/usr/bin/c++ CXXFLAGS=
-	cd /home/hirak/RapCompress/sailfish/external/jellyfish-2.2.3 && /usr/bin/cmake -E touch /home/hirak/RapCompress/sailfish/build/libjellyfish-prefix/src/libjellyfish-stamp/libjellyfish-build
+	cd /home/hirak/quark/sailfish/external/jellyfish-2.2.3 && CC=/usr/bin/cc CXX=/usr/bin/c++ CXXFLAGS=
+	cd /home/hirak/quark/sailfish/external/jellyfish-2.2.3 && /usr/bin/cmake -E touch /home/hirak/quark/sailfish/build/libjellyfish-prefix/src/libjellyfish-stamp/libjellyfish-build
 
 libjellyfish: CMakeFiles/libjellyfish
 libjellyfish: CMakeFiles/libjellyfish-complete
@@ -132,6 +132,6 @@ CMakeFiles/libjellyfish.dir/clean:
 .PHONY : CMakeFiles/libjellyfish.dir/clean
 
 CMakeFiles/libjellyfish.dir/depend:
-	cd /home/hirak/RapCompress/sailfish/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/hirak/RapCompress/sailfish /home/hirak/RapCompress/sailfish /home/hirak/RapCompress/sailfish/build /home/hirak/RapCompress/sailfish/build /home/hirak/RapCompress/sailfish/build/CMakeFiles/libjellyfish.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/hirak/quark/sailfish/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/hirak/quark/sailfish /home/hirak/quark/sailfish /home/hirak/quark/sailfish/build /home/hirak/quark/sailfish/build /home/hirak/quark/sailfish/build/CMakeFiles/libjellyfish.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/libjellyfish.dir/depend
 

@@ -104,17 +104,17 @@ GFastaIndex.h
 GFaSeqGet.h
 ../include/GFaSeqGet.h
 
-/home/hirak/RapCompress/sailfish/external/libgff/src/GArgs.cpp
+/home/hirak/quark/sailfish/external/libgff/src/GArgs.cpp
 GBase.h
-/home/hirak/RapCompress/sailfish/external/libgff/src/GBase.h
+/home/hirak/quark/sailfish/external/libgff/src/GBase.h
 GArgs.h
-/home/hirak/RapCompress/sailfish/external/libgff/src/GArgs.h
+/home/hirak/quark/sailfish/external/libgff/src/GArgs.h
 ctype.h
 -
 
-/home/hirak/RapCompress/sailfish/external/libgff/src/GBase.cpp
+/home/hirak/quark/sailfish/external/libgff/src/GBase.cpp
 GBase.h
-/home/hirak/RapCompress/sailfish/external/libgff/src/GBase.h
+/home/hirak/quark/sailfish/external/libgff/src/GBase.h
 stdarg.h
 -
 ctype.h
@@ -122,21 +122,21 @@ ctype.h
 sys/stat.h
 -
 
-/home/hirak/RapCompress/sailfish/external/libgff/src/GFaSeqGet.cpp
+/home/hirak/quark/sailfish/external/libgff/src/GFaSeqGet.cpp
 GFaSeqGet.h
-/home/hirak/RapCompress/sailfish/external/libgff/src/GFaSeqGet.h
+/home/hirak/quark/sailfish/external/libgff/src/GFaSeqGet.h
 gdna.h
-/home/hirak/RapCompress/sailfish/external/libgff/src/gdna.h
+/home/hirak/quark/sailfish/external/libgff/src/gdna.h
 ctype.h
 -
 
-/home/hirak/RapCompress/sailfish/external/libgff/src/GFastaIndex.cpp
+/home/hirak/quark/sailfish/external/libgff/src/GFastaIndex.cpp
 GFastaIndex.h
-/home/hirak/RapCompress/sailfish/external/libgff/src/GFastaIndex.h
+/home/hirak/quark/sailfish/external/libgff/src/GFastaIndex.h
 
-/home/hirak/RapCompress/sailfish/external/libgff/src/GStr.cpp
+/home/hirak/quark/sailfish/external/libgff/src/GStr.cpp
 GStr.h
-/home/hirak/RapCompress/sailfish/external/libgff/src/GStr.h
+/home/hirak/quark/sailfish/external/libgff/src/GStr.h
 stdio.h
 -
 string.h
@@ -144,27 +144,27 @@ string.h
 ctype.h
 -
 GBase.h
-/home/hirak/RapCompress/sailfish/external/libgff/src/GBase.h
+/home/hirak/quark/sailfish/external/libgff/src/GBase.h
 stdarg.h
 -
 errno.h
 -
 
-/home/hirak/RapCompress/sailfish/external/libgff/src/codons.cpp
+/home/hirak/quark/sailfish/external/libgff/src/codons.cpp
 codons.h
-/home/hirak/RapCompress/sailfish/external/libgff/src/codons.h
+/home/hirak/quark/sailfish/external/libgff/src/codons.h
 
-/home/hirak/RapCompress/sailfish/external/libgff/src/gdna.cpp
+/home/hirak/quark/sailfish/external/libgff/src/gdna.cpp
 gdna.h
-/home/hirak/RapCompress/sailfish/external/libgff/src/gdna.h
+/home/hirak/quark/sailfish/external/libgff/src/gdna.h
 string.h
 -
 
-/home/hirak/RapCompress/sailfish/external/libgff/src/gff.cpp
+/home/hirak/quark/sailfish/external/libgff/src/gff.cpp
 gff.h
-/home/hirak/RapCompress/sailfish/external/libgff/src/gff.h
+/home/hirak/quark/sailfish/external/libgff/src/gff.h
 
-/home/hirak/RapCompress/sailfish/external/libgff/src/gff_utils.cpp
+/home/hirak/quark/sailfish/external/libgff/src/gff_utils.cpp
 gff_utils.h
-/home/hirak/RapCompress/sailfish/external/libgff/src/gff_utils.h
+/home/hirak/quark/sailfish/external/libgff/src/gff_utils.h
 

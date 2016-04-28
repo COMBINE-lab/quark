@@ -1,2 +1,2 @@
-/home/hirak/RapCompress/sailfish/external/libgff/build/CMakeFiles/TestGFFParse.dir
-/home/hirak/RapCompress/sailfish/external/libgff/build/CMakeFiles/gff.dir
+/home/hirak/quark/sailfish/external/libgff/build/CMakeFiles/TestGFFParse.dir
+/home/hirak/quark/sailfish/external/libgff/build/CMakeFiles/gff.dir

@@ -38,10 +38,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/hirak/RapCompress/sailfish
+CMAKE_SOURCE_DIR = /home/hirak/quark/sailfish
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/hirak/RapCompress/sailfish/build
+CMAKE_BINARY_DIR = /home/hirak/quark/sailfish/build
 
 # Include any dependencies generated for this target.
 include src/CMakeFiles/sailfish_core.dir/depend.make
@@ -54,17 +54,17 @@ include src/CMakeFiles/sailfish_core.dir/flags.make
 
 src/CMakeFiles/sailfish_core.dir/VersionChecker.cpp.o: src/CMakeFiles/sailfish_core.dir/flags.make
 src/CMakeFiles/sailfish_core.dir/VersionChecker.cpp.o: ../src/VersionChecker.cpp
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/hirak/RapCompress/sailfish/build/CMakeFiles $(CMAKE_PROGRESS_1)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/hirak/quark/sailfish/build/CMakeFiles $(CMAKE_PROGRESS_1)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object src/CMakeFiles/sailfish_core.dir/VersionChecker.cpp.o"
-	cd /home/hirak/RapCompress/sailfish/build/src && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/sailfish_core.dir/VersionChecker.cpp.o -c /home/hirak/RapCompress/sailfish/src/VersionChecker.cpp
+	cd /home/hirak/quark/sailfish/build/src && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/sailfish_core.dir/VersionChecker.cpp.o -c /home/hirak/quark/sailfish/src/VersionChecker.cpp
 
 src/CMakeFiles/sailfish_core.dir/VersionChecker.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/sailfish_core.dir/VersionChecker.cpp.i"
-	cd /home/hirak/RapCompress/sailfish/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/hirak/RapCompress/sailfish/src/VersionChecker.cpp > CMakeFiles/sailfish_core.dir/VersionChecker.cpp.i
+	cd /home/hirak/quark/sailfish/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/hirak/quark/sailfish/src/VersionChecker.cpp > CMakeFiles/sailfish_core.dir/VersionChecker.cpp.i
 
 src/CMakeFiles/sailfish_core.dir/VersionChecker.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/sailfish_core.dir/VersionChecker.cpp.s"
-	cd /home/hirak/RapCompress/sailfish/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/hirak/RapCompress/sailfish/src/VersionChecker.cpp -o CMakeFiles/sailfish_core.dir/VersionChecker.cpp.s
+	cd /home/hirak/quark/sailfish/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/hirak/quark/sailfish/src/VersionChecker.cpp -o CMakeFiles/sailfish_core.dir/VersionChecker.cpp.s
 
 src/CMakeFiles/sailfish_core.dir/VersionChecker.cpp.o.requires:
 .PHONY : src/CMakeFiles/sailfish_core.dir/VersionChecker.cpp.o.requires
@@ -77,17 +77,17 @@ src/CMakeFiles/sailfish_core.dir/VersionChecker.cpp.o.provides.build: src/CMakeF
 
 src/CMakeFiles/sailfish_core.dir/SailfishIndexer.cpp.o: src/CMakeFiles/sailfish_core.dir/flags.make
 src/CMakeFiles/sailfish_core.dir/SailfishIndexer.cpp.o: ../src/SailfishIndexer.cpp
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/hirak/RapCompress/sailfish/build/CMakeFiles $(CMAKE_PROGRESS_2)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/hirak/quark/sailfish/build/CMakeFiles $(CMAKE_PROGRESS_2)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object src/CMakeFiles/sailfish_core.dir/SailfishIndexer.cpp.o"
-	cd /home/hirak/RapCompress/sailfish/build/src && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/sailfish_core.dir/SailfishIndexer.cpp.o -c /home/hirak/RapCompress/sailfish/src/SailfishIndexer.cpp
+	cd /home/hirak/quark/sailfish/build/src && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/sailfish_core.dir/SailfishIndexer.cpp.o -c /home/hirak/quark/sailfish/src/SailfishIndexer.cpp
 
 src/CMakeFiles/sailfish_core.dir/SailfishIndexer.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/sailfish_core.dir/SailfishIndexer.cpp.i"
-	cd /home/hirak/RapCompress/sailfish/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/hirak/RapCompress/sailfish/src/SailfishIndexer.cpp > CMakeFiles/sailfish_core.dir/SailfishIndexer.cpp.i
+	cd /home/hirak/quark/sailfish/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/hirak/quark/sailfish/src/SailfishIndexer.cpp > CMakeFiles/sailfish_core.dir/SailfishIndexer.cpp.i
 
 src/CMakeFiles/sailfish_core.dir/SailfishIndexer.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/sailfish_core.dir/SailfishIndexer.cpp.s"
-	cd /home/hirak/RapCompress/sailfish/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/hirak/RapCompress/sailfish/src/SailfishIndexer.cpp -o CMakeFiles/sailfish_core.dir/SailfishIndexer.cpp.s
+	cd /home/hirak/quark/sailfish/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/hirak/quark/sailfish/src/SailfishIndexer.cpp -o CMakeFiles/sailfish_core.dir/SailfishIndexer.cpp.s
 
 src/CMakeFiles/sailfish_core.dir/SailfishIndexer.cpp.o.requires:
 .PHONY : src/CMakeFiles/sailfish_core.dir/SailfishIndexer.cpp.o.requires
@@ -100,17 +100,17 @@ src/CMakeFiles/sailfish_core.dir/SailfishIndexer.cpp.o.provides.build: src/CMake
 
 src/CMakeFiles/sailfish_core.dir/SailfishQuantify.cpp.o: src/CMakeFiles/sailfish_core.dir/flags.make
 src/CMakeFiles/sailfish_core.dir/SailfishQuantify.cpp.o: ../src/SailfishQuantify.cpp
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/hirak/RapCompress/sailfish/build/CMakeFiles $(CMAKE_PROGRESS_3)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/hirak/quark/sailfish/build/CMakeFiles $(CMAKE_PROGRESS_3)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object src/CMakeFiles/sailfish_core.dir/SailfishQuantify.cpp.o"
-	cd /home/hirak/RapCompress/sailfish/build/src && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/sailfish_core.dir/SailfishQuantify.cpp.o -c /home/hirak/RapCompress/sailfish/src/SailfishQuantify.cpp
+	cd /home/hirak/quark/sailfish/build/src && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/sailfish_core.dir/SailfishQuantify.cpp.o -c /home/hirak/quark/sailfish/src/SailfishQuantify.cpp
 
 src/CMakeFiles/sailfish_core.dir/SailfishQuantify.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/sailfish_core.dir/SailfishQuantify.cpp.i"
-	cd /home/hirak/RapCompress/sailfish/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/hirak/RapCompress/sailfish/src/SailfishQuantify.cpp > CMakeFiles/sailfish_core.dir/SailfishQuantify.cpp.i
+	cd /home/hirak/quark/sailfish/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/hirak/quark/sailfish/src/SailfishQuantify.cpp > CMakeFiles/sailfish_core.dir/SailfishQuantify.cpp.i
 
 src/CMakeFiles/sailfish_core.dir/SailfishQuantify.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/sailfish_core.dir/SailfishQuantify.cpp.s"
-	cd /home/hirak/RapCompress/sailfish/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/hirak/RapCompress/sailfish/src/SailfishQuantify.cpp -o CMakeFiles/sailfish_core.dir/SailfishQuantify.cpp.s
+	cd /home/hirak/quark/sailfish/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/hirak/quark/sailfish/src/SailfishQuantify.cpp -o CMakeFiles/sailfish_core.dir/SailfishQuantify.cpp.s
 
 src/CMakeFiles/sailfish_core.dir/SailfishQuantify.cpp.o.requires:
 .PHONY : src/CMakeFiles/sailfish_core.dir/SailfishQuantify.cpp.o.requires
@@ -123,17 +123,17 @@ src/CMakeFiles/sailfish_core.dir/SailfishQuantify.cpp.o.provides.build: src/CMak
 
 src/CMakeFiles/sailfish_core.dir/SailfishUtils.cpp.o: src/CMakeFiles/sailfish_core.dir/flags.make
 src/CMakeFiles/sailfish_core.dir/SailfishUtils.cpp.o: ../src/SailfishUtils.cpp
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/hirak/RapCompress/sailfish/build/CMakeFiles $(CMAKE_PROGRESS_4)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/hirak/quark/sailfish/build/CMakeFiles $(CMAKE_PROGRESS_4)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object src/CMakeFiles/sailfish_core.dir/SailfishUtils.cpp.o"
-	cd /home/hirak/RapCompress/sailfish/build/src && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/sailfish_core.dir/SailfishUtils.cpp.o -c /home/hirak/RapCompress/sailfish/src/SailfishUtils.cpp
+	cd /home/hirak/quark/sailfish/build/src && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/sailfish_core.dir/SailfishUtils.cpp.o -c /home/hirak/quark/sailfish/src/SailfishUtils.cpp
 
 src/CMakeFiles/sailfish_core.dir/SailfishUtils.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/sailfish_core.dir/SailfishUtils.cpp.i"
-	cd /home/hirak/RapCompress/sailfish/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/hirak/RapCompress/sailfish/src/SailfishUtils.cpp > CMakeFiles/sailfish_core.dir/SailfishUtils.cpp.i
+	cd /home/hirak/quark/sailfish/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/hirak/quark/sailfish/src/SailfishUtils.cpp > CMakeFiles/sailfish_core.dir/SailfishUtils.cpp.i
 
 src/CMakeFiles/sailfish_core.dir/SailfishUtils.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/sailfish_core.dir/SailfishUtils.cpp.s"
-	cd /home/hirak/RapCompress/sailfish/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/hirak/RapCompress/sailfish/src/SailfishUtils.cpp -o CMakeFiles/sailfish_core.dir/SailfishUtils.cpp.s
+	cd /home/hirak/quark/sailfish/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/hirak/quark/sailfish/src/SailfishUtils.cpp -o CMakeFiles/sailfish_core.dir/SailfishUtils.cpp.s
 
 src/CMakeFiles/sailfish_core.dir/SailfishUtils.cpp.o.requires:
 .PHONY : src/CMakeFiles/sailfish_core.dir/SailfishUtils.cpp.o.requires
@@ -146,17 +146,17 @@ src/CMakeFiles/sailfish_core.dir/SailfishUtils.cpp.o.provides.build: src/CMakeFi
 
 src/CMakeFiles/sailfish_core.dir/SailfishStringUtils.cpp.o: src/CMakeFiles/sailfish_core.dir/flags.make
 src/CMakeFiles/sailfish_core.dir/SailfishStringUtils.cpp.o: ../src/SailfishStringUtils.cpp
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/hirak/RapCompress/sailfish/build/CMakeFiles $(CMAKE_PROGRESS_5)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/hirak/quark/sailfish/build/CMakeFiles $(CMAKE_PROGRESS_5)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object src/CMakeFiles/sailfish_core.dir/SailfishStringUtils.cpp.o"
-	cd /home/hirak/RapCompress/sailfish/build/src && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/sailfish_core.dir/SailfishStringUtils.cpp.o -c /home/hirak/RapCompress/sailfish/src/SailfishStringUtils.cpp
+	cd /home/hirak/quark/sailfish/build/src && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/sailfish_core.dir/SailfishStringUtils.cpp.o -c /home/hirak/quark/sailfish/src/SailfishStringUtils.cpp
 
 src/CMakeFiles/sailfish_core.dir/SailfishStringUtils.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/sailfish_core.dir/SailfishStringUtils.cpp.i"
-	cd /home/hirak/RapCompress/sailfish/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/hirak/RapCompress/sailfish/src/SailfishStringUtils.cpp > CMakeFiles/sailfish_core.dir/SailfishStringUtils.cpp.i
+	cd /home/hirak/quark/sailfish/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/hirak/quark/sailfish/src/SailfishStringUtils.cpp > CMakeFiles/sailfish_core.dir/SailfishStringUtils.cpp.i
 
 src/CMakeFiles/sailfish_core.dir/SailfishStringUtils.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/sailfish_core.dir/SailfishStringUtils.cpp.s"
-	cd /home/hirak/RapCompress/sailfish/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/hirak/RapCompress/sailfish/src/SailfishStringUtils.cpp -o CMakeFiles/sailfish_core.dir/SailfishStringUtils.cpp.s
+	cd /home/hirak/quark/sailfish/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/hirak/quark/sailfish/src/SailfishStringUtils.cpp -o CMakeFiles/sailfish_core.dir/SailfishStringUtils.cpp.s
 
 src/CMakeFiles/sailfish_core.dir/SailfishStringUtils.cpp.o.requires:
 .PHONY : src/CMakeFiles/sailfish_core.dir/SailfishStringUtils.cpp.o.requires
@@ -169,17 +169,17 @@ src/CMakeFiles/sailfish_core.dir/SailfishStringUtils.cpp.o.provides.build: src/C
 
 src/CMakeFiles/sailfish_core.dir/LibraryFormat.cpp.o: src/CMakeFiles/sailfish_core.dir/flags.make
 src/CMakeFiles/sailfish_core.dir/LibraryFormat.cpp.o: ../src/LibraryFormat.cpp
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/hirak/RapCompress/sailfish/build/CMakeFiles $(CMAKE_PROGRESS_6)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/hirak/quark/sailfish/build/CMakeFiles $(CMAKE_PROGRESS_6)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object src/CMakeFiles/sailfish_core.dir/LibraryFormat.cpp.o"
-	cd /home/hirak/RapCompress/sailfish/build/src && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/sailfish_core.dir/LibraryFormat.cpp.o -c /home/hirak/RapCompress/sailfish/src/LibraryFormat.cpp
+	cd /home/hirak/quark/sailfish/build/src && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/sailfish_core.dir/LibraryFormat.cpp.o -c /home/hirak/quark/sailfish/src/LibraryFormat.cpp
 
 src/CMakeFiles/sailfish_core.dir/LibraryFormat.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/sailfish_core.dir/LibraryFormat.cpp.i"
-	cd /home/hirak/RapCompress/sailfish/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/hirak/RapCompress/sailfish/src/LibraryFormat.cpp > CMakeFiles/sailfish_core.dir/LibraryFormat.cpp.i
+	cd /home/hirak/quark/sailfish/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/hirak/quark/sailfish/src/LibraryFormat.cpp > CMakeFiles/sailfish_core.dir/LibraryFormat.cpp.i
 
 src/CMakeFiles/sailfish_core.dir/LibraryFormat.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/sailfish_core.dir/LibraryFormat.cpp.s"
-	cd /home/hirak/RapCompress/sailfish/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/hirak/RapCompress/sailfish/src/LibraryFormat.cpp -o CMakeFiles/sailfish_core.dir/LibraryFormat.cpp.s
+	cd /home/hirak/quark/sailfish/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/hirak/quark/sailfish/src/LibraryFormat.cpp -o CMakeFiles/sailfish_core.dir/LibraryFormat.cpp.s
 
 src/CMakeFiles/sailfish_core.dir/LibraryFormat.cpp.o.requires:
 .PHONY : src/CMakeFiles/sailfish_core.dir/LibraryFormat.cpp.o.requires
@@ -192,17 +192,17 @@ src/CMakeFiles/sailfish_core.dir/LibraryFormat.cpp.o.provides.build: src/CMakeFi
 
 src/CMakeFiles/sailfish_core.dir/TranscriptGroup.cpp.o: src/CMakeFiles/sailfish_core.dir/flags.make
 src/CMakeFiles/sailfish_core.dir/TranscriptGroup.cpp.o: ../src/TranscriptGroup.cpp
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/hirak/RapCompress/sailfish/build/CMakeFiles $(CMAKE_PROGRESS_7)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/hirak/quark/sailfish/build/CMakeFiles $(CMAKE_PROGRESS_7)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object src/CMakeFiles/sailfish_core.dir/TranscriptGroup.cpp.o"
-	cd /home/hirak/RapCompress/sailfish/build/src && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/sailfish_core.dir/TranscriptGroup.cpp.o -c /home/hirak/RapCompress/sailfish/src/TranscriptGroup.cpp
+	cd /home/hirak/quark/sailfish/build/src && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/sailfish_core.dir/TranscriptGroup.cpp.o -c /home/hirak/quark/sailfish/src/TranscriptGroup.cpp
 
 src/CMakeFiles/sailfish_core.dir/TranscriptGroup.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/sailfish_core.dir/TranscriptGroup.cpp.i"
-	cd /home/hirak/RapCompress/sailfish/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/hirak/RapCompress/sailfish/src/TranscriptGroup.cpp > CMakeFiles/sailfish_core.dir/TranscriptGroup.cpp.i
+	cd /home/hirak/quark/sailfish/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/hirak/quark/sailfish/src/TranscriptGroup.cpp > CMakeFiles/sailfish_core.dir/TranscriptGroup.cpp.i
 
 src/CMakeFiles/sailfish_core.dir/TranscriptGroup.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/sailfish_core.dir/TranscriptGroup.cpp.s"
-	cd /home/hirak/RapCompress/sailfish/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/hirak/RapCompress/sailfish/src/TranscriptGroup.cpp -o CMakeFiles/sailfish_core.dir/TranscriptGroup.cpp.s
+	cd /home/hirak/quark/sailfish/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/hirak/quark/sailfish/src/TranscriptGroup.cpp -o CMakeFiles/sailfish_core.dir/TranscriptGroup.cpp.s
 
 src/CMakeFiles/sailfish_core.dir/TranscriptGroup.cpp.o.requires:
 .PHONY : src/CMakeFiles/sailfish_core.dir/TranscriptGroup.cpp.o.requires
@@ -215,17 +215,17 @@ src/CMakeFiles/sailfish_core.dir/TranscriptGroup.cpp.o.provides.build: src/CMake
 
 src/CMakeFiles/sailfish_core.dir/CollapsedEMOptimizer.cpp.o: src/CMakeFiles/sailfish_core.dir/flags.make
 src/CMakeFiles/sailfish_core.dir/CollapsedEMOptimizer.cpp.o: ../src/CollapsedEMOptimizer.cpp
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/hirak/RapCompress/sailfish/build/CMakeFiles $(CMAKE_PROGRESS_8)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/hirak/quark/sailfish/build/CMakeFiles $(CMAKE_PROGRESS_8)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object src/CMakeFiles/sailfish_core.dir/CollapsedEMOptimizer.cpp.o"
-	cd /home/hirak/RapCompress/sailfish/build/src && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/sailfish_core.dir/CollapsedEMOptimizer.cpp.o -c /home/hirak/RapCompress/sailfish/src/CollapsedEMOptimizer.cpp
+	cd /home/hirak/quark/sailfish/build/src && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/sailfish_core.dir/CollapsedEMOptimizer.cpp.o -c /home/hirak/quark/sailfish/src/CollapsedEMOptimizer.cpp
 
 src/CMakeFiles/sailfish_core.dir/CollapsedEMOptimizer.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/sailfish_core.dir/CollapsedEMOptimizer.cpp.i"
-	cd /home/hirak/RapCompress/sailfish/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/hirak/RapCompress/sailfish/src/CollapsedEMOptimizer.cpp > CMakeFiles/sailfish_core.dir/CollapsedEMOptimizer.cpp.i
+	cd /home/hirak/quark/sailfish/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/hirak/quark/sailfish/src/CollapsedEMOptimizer.cpp > CMakeFiles/sailfish_core.dir/CollapsedEMOptimizer.cpp.i
 
 src/CMakeFiles/sailfish_core.dir/CollapsedEMOptimizer.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/sailfish_core.dir/CollapsedEMOptimizer.cpp.s"
-	cd /home/hirak/RapCompress/sailfish/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/hirak/RapCompress/sailfish/src/CollapsedEMOptimizer.cpp -o CMakeFiles/sailfish_core.dir/CollapsedEMOptimizer.cpp.s
+	cd /home/hirak/quark/sailfish/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/hirak/quark/sailfish/src/CollapsedEMOptimizer.cpp -o CMakeFiles/sailfish_core.dir/CollapsedEMOptimizer.cpp.s
 
 src/CMakeFiles/sailfish_core.dir/CollapsedEMOptimizer.cpp.o.requires:
 .PHONY : src/CMakeFiles/sailfish_core.dir/CollapsedEMOptimizer.cpp.o.requires
@@ -238,17 +238,17 @@ src/CMakeFiles/sailfish_core.dir/CollapsedEMOptimizer.cpp.o.provides.build: src/
 
 src/CMakeFiles/sailfish_core.dir/CollapsedGibbsSampler.cpp.o: src/CMakeFiles/sailfish_core.dir/flags.make
 src/CMakeFiles/sailfish_core.dir/CollapsedGibbsSampler.cpp.o: ../src/CollapsedGibbsSampler.cpp
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/hirak/RapCompress/sailfish/build/CMakeFiles $(CMAKE_PROGRESS_9)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/hirak/quark/sailfish/build/CMakeFiles $(CMAKE_PROGRESS_9)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object src/CMakeFiles/sailfish_core.dir/CollapsedGibbsSampler.cpp.o"
-	cd /home/hirak/RapCompress/sailfish/build/src && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/sailfish_core.dir/CollapsedGibbsSampler.cpp.o -c /home/hirak/RapCompress/sailfish/src/CollapsedGibbsSampler.cpp
+	cd /home/hirak/quark/sailfish/build/src && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/sailfish_core.dir/CollapsedGibbsSampler.cpp.o -c /home/hirak/quark/sailfish/src/CollapsedGibbsSampler.cpp
 
 src/CMakeFiles/sailfish_core.dir/CollapsedGibbsSampler.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/sailfish_core.dir/CollapsedGibbsSampler.cpp.i"
-	cd /home/hirak/RapCompress/sailfish/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/hirak/RapCompress/sailfish/src/CollapsedGibbsSampler.cpp > CMakeFiles/sailfish_core.dir/CollapsedGibbsSampler.cpp.i
+	cd /home/hirak/quark/sailfish/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/hirak/quark/sailfish/src/CollapsedGibbsSampler.cpp > CMakeFiles/sailfish_core.dir/CollapsedGibbsSampler.cpp.i
 
 src/CMakeFiles/sailfish_core.dir/CollapsedGibbsSampler.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/sailfish_core.dir/CollapsedGibbsSampler.cpp.s"
-	cd /home/hirak/RapCompress/sailfish/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/hirak/RapCompress/sailfish/src/CollapsedGibbsSampler.cpp -o CMakeFiles/sailfish_core.dir/CollapsedGibbsSampler.cpp.s
+	cd /home/hirak/quark/sailfish/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/hirak/quark/sailfish/src/CollapsedGibbsSampler.cpp -o CMakeFiles/sailfish_core.dir/CollapsedGibbsSampler.cpp.s
 
 src/CMakeFiles/sailfish_core.dir/CollapsedGibbsSampler.cpp.o.requires:
 .PHONY : src/CMakeFiles/sailfish_core.dir/CollapsedGibbsSampler.cpp.o.requires
@@ -261,17 +261,17 @@ src/CMakeFiles/sailfish_core.dir/CollapsedGibbsSampler.cpp.o.provides.build: src
 
 src/CMakeFiles/sailfish_core.dir/EmpiricalDistribution.cpp.o: src/CMakeFiles/sailfish_core.dir/flags.make
 src/CMakeFiles/sailfish_core.dir/EmpiricalDistribution.cpp.o: ../src/EmpiricalDistribution.cpp
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/hirak/RapCompress/sailfish/build/CMakeFiles $(CMAKE_PROGRESS_10)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/hirak/quark/sailfish/build/CMakeFiles $(CMAKE_PROGRESS_10)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object src/CMakeFiles/sailfish_core.dir/EmpiricalDistribution.cpp.o"
-	cd /home/hirak/RapCompress/sailfish/build/src && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/sailfish_core.dir/EmpiricalDistribution.cpp.o -c /home/hirak/RapCompress/sailfish/src/EmpiricalDistribution.cpp
+	cd /home/hirak/quark/sailfish/build/src && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/sailfish_core.dir/EmpiricalDistribution.cpp.o -c /home/hirak/quark/sailfish/src/EmpiricalDistribution.cpp
 
 src/CMakeFiles/sailfish_core.dir/EmpiricalDistribution.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/sailfish_core.dir/EmpiricalDistribution.cpp.i"
-	cd /home/hirak/RapCompress/sailfish/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/hirak/RapCompress/sailfish/src/EmpiricalDistribution.cpp > CMakeFiles/sailfish_core.dir/EmpiricalDistribution.cpp.i
+	cd /home/hirak/quark/sailfish/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/hirak/quark/sailfish/src/EmpiricalDistribution.cpp > CMakeFiles/sailfish_core.dir/EmpiricalDistribution.cpp.i
 
 src/CMakeFiles/sailfish_core.dir/EmpiricalDistribution.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/sailfish_core.dir/EmpiricalDistribution.cpp.s"
-	cd /home/hirak/RapCompress/sailfish/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/hirak/RapCompress/sailfish/src/EmpiricalDistribution.cpp -o CMakeFiles/sailfish_core.dir/EmpiricalDistribution.cpp.s
+	cd /home/hirak/quark/sailfish/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/hirak/quark/sailfish/src/EmpiricalDistribution.cpp -o CMakeFiles/sailfish_core.dir/EmpiricalDistribution.cpp.s
 
 src/CMakeFiles/sailfish_core.dir/EmpiricalDistribution.cpp.o.requires:
 .PHONY : src/CMakeFiles/sailfish_core.dir/EmpiricalDistribution.cpp.o.requires
@@ -284,17 +284,17 @@ src/CMakeFiles/sailfish_core.dir/EmpiricalDistribution.cpp.o.provides.build: src
 
 src/CMakeFiles/sailfish_core.dir/GZipWriter.cpp.o: src/CMakeFiles/sailfish_core.dir/flags.make
 src/CMakeFiles/sailfish_core.dir/GZipWriter.cpp.o: ../src/GZipWriter.cpp
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/hirak/RapCompress/sailfish/build/CMakeFiles $(CMAKE_PROGRESS_11)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/hirak/quark/sailfish/build/CMakeFiles $(CMAKE_PROGRESS_11)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object src/CMakeFiles/sailfish_core.dir/GZipWriter.cpp.o"
-	cd /home/hirak/RapCompress/sailfish/build/src && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/sailfish_core.dir/GZipWriter.cpp.o -c /home/hirak/RapCompress/sailfish/src/GZipWriter.cpp
+	cd /home/hirak/quark/sailfish/build/src && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/sailfish_core.dir/GZipWriter.cpp.o -c /home/hirak/quark/sailfish/src/GZipWriter.cpp
 
 src/CMakeFiles/sailfish_core.dir/GZipWriter.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/sailfish_core.dir/GZipWriter.cpp.i"
-	cd /home/hirak/RapCompress/sailfish/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/hirak/RapCompress/sailfish/src/GZipWriter.cpp > CMakeFiles/sailfish_core.dir/GZipWriter.cpp.i
+	cd /home/hirak/quark/sailfish/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/hirak/quark/sailfish/src/GZipWriter.cpp > CMakeFiles/sailfish_core.dir/GZipWriter.cpp.i
 
 src/CMakeFiles/sailfish_core.dir/GZipWriter.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/sailfish_core.dir/GZipWriter.cpp.s"
-	cd /home/hirak/RapCompress/sailfish/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/hirak/RapCompress/sailfish/src/GZipWriter.cpp -o CMakeFiles/sailfish_core.dir/GZipWriter.cpp.s
+	cd /home/hirak/quark/sailfish/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/hirak/quark/sailfish/src/GZipWriter.cpp -o CMakeFiles/sailfish_core.dir/GZipWriter.cpp.s
 
 src/CMakeFiles/sailfish_core.dir/GZipWriter.cpp.o.requires:
 .PHONY : src/CMakeFiles/sailfish_core.dir/GZipWriter.cpp.o.requires
@@ -307,17 +307,17 @@ src/CMakeFiles/sailfish_core.dir/GZipWriter.cpp.o.provides.build: src/CMakeFiles
 
 src/CMakeFiles/sailfish_core.dir/xxhash.c.o: src/CMakeFiles/sailfish_core.dir/flags.make
 src/CMakeFiles/sailfish_core.dir/xxhash.c.o: ../src/xxhash.c
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/hirak/RapCompress/sailfish/build/CMakeFiles $(CMAKE_PROGRESS_12)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/hirak/quark/sailfish/build/CMakeFiles $(CMAKE_PROGRESS_12)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building C object src/CMakeFiles/sailfish_core.dir/xxhash.c.o"
-	cd /home/hirak/RapCompress/sailfish/build/src && /usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -o CMakeFiles/sailfish_core.dir/xxhash.c.o   -c /home/hirak/RapCompress/sailfish/src/xxhash.c
+	cd /home/hirak/quark/sailfish/build/src && /usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -o CMakeFiles/sailfish_core.dir/xxhash.c.o   -c /home/hirak/quark/sailfish/src/xxhash.c
 
 src/CMakeFiles/sailfish_core.dir/xxhash.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/sailfish_core.dir/xxhash.c.i"
-	cd /home/hirak/RapCompress/sailfish/build/src && /usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -E /home/hirak/RapCompress/sailfish/src/xxhash.c > CMakeFiles/sailfish_core.dir/xxhash.c.i
+	cd /home/hirak/quark/sailfish/build/src && /usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -E /home/hirak/quark/sailfish/src/xxhash.c > CMakeFiles/sailfish_core.dir/xxhash.c.i
 
 src/CMakeFiles/sailfish_core.dir/xxhash.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/sailfish_core.dir/xxhash.c.s"
-	cd /home/hirak/RapCompress/sailfish/build/src && /usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -S /home/hirak/RapCompress/sailfish/src/xxhash.c -o CMakeFiles/sailfish_core.dir/xxhash.c.s
+	cd /home/hirak/quark/sailfish/build/src && /usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -S /home/hirak/quark/sailfish/src/xxhash.c -o CMakeFiles/sailfish_core.dir/xxhash.c.s
 
 src/CMakeFiles/sailfish_core.dir/xxhash.c.o.requires:
 .PHONY : src/CMakeFiles/sailfish_core.dir/xxhash.c.o.requires
@@ -330,17 +330,17 @@ src/CMakeFiles/sailfish_core.dir/xxhash.c.o.provides.build: src/CMakeFiles/sailf
 
 src/CMakeFiles/sailfish_core.dir/__/external/install/src/rapmap/RapMapFileSystem.cpp.o: src/CMakeFiles/sailfish_core.dir/flags.make
 src/CMakeFiles/sailfish_core.dir/__/external/install/src/rapmap/RapMapFileSystem.cpp.o: ../external/install/src/rapmap/RapMapFileSystem.cpp
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/hirak/RapCompress/sailfish/build/CMakeFiles $(CMAKE_PROGRESS_13)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/hirak/quark/sailfish/build/CMakeFiles $(CMAKE_PROGRESS_13)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object src/CMakeFiles/sailfish_core.dir/__/external/install/src/rapmap/RapMapFileSystem.cpp.o"
-	cd /home/hirak/RapCompress/sailfish/build/src && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/sailfish_core.dir/__/external/install/src/rapmap/RapMapFileSystem.cpp.o -c /home/hirak/RapCompress/sailfish/external/install/src/rapmap/RapMapFileSystem.cpp
+	cd /home/hirak/quark/sailfish/build/src && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/sailfish_core.dir/__/external/install/src/rapmap/RapMapFileSystem.cpp.o -c /home/hirak/quark/sailfish/external/install/src/rapmap/RapMapFileSystem.cpp
 
 src/CMakeFiles/sailfish_core.dir/__/external/install/src/rapmap/RapMapFileSystem.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/sailfish_core.dir/__/external/install/src/rapmap/RapMapFileSystem.cpp.i"
-	cd /home/hirak/RapCompress/sailfish/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/hirak/RapCompress/sailfish/external/install/src/rapmap/RapMapFileSystem.cpp > CMakeFiles/sailfish_core.dir/__/external/install/src/rapmap/RapMapFileSystem.cpp.i
+	cd /home/hirak/quark/sailfish/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/hirak/quark/sailfish/external/install/src/rapmap/RapMapFileSystem.cpp > CMakeFiles/sailfish_core.dir/__/external/install/src/rapmap/RapMapFileSystem.cpp.i
 
 src/CMakeFiles/sailfish_core.dir/__/external/install/src/rapmap/RapMapFileSystem.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/sailfish_core.dir/__/external/install/src/rapmap/RapMapFileSystem.cpp.s"
-	cd /home/hirak/RapCompress/sailfish/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/hirak/RapCompress/sailfish/external/install/src/rapmap/RapMapFileSystem.cpp -o CMakeFiles/sailfish_core.dir/__/external/install/src/rapmap/RapMapFileSystem.cpp.s
+	cd /home/hirak/quark/sailfish/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/hirak/quark/sailfish/external/install/src/rapmap/RapMapFileSystem.cpp -o CMakeFiles/sailfish_core.dir/__/external/install/src/rapmap/RapMapFileSystem.cpp.s
 
 src/CMakeFiles/sailfish_core.dir/__/external/install/src/rapmap/RapMapFileSystem.cpp.o.requires:
 .PHONY : src/CMakeFiles/sailfish_core.dir/__/external/install/src/rapmap/RapMapFileSystem.cpp.o.requires
@@ -353,17 +353,17 @@ src/CMakeFiles/sailfish_core.dir/__/external/install/src/rapmap/RapMapFileSystem
 
 src/CMakeFiles/sailfish_core.dir/__/external/install/src/rapmap/RapMapSAIndexer.cpp.o: src/CMakeFiles/sailfish_core.dir/flags.make
 src/CMakeFiles/sailfish_core.dir/__/external/install/src/rapmap/RapMapSAIndexer.cpp.o: ../external/install/src/rapmap/RapMapSAIndexer.cpp
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/hirak/RapCompress/sailfish/build/CMakeFiles $(CMAKE_PROGRESS_14)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/hirak/quark/sailfish/build/CMakeFiles $(CMAKE_PROGRESS_14)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object src/CMakeFiles/sailfish_core.dir/__/external/install/src/rapmap/RapMapSAIndexer.cpp.o"
-	cd /home/hirak/RapCompress/sailfish/build/src && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/sailfish_core.dir/__/external/install/src/rapmap/RapMapSAIndexer.cpp.o -c /home/hirak/RapCompress/sailfish/external/install/src/rapmap/RapMapSAIndexer.cpp
+	cd /home/hirak/quark/sailfish/build/src && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/sailfish_core.dir/__/external/install/src/rapmap/RapMapSAIndexer.cpp.o -c /home/hirak/quark/sailfish/external/install/src/rapmap/RapMapSAIndexer.cpp
 
 src/CMakeFiles/sailfish_core.dir/__/external/install/src/rapmap/RapMapSAIndexer.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/sailfish_core.dir/__/external/install/src/rapmap/RapMapSAIndexer.cpp.i"
-	cd /home/hirak/RapCompress/sailfish/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/hirak/RapCompress/sailfish/external/install/src/rapmap/RapMapSAIndexer.cpp > CMakeFiles/sailfish_core.dir/__/external/install/src/rapmap/RapMapSAIndexer.cpp.i
+	cd /home/hirak/quark/sailfish/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/hirak/quark/sailfish/external/install/src/rapmap/RapMapSAIndexer.cpp > CMakeFiles/sailfish_core.dir/__/external/install/src/rapmap/RapMapSAIndexer.cpp.i
 
 src/CMakeFiles/sailfish_core.dir/__/external/install/src/rapmap/RapMapSAIndexer.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/sailfish_core.dir/__/external/install/src/rapmap/RapMapSAIndexer.cpp.s"
-	cd /home/hirak/RapCompress/sailfish/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/hirak/RapCompress/sailfish/external/install/src/rapmap/RapMapSAIndexer.cpp -o CMakeFiles/sailfish_core.dir/__/external/install/src/rapmap/RapMapSAIndexer.cpp.s
+	cd /home/hirak/quark/sailfish/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/hirak/quark/sailfish/external/install/src/rapmap/RapMapSAIndexer.cpp -o CMakeFiles/sailfish_core.dir/__/external/install/src/rapmap/RapMapSAIndexer.cpp.s
 
 src/CMakeFiles/sailfish_core.dir/__/external/install/src/rapmap/RapMapSAIndexer.cpp.o.requires:
 .PHONY : src/CMakeFiles/sailfish_core.dir/__/external/install/src/rapmap/RapMapSAIndexer.cpp.o.requires
@@ -376,17 +376,17 @@ src/CMakeFiles/sailfish_core.dir/__/external/install/src/rapmap/RapMapSAIndexer.
 
 src/CMakeFiles/sailfish_core.dir/__/external/install/src/rapmap/RapMapSAIndex.cpp.o: src/CMakeFiles/sailfish_core.dir/flags.make
 src/CMakeFiles/sailfish_core.dir/__/external/install/src/rapmap/RapMapSAIndex.cpp.o: ../external/install/src/rapmap/RapMapSAIndex.cpp
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/hirak/RapCompress/sailfish/build/CMakeFiles $(CMAKE_PROGRESS_15)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/hirak/quark/sailfish/build/CMakeFiles $(CMAKE_PROGRESS_15)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object src/CMakeFiles/sailfish_core.dir/__/external/install/src/rapmap/RapMapSAIndex.cpp.o"
-	cd /home/hirak/RapCompress/sailfish/build/src && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/sailfish_core.dir/__/external/install/src/rapmap/RapMapSAIndex.cpp.o -c /home/hirak/RapCompress/sailfish/external/install/src/rapmap/RapMapSAIndex.cpp
+	cd /home/hirak/quark/sailfish/build/src && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/sailfish_core.dir/__/external/install/src/rapmap/RapMapSAIndex.cpp.o -c /home/hirak/quark/sailfish/external/install/src/rapmap/RapMapSAIndex.cpp
 
 src/CMakeFiles/sailfish_core.dir/__/external/install/src/rapmap/RapMapSAIndex.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/sailfish_core.dir/__/external/install/src/rapmap/RapMapSAIndex.cpp.i"
-	cd /home/hirak/RapCompress/sailfish/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/hirak/RapCompress/sailfish/external/install/src/rapmap/RapMapSAIndex.cpp > CMakeFiles/sailfish_core.dir/__/external/install/src/rapmap/RapMapSAIndex.cpp.i
+	cd /home/hirak/quark/sailfish/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/hirak/quark/sailfish/external/install/src/rapmap/RapMapSAIndex.cpp > CMakeFiles/sailfish_core.dir/__/external/install/src/rapmap/RapMapSAIndex.cpp.i
 
 src/CMakeFiles/sailfish_core.dir/__/external/install/src/rapmap/RapMapSAIndex.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/sailfish_core.dir/__/external/install/src/rapmap/RapMapSAIndex.cpp.s"
-	cd /home/hirak/RapCompress/sailfish/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/hirak/RapCompress/sailfish/external/install/src/rapmap/RapMapSAIndex.cpp -o CMakeFiles/sailfish_core.dir/__/external/install/src/rapmap/RapMapSAIndex.cpp.s
+	cd /home/hirak/quark/sailfish/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/hirak/quark/sailfish/external/install/src/rapmap/RapMapSAIndex.cpp -o CMakeFiles/sailfish_core.dir/__/external/install/src/rapmap/RapMapSAIndex.cpp.s
 
 src/CMakeFiles/sailfish_core.dir/__/external/install/src/rapmap/RapMapSAIndex.cpp.o.requires:
 .PHONY : src/CMakeFiles/sailfish_core.dir/__/external/install/src/rapmap/RapMapSAIndex.cpp.o.requires
@@ -399,17 +399,17 @@ src/CMakeFiles/sailfish_core.dir/__/external/install/src/rapmap/RapMapSAIndex.cp
 
 src/CMakeFiles/sailfish_core.dir/__/external/install/src/rapmap/RapMapUtils.cpp.o: src/CMakeFiles/sailfish_core.dir/flags.make
 src/CMakeFiles/sailfish_core.dir/__/external/install/src/rapmap/RapMapUtils.cpp.o: ../external/install/src/rapmap/RapMapUtils.cpp
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/hirak/RapCompress/sailfish/build/CMakeFiles $(CMAKE_PROGRESS_16)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/hirak/quark/sailfish/build/CMakeFiles $(CMAKE_PROGRESS_16)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object src/CMakeFiles/sailfish_core.dir/__/external/install/src/rapmap/RapMapUtils.cpp.o"
-	cd /home/hirak/RapCompress/sailfish/build/src && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/sailfish_core.dir/__/external/install/src/rapmap/RapMapUtils.cpp.o -c /home/hirak/RapCompress/sailfish/external/install/src/rapmap/RapMapUtils.cpp
+	cd /home/hirak/quark/sailfish/build/src && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/sailfish_core.dir/__/external/install/src/rapmap/RapMapUtils.cpp.o -c /home/hirak/quark/sailfish/external/install/src/rapmap/RapMapUtils.cpp
 
 src/CMakeFiles/sailfish_core.dir/__/external/install/src/rapmap/RapMapUtils.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/sailfish_core.dir/__/external/install/src/rapmap/RapMapUtils.cpp.i"
-	cd /home/hirak/RapCompress/sailfish/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/hirak/RapCompress/sailfish/external/install/src/rapmap/RapMapUtils.cpp > CMakeFiles/sailfish_core.dir/__/external/install/src/rapmap/RapMapUtils.cpp.i
+	cd /home/hirak/quark/sailfish/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/hirak/quark/sailfish/external/install/src/rapmap/RapMapUtils.cpp > CMakeFiles/sailfish_core.dir/__/external/install/src/rapmap/RapMapUtils.cpp.i
 
 src/CMakeFiles/sailfish_core.dir/__/external/install/src/rapmap/RapMapUtils.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/sailfish_core.dir/__/external/install/src/rapmap/RapMapUtils.cpp.s"
-	cd /home/hirak/RapCompress/sailfish/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/hirak/RapCompress/sailfish/external/install/src/rapmap/RapMapUtils.cpp -o CMakeFiles/sailfish_core.dir/__/external/install/src/rapmap/RapMapUtils.cpp.s
+	cd /home/hirak/quark/sailfish/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/hirak/quark/sailfish/external/install/src/rapmap/RapMapUtils.cpp -o CMakeFiles/sailfish_core.dir/__/external/install/src/rapmap/RapMapUtils.cpp.s
 
 src/CMakeFiles/sailfish_core.dir/__/external/install/src/rapmap/RapMapUtils.cpp.o.requires:
 .PHONY : src/CMakeFiles/sailfish_core.dir/__/external/install/src/rapmap/RapMapUtils.cpp.o.requires
@@ -422,17 +422,17 @@ src/CMakeFiles/sailfish_core.dir/__/external/install/src/rapmap/RapMapUtils.cpp.
 
 src/CMakeFiles/sailfish_core.dir/__/external/install/src/rapmap/HitManager.cpp.o: src/CMakeFiles/sailfish_core.dir/flags.make
 src/CMakeFiles/sailfish_core.dir/__/external/install/src/rapmap/HitManager.cpp.o: ../external/install/src/rapmap/HitManager.cpp
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/hirak/RapCompress/sailfish/build/CMakeFiles $(CMAKE_PROGRESS_17)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/hirak/quark/sailfish/build/CMakeFiles $(CMAKE_PROGRESS_17)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object src/CMakeFiles/sailfish_core.dir/__/external/install/src/rapmap/HitManager.cpp.o"
-	cd /home/hirak/RapCompress/sailfish/build/src && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/sailfish_core.dir/__/external/install/src/rapmap/HitManager.cpp.o -c /home/hirak/RapCompress/sailfish/external/install/src/rapmap/HitManager.cpp
+	cd /home/hirak/quark/sailfish/build/src && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/sailfish_core.dir/__/external/install/src/rapmap/HitManager.cpp.o -c /home/hirak/quark/sailfish/external/install/src/rapmap/HitManager.cpp
 
 src/CMakeFiles/sailfish_core.dir/__/external/install/src/rapmap/HitManager.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/sailfish_core.dir/__/external/install/src/rapmap/HitManager.cpp.i"
-	cd /home/hirak/RapCompress/sailfish/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/hirak/RapCompress/sailfish/external/install/src/rapmap/HitManager.cpp > CMakeFiles/sailfish_core.dir/__/external/install/src/rapmap/HitManager.cpp.i
+	cd /home/hirak/quark/sailfish/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/hirak/quark/sailfish/external/install/src/rapmap/HitManager.cpp > CMakeFiles/sailfish_core.dir/__/external/install/src/rapmap/HitManager.cpp.i
 
 src/CMakeFiles/sailfish_core.dir/__/external/install/src/rapmap/HitManager.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/sailfish_core.dir/__/external/install/src/rapmap/HitManager.cpp.s"
-	cd /home/hirak/RapCompress/sailfish/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/hirak/RapCompress/sailfish/external/install/src/rapmap/HitManager.cpp -o CMakeFiles/sailfish_core.dir/__/external/install/src/rapmap/HitManager.cpp.s
+	cd /home/hirak/quark/sailfish/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/hirak/quark/sailfish/external/install/src/rapmap/HitManager.cpp -o CMakeFiles/sailfish_core.dir/__/external/install/src/rapmap/HitManager.cpp.s
 
 src/CMakeFiles/sailfish_core.dir/__/external/install/src/rapmap/HitManager.cpp.o.requires:
 .PHONY : src/CMakeFiles/sailfish_core.dir/__/external/install/src/rapmap/HitManager.cpp.o.requires
@@ -445,17 +445,17 @@ src/CMakeFiles/sailfish_core.dir/__/external/install/src/rapmap/HitManager.cpp.o
 
 src/CMakeFiles/sailfish_core.dir/__/external/install/src/rapmap/rank9b.cpp.o: src/CMakeFiles/sailfish_core.dir/flags.make
 src/CMakeFiles/sailfish_core.dir/__/external/install/src/rapmap/rank9b.cpp.o: ../external/install/src/rapmap/rank9b.cpp
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/hirak/RapCompress/sailfish/build/CMakeFiles $(CMAKE_PROGRESS_18)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/hirak/quark/sailfish/build/CMakeFiles $(CMAKE_PROGRESS_18)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object src/CMakeFiles/sailfish_core.dir/__/external/install/src/rapmap/rank9b.cpp.o"
-	cd /home/hirak/RapCompress/sailfish/build/src && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/sailfish_core.dir/__/external/install/src/rapmap/rank9b.cpp.o -c /home/hirak/RapCompress/sailfish/external/install/src/rapmap/rank9b.cpp
+	cd /home/hirak/quark/sailfish/build/src && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/sailfish_core.dir/__/external/install/src/rapmap/rank9b.cpp.o -c /home/hirak/quark/sailfish/external/install/src/rapmap/rank9b.cpp
 
 src/CMakeFiles/sailfish_core.dir/__/external/install/src/rapmap/rank9b.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/sailfish_core.dir/__/external/install/src/rapmap/rank9b.cpp.i"
-	cd /home/hirak/RapCompress/sailfish/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/hirak/RapCompress/sailfish/external/install/src/rapmap/rank9b.cpp > CMakeFiles/sailfish_core.dir/__/external/install/src/rapmap/rank9b.cpp.i
+	cd /home/hirak/quark/sailfish/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/hirak/quark/sailfish/external/install/src/rapmap/rank9b.cpp > CMakeFiles/sailfish_core.dir/__/external/install/src/rapmap/rank9b.cpp.i
 
 src/CMakeFiles/sailfish_core.dir/__/external/install/src/rapmap/rank9b.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/sailfish_core.dir/__/external/install/src/rapmap/rank9b.cpp.s"
-	cd /home/hirak/RapCompress/sailfish/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/hirak/RapCompress/sailfish/external/install/src/rapmap/rank9b.cpp -o CMakeFiles/sailfish_core.dir/__/external/install/src/rapmap/rank9b.cpp.s
+	cd /home/hirak/quark/sailfish/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/hirak/quark/sailfish/external/install/src/rapmap/rank9b.cpp -o CMakeFiles/sailfish_core.dir/__/external/install/src/rapmap/rank9b.cpp.s
 
 src/CMakeFiles/sailfish_core.dir/__/external/install/src/rapmap/rank9b.cpp.o.requires:
 .PHONY : src/CMakeFiles/sailfish_core.dir/__/external/install/src/rapmap/rank9b.cpp.o.requires
@@ -468,17 +468,17 @@ src/CMakeFiles/sailfish_core.dir/__/external/install/src/rapmap/rank9b.cpp.o.pro
 
 src/CMakeFiles/sailfish_core.dir/__/external/install/src/rapmap/bit_array.c.o: src/CMakeFiles/sailfish_core.dir/flags.make
 src/CMakeFiles/sailfish_core.dir/__/external/install/src/rapmap/bit_array.c.o: ../external/install/src/rapmap/bit_array.c
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/hirak/RapCompress/sailfish/build/CMakeFiles $(CMAKE_PROGRESS_19)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/hirak/quark/sailfish/build/CMakeFiles $(CMAKE_PROGRESS_19)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building C object src/CMakeFiles/sailfish_core.dir/__/external/install/src/rapmap/bit_array.c.o"
-	cd /home/hirak/RapCompress/sailfish/build/src && /usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -o CMakeFiles/sailfish_core.dir/__/external/install/src/rapmap/bit_array.c.o   -c /home/hirak/RapCompress/sailfish/external/install/src/rapmap/bit_array.c
+	cd /home/hirak/quark/sailfish/build/src && /usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -o CMakeFiles/sailfish_core.dir/__/external/install/src/rapmap/bit_array.c.o   -c /home/hirak/quark/sailfish/external/install/src/rapmap/bit_array.c
 
 src/CMakeFiles/sailfish_core.dir/__/external/install/src/rapmap/bit_array.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/sailfish_core.dir/__/external/install/src/rapmap/bit_array.c.i"
-	cd /home/hirak/RapCompress/sailfish/build/src && /usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -E /home/hirak/RapCompress/sailfish/external/install/src/rapmap/bit_array.c > CMakeFiles/sailfish_core.dir/__/external/install/src/rapmap/bit_array.c.i
+	cd /home/hirak/quark/sailfish/build/src && /usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -E /home/hirak/quark/sailfish/external/install/src/rapmap/bit_array.c > CMakeFiles/sailfish_core.dir/__/external/install/src/rapmap/bit_array.c.i
 
 src/CMakeFiles/sailfish_core.dir/__/external/install/src/rapmap/bit_array.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/sailfish_core.dir/__/external/install/src/rapmap/bit_array.c.s"
-	cd /home/hirak/RapCompress/sailfish/build/src && /usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -S /home/hirak/RapCompress/sailfish/external/install/src/rapmap/bit_array.c -o CMakeFiles/sailfish_core.dir/__/external/install/src/rapmap/bit_array.c.s
+	cd /home/hirak/quark/sailfish/build/src && /usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -S /home/hirak/quark/sailfish/external/install/src/rapmap/bit_array.c -o CMakeFiles/sailfish_core.dir/__/external/install/src/rapmap/bit_array.c.s
 
 src/CMakeFiles/sailfish_core.dir/__/external/install/src/rapmap/bit_array.c.o.requires:
 .PHONY : src/CMakeFiles/sailfish_core.dir/__/external/install/src/rapmap/bit_array.c.o.requires
@@ -536,8 +536,8 @@ src/libsailfish_core.a: src/CMakeFiles/sailfish_core.dir/__/external/install/src
 src/libsailfish_core.a: src/CMakeFiles/sailfish_core.dir/build.make
 src/libsailfish_core.a: src/CMakeFiles/sailfish_core.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --red --bold "Linking CXX static library libsailfish_core.a"
-	cd /home/hirak/RapCompress/sailfish/build/src && $(CMAKE_COMMAND) -P CMakeFiles/sailfish_core.dir/cmake_clean_target.cmake
-	cd /home/hirak/RapCompress/sailfish/build/src && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/sailfish_core.dir/link.txt --verbose=$(VERBOSE)
+	cd /home/hirak/quark/sailfish/build/src && $(CMAKE_COMMAND) -P CMakeFiles/sailfish_core.dir/cmake_clean_target.cmake
+	cd /home/hirak/quark/sailfish/build/src && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/sailfish_core.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
 src/CMakeFiles/sailfish_core.dir/build: src/libsailfish_core.a
@@ -565,10 +565,10 @@ src/CMakeFiles/sailfish_core.dir/requires: src/CMakeFiles/sailfish_core.dir/__/e
 .PHONY : src/CMakeFiles/sailfish_core.dir/requires
 
 src/CMakeFiles/sailfish_core.dir/clean:
-	cd /home/hirak/RapCompress/sailfish/build/src && $(CMAKE_COMMAND) -P CMakeFiles/sailfish_core.dir/cmake_clean.cmake
+	cd /home/hirak/quark/sailfish/build/src && $(CMAKE_COMMAND) -P CMakeFiles/sailfish_core.dir/cmake_clean.cmake
 .PHONY : src/CMakeFiles/sailfish_core.dir/clean
 
 src/CMakeFiles/sailfish_core.dir/depend:
-	cd /home/hirak/RapCompress/sailfish/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/hirak/RapCompress/sailfish /home/hirak/RapCompress/sailfish/src /home/hirak/RapCompress/sailfish/build /home/hirak/RapCompress/sailfish/build/src /home/hirak/RapCompress/sailfish/build/src/CMakeFiles/sailfish_core.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/hirak/quark/sailfish/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/hirak/quark/sailfish /home/hirak/quark/sailfish/src /home/hirak/quark/sailfish/build /home/hirak/quark/sailfish/build/src /home/hirak/quark/sailfish/build/src/CMakeFiles/sailfish_core.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : src/CMakeFiles/sailfish_core.dir/depend
 

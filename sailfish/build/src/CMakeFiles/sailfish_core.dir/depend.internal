@@ -4,10 +4,10 @@
 src/CMakeFiles/sailfish_core.dir/__/external/install/src/rapmap/bit_array.c.o
  ../external/install/include/rapmap/bit_array.h
  ../external/install/include/rapmap/bit_macros.h
- /home/hirak/RapCompress/sailfish/external/install/src/rapmap/bit_array.c
+ /home/hirak/quark/sailfish/external/install/src/rapmap/bit_array.c
 src/CMakeFiles/sailfish_core.dir/xxhash.c.o
  ../include/xxhash.h
- /home/hirak/RapCompress/sailfish/src/xxhash.c
+ /home/hirak/quark/sailfish/src/xxhash.c
 src/CMakeFiles/sailfish_core.dir/CollapsedEMOptimizer.cpp.o
  ../external/install/include/config.h
  ../external/install/include/google/dense_hash_map
@@ -361,7 +361,7 @@ src/CMakeFiles/sailfish_core.dir/CollapsedEMOptimizer.cpp.o
  ../include/spdlog/spdlog.h
  ../include/spdlog/tweakme.h
  ../include/xxhash.h
- /home/hirak/RapCompress/sailfish/src/CollapsedEMOptimizer.cpp
+ /home/hirak/quark/sailfish/src/CollapsedEMOptimizer.cpp
 src/CMakeFiles/sailfish_core.dir/CollapsedGibbsSampler.cpp.o
  ../external/install/include/config.h
  ../external/install/include/google/dense_hash_map
@@ -715,10 +715,10 @@ src/CMakeFiles/sailfish_core.dir/CollapsedGibbsSampler.cpp.o
  ../include/spdlog/spdlog.h
  ../include/spdlog/tweakme.h
  ../include/xxhash.h
- /home/hirak/RapCompress/sailfish/src/CollapsedGibbsSampler.cpp
+ /home/hirak/quark/sailfish/src/CollapsedGibbsSampler.cpp
 src/CMakeFiles/sailfish_core.dir/EmpiricalDistribution.cpp.o
  ../include/EmpiricalDistribution.hpp
- /home/hirak/RapCompress/sailfish/src/EmpiricalDistribution.cpp
+ /home/hirak/quark/sailfish/src/EmpiricalDistribution.cpp
 src/CMakeFiles/sailfish_core.dir/GZipWriter.cpp.o
  ../external/install/include/config.h
  ../external/install/include/google/dense_hash_map
@@ -1054,10 +1054,10 @@ src/CMakeFiles/sailfish_core.dir/GZipWriter.cpp.o
  ../include/spdlog/spdlog.h
  ../include/spdlog/tweakme.h
  ../include/xxhash.h
- /home/hirak/RapCompress/sailfish/src/GZipWriter.cpp
+ /home/hirak/quark/sailfish/src/GZipWriter.cpp
 src/CMakeFiles/sailfish_core.dir/LibraryFormat.cpp.o
  ../include/LibraryFormat.hpp
- /home/hirak/RapCompress/sailfish/src/LibraryFormat.cpp
+ /home/hirak/quark/sailfish/src/LibraryFormat.cpp
 src/CMakeFiles/sailfish_core.dir/SailfishIndexer.cpp.o
  ../external/install/include/config.h
  ../external/install/include/google/dense_hash_map
@@ -1415,7 +1415,7 @@ src/CMakeFiles/sailfish_core.dir/SailfishIndexer.cpp.o
  ../include/spdlog/spdlog.h
  ../include/spdlog/tweakme.h
  ../include/xxhash.h
- /home/hirak/RapCompress/sailfish/src/SailfishIndexer.cpp
+ /home/hirak/quark/sailfish/src/SailfishIndexer.cpp
 src/CMakeFiles/sailfish_core.dir/SailfishQuantify.cpp.o
  ../external/install/include/config.h
  ../external/install/include/google/dense_hash_map
@@ -1794,10 +1794,10 @@ src/CMakeFiles/sailfish_core.dir/SailfishQuantify.cpp.o
  ../include/spdlog/spdlog.h
  ../include/spdlog/tweakme.h
  ../include/xxhash.h
- /home/hirak/RapCompress/sailfish/src/SailfishQuantify.cpp
+ /home/hirak/quark/sailfish/src/SailfishQuantify.cpp
 src/CMakeFiles/sailfish_core.dir/SailfishStringUtils.cpp.o
  ../include/SailfishStringUtils.hpp
- /home/hirak/RapCompress/sailfish/src/SailfishStringUtils.cpp
+ /home/hirak/quark/sailfish/src/SailfishStringUtils.cpp
 src/CMakeFiles/sailfish_core.dir/SailfishUtils.cpp.o
  ../external/install/include/GBase.h
  ../external/install/include/GFaSeqGet.h
@@ -2142,15 +2142,15 @@ src/CMakeFiles/sailfish_core.dir/SailfishUtils.cpp.o
  ../include/spdlog/spdlog.h
  ../include/spdlog/tweakme.h
  ../include/xxhash.h
- /home/hirak/RapCompress/sailfish/src/SailfishUtils.cpp
+ /home/hirak/quark/sailfish/src/SailfishUtils.cpp
 src/CMakeFiles/sailfish_core.dir/TranscriptGroup.cpp.o
  ../include/TranscriptGroup.hpp
  ../include/xxhash.h
- /home/hirak/RapCompress/sailfish/src/TranscriptGroup.cpp
+ /home/hirak/quark/sailfish/src/TranscriptGroup.cpp
 src/CMakeFiles/sailfish_core.dir/VersionChecker.cpp.o
  ../include/SailfishConfig.hpp
  ../include/VersionChecker.hpp
- /home/hirak/RapCompress/sailfish/src/VersionChecker.cpp
+ /home/hirak/quark/sailfish/src/VersionChecker.cpp
 src/CMakeFiles/sailfish_core.dir/__/external/install/src/rapmap/HitManager.cpp.o
  ../external/install/include/config.h
  ../external/install/include/google/dense_hash_map
@@ -2250,10 +2250,10 @@ src/CMakeFiles/sailfish_core.dir/__/external/install/src/rapmap/HitManager.cpp.o
  ../include/spdlog/spdlog.h
  ../include/spdlog/tweakme.h
  ../include/xxhash.h
- /home/hirak/RapCompress/sailfish/external/install/src/rapmap/HitManager.cpp
+ /home/hirak/quark/sailfish/external/install/src/rapmap/HitManager.cpp
 src/CMakeFiles/sailfish_core.dir/__/external/install/src/rapmap/RapMapFileSystem.cpp.o
  ../external/install/include/rapmap/RapMapFileSystem.hpp
- /home/hirak/RapCompress/sailfish/external/install/src/rapmap/RapMapFileSystem.cpp
+ /home/hirak/quark/sailfish/external/install/src/rapmap/RapMapFileSystem.cpp
 src/CMakeFiles/sailfish_core.dir/__/external/install/src/rapmap/RapMapSAIndex.cpp.o
  ../external/install/include/config.h
  ../external/install/include/google/dense_hash_map
@@ -2329,7 +2329,7 @@ src/CMakeFiles/sailfish_core.dir/__/external/install/src/rapmap/RapMapSAIndex.cp
  ../include/spdlog/spdlog.h
  ../include/spdlog/tweakme.h
  ../include/xxhash.h
- /home/hirak/RapCompress/sailfish/external/install/src/rapmap/RapMapSAIndex.cpp
+ /home/hirak/quark/sailfish/external/install/src/rapmap/RapMapSAIndex.cpp
 src/CMakeFiles/sailfish_core.dir/__/external/install/src/rapmap/RapMapSAIndexer.cpp.o
  ../external/install/include/config.h
  ../external/install/include/divsufsort.h
@@ -2464,7 +2464,7 @@ src/CMakeFiles/sailfish_core.dir/__/external/install/src/rapmap/RapMapSAIndexer.
  ../include/spdlog/spdlog.h
  ../include/spdlog/tweakme.h
  ../include/xxhash.h
- /home/hirak/RapCompress/sailfish/external/install/src/rapmap/RapMapSAIndexer.cpp
+ /home/hirak/quark/sailfish/external/install/src/rapmap/RapMapSAIndexer.cpp
 src/CMakeFiles/sailfish_core.dir/__/external/install/src/rapmap/RapMapUtils.cpp.o
  ../external/install/include/config.h
  ../external/install/include/google/dense_hash_map
@@ -2566,8 +2566,8 @@ src/CMakeFiles/sailfish_core.dir/__/external/install/src/rapmap/RapMapUtils.cpp.
  ../include/spdlog/spdlog.h
  ../include/spdlog/tweakme.h
  ../include/xxhash.h
- /home/hirak/RapCompress/sailfish/external/install/src/rapmap/RapMapUtils.cpp
+ /home/hirak/quark/sailfish/external/install/src/rapmap/RapMapUtils.cpp
 src/CMakeFiles/sailfish_core.dir/__/external/install/src/rapmap/rank9b.cpp.o
  ../external/install/include/rapmap/macros.h
  ../external/install/include/rapmap/rank9b.h
- /home/hirak/RapCompress/sailfish/external/install/src/rapmap/rank9b.cpp
+ /home/hirak/quark/sailfish/external/install/src/rapmap/rank9b.cpp

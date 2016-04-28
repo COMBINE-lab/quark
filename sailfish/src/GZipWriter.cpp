@@ -50,19 +50,29 @@ bool writeVectorToFile(boost::filesystem::path path,
  */
 bool GZipWriter::writeEquivCounts(
     const SailfishOpts& opts,
-    ReadExperiment& experiment) {
+    ReadExperiment& experiment,
+    std::vector<std::vector<std::string> >& unmapped) {
 
   namespace bfs = boost::filesystem;
 
   bfs::path auxDir = path_ / opts.auxDir;
   bool auxSuccess = boost::filesystem::create_directories(auxDir);
   bfs::path eqFilePath = auxDir / "eq_classes.txt";
+  bfs::path unMappedFilePath = auxDir / "unmapped_read.txt";
 
   std::ofstream equivFile(eqFilePath.string());
+  std::ofstream unmappedFile(unMappedFilePath.string());
 
   auto& transcripts = experiment.transcripts();
   std::vector<std::pair<const TranscriptGroup, TGValue>>& eqVec =
         experiment.equivalenceClassBuilder().eqVec();
+
+  //write read left ids in file
+  if(unmapped.size() > 0){
+      for(auto ridT : unmapped)
+        for(auto rid: ridT)
+            unmappedFile << rid << '\n';
+    }
 
   // Number of transcripts
   equivFile << transcripts.size() << '\n';

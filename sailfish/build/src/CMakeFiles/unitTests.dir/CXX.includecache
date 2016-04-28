@@ -1994,31 +1994,31 @@ details/spdlog_impl.h
 stddef.h
 -
 
-/home/hirak/RapCompress/sailfish/tests/KmerHistTests.cpp
+/home/hirak/quark/sailfish/tests/KmerHistTests.cpp
 UtilityFunctions.hpp
-/home/hirak/RapCompress/sailfish/tests/UtilityFunctions.hpp
+/home/hirak/quark/sailfish/tests/UtilityFunctions.hpp
 atomic
 -
 
-/home/hirak/RapCompress/sailfish/tests/LibraryTypeTests.cpp
+/home/hirak/quark/sailfish/tests/LibraryTypeTests.cpp
 
-/home/hirak/RapCompress/sailfish/tests/UnitTests.cpp
+/home/hirak/quark/sailfish/tests/UnitTests.cpp
 unordered_map
 -
 iostream
 -
 catch.hpp
-/home/hirak/RapCompress/sailfish/tests/catch.hpp
+/home/hirak/quark/sailfish/tests/catch.hpp
 LibraryFormat.hpp
-/home/hirak/RapCompress/sailfish/tests/LibraryFormat.hpp
+/home/hirak/quark/sailfish/tests/LibraryFormat.hpp
 SailfishUtils.hpp
-/home/hirak/RapCompress/sailfish/tests/SailfishUtils.hpp
+/home/hirak/quark/sailfish/tests/SailfishUtils.hpp
 LibraryTypeTests.cpp
-/home/hirak/RapCompress/sailfish/tests/LibraryTypeTests.cpp
+/home/hirak/quark/sailfish/tests/LibraryTypeTests.cpp
 KmerHistTests.cpp
-/home/hirak/RapCompress/sailfish/tests/KmerHistTests.cpp
+/home/hirak/quark/sailfish/tests/KmerHistTests.cpp
 
-/home/hirak/RapCompress/sailfish/tests/catch.hpp
+/home/hirak/quark/sailfish/tests/catch.hpp
 sstream
 -
 stdexcept
@@ -2182,7 +2182,7 @@ algorithm
 map
 -
 Foundation/Foundation.h
-/home/hirak/RapCompress/sailfish/tests/Foundation/Foundation.h
+/home/hirak/quark/sailfish/tests/Foundation/Foundation.h
 ostream
 -
 streambuf

@@ -109,7 +109,8 @@ void processReadsQuasi(paired_parser* parser,
                SailfishOpts& sfOpts,
                FragLengthCountMap& flMap,
                std::atomic<int32_t>& remainingFLOps,
-	           std::mutex& iomutex) {
+	           std::mutex& iomutex,
+               std::vector<std::string>& unmapped_i) {
 
   uint32_t maxFragLen = sfOpts.maxFragLen;
   uint64_t prevObservedFrags{1};
@@ -170,6 +171,7 @@ void processReadsQuasi(paired_parser* parser,
   std::mt19937 gen(rd());
   std::uniform_int_distribution<> dis(0, sfOpts.maxReadOccs);
   std::string readName;
+  std::string readNameR;
 
   while(true) {
     typename paired_parser::job j(*parser); // Get a job from the parser: a bunch of read (at most max_read_group)
@@ -178,6 +180,7 @@ void processReadsQuasi(paired_parser* parser,
     for(size_t i = 0; i < j->nb_filled; ++i) { // For all the read in this batch
         readLen = j->data[i].first.seq.length();
         readName = j->data[i].first.header ;
+        readNameR = j->data[i].second.header ;
         tooManyHits = false;
         jointHits.clear();
         leftHits.clear();
@@ -215,6 +218,12 @@ void processReadsQuasi(paired_parser* parser,
         upperBoundHits += (jointHits.size() > 0);
 
         if (jointHits.size() > sfOpts.maxReadOccs ) { jointHits.clear(); }
+        //
+
+        if(jointHits.size() == 0){
+            //std::cout << readName << "\n";
+            unmapped_i.push_back(readName);
+        }
 
         if (jointHits.size() > 0) {
             // Are the jointHits paired-end quasi-mappings or orphans?
@@ -229,6 +238,24 @@ void processReadsQuasi(paired_parser* parser,
             // we have orphans --- make sure we sort the
             // mappings so that they are in transcript order
             if (!isPaired) {
+
+                // handle orphaned read and delete all right hand entries
+                // hirak
+                std::set<rapmap::utils::MateStatus> matestat ;
+                for(auto& h: jointHits){
+                    matestat.insert(h.mateStatus);
+                }
+
+                if(matestat.size() > 1){
+                    jointHits.erase(std::remove_if( jointHits.begin(),
+                                                jointHits.end(),
+                                                [](const QuasiAlignment& q) -> bool {
+                                                    return q.mateStatus == rapmap::utils::MateStatus::PAIRED_END_RIGHT ;
+                                                    }
+                                                ),
+                                    jointHits.end() ) ;
+                }
+                //
                 // Find the end of the hits for the left read
                 auto leftHitEndIt = std::partition_point(
                         jointHits.begin(), jointHits.end(),
@@ -432,6 +459,7 @@ void processReadsQuasi(paired_parser* parser,
             }
 
         }
+
 
         validHits += (mappedFrag) ? 1 : 0;
         totalHits += jointHits.size();
@@ -854,7 +882,8 @@ std::vector<std::string> split(const std::string &s, char delim) {
 void quasiMapReads(
         ReadExperiment& readExp,
         SailfishOpts& sfOpts,
-        std::mutex& iomutex){
+        std::mutex& iomutex,
+        std::vector<std::vector<std::string> >& unmapped){
 
     std::vector<std::thread> threads;
     auto& rl = readExp.readLibraries().front();
@@ -902,6 +931,8 @@ void quasiMapReads(
                     //pairFileList.begin(), pairFileList.end()));
 
         std::atomic<int32_t> remainingFLOps{sfOpts.numFragSamples};
+        unmapped = std::vector<std::vector<std::string> >(
+                 numThreads, std::vector<std::string>());
 
         for(int i = 0; i < numThreads; ++i)  {
             // NOTE: we *must* capture i by value here, b/c it can (sometimes, does)
@@ -918,7 +949,8 @@ void quasiMapReads(
                             sfOpts,
                             flMap,
                             remainingFLOps,
-                            iomutex);
+                            iomutex,
+                            unmapped[i]);
                 };
                 threads.emplace_back(threadFun);
             } else {
@@ -931,7 +963,8 @@ void quasiMapReads(
                             sfOpts,
                             flMap,
                             remainingFLOps,
-                            iomutex);
+                            iomutex,
+                            unmapped[i]);
                 };
             threads.emplace_back(threadFun);
             }
@@ -1324,9 +1357,10 @@ int mainQuantify(int argc, char* argv[]) {
         // rich equivalence classes
         experiment.equivalenceClassBuilder().start();
 
+        std::vector<std::vector<std::string> > unmapped;
         std::mutex ioMutex;
 		fmt::print(stderr, "\n\n");
-		quasiMapReads(experiment, sopt, ioMutex);
+		quasiMapReads(experiment, sopt, ioMutex, unmapped);
 		fmt::print(stderr, "Done Quasi-Mapping \n\n");
 		experiment.equivalenceClassBuilder().finish();
 
@@ -1336,7 +1370,7 @@ int mainQuantify(int argc, char* argv[]) {
         // If we are dumping the equivalence classes, then
         // do it here.
         if (sopt.dumpEq) {
-            gzw.writeEquivCounts(sopt, experiment);
+            gzw.writeEquivCounts(sopt, experiment, unmapped);
         }
 
         // Now that we have our reads mapped and our equivalence

@@ -8,7 +8,7 @@ assembly = "trinity"
 #############################################
 # remember sailfish binary is from bin NOT from build/src
 #sailfish_binary = "/home/hirak/RapCompress/sailfish/bin/sailfish"
-sailfish_binary = "/home/hirak/RapCompress/sailfish/build/src/sailfish"
+sailfish_binary = "/home/hirak/quark/sailfish/build/src/sailfish"
 ############################################
 sailfish_threads = 20
 data_path = "/mnt/scratch1/hirak/RapCompressData/"
@@ -28,7 +28,7 @@ rule run_sailfish:
     input:
         index = data_path + "sailfish/sailfish_index/index_31/"
     output:
-        sfpath = data_path + "sailfish/sailfish_quant"
+        sfpath = data_path + "quarksailfish/sailfish_quant"
     threads:
         sailfish_threads
     run:

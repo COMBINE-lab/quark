@@ -42,10 +42,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/hirak/RapCompress/sailfish
+CMAKE_SOURCE_DIR = /home/hirak/quark/sailfish
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/hirak/RapCompress/sailfish/build
+CMAKE_BINARY_DIR = /home/hirak/quark/sailfish/build
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -104,7 +104,7 @@ list_install_components/fast: list_install_components
 # Special rule for the target package
 package: preinstall
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Run CPack packaging tool..."
-	cd /home/hirak/RapCompress/sailfish/build && /usr/bin/cpack --config ./CPackConfig.cmake
+	cd /home/hirak/quark/sailfish/build && /usr/bin/cpack --config ./CPackConfig.cmake
 .PHONY : package
 
 # Special rule for the target package
@@ -114,7 +114,7 @@ package/fast: package
 # Special rule for the target package_source
 package_source:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Run CPack packaging tool for source..."
-	cd /home/hirak/RapCompress/sailfish/build && /usr/bin/cpack --config ./CPackSourceConfig.cmake /home/hirak/RapCompress/sailfish/build/CPackSourceConfig.cmake
+	cd /home/hirak/quark/sailfish/build && /usr/bin/cpack --config ./CPackSourceConfig.cmake /home/hirak/quark/sailfish/build/CPackSourceConfig.cmake
 .PHONY : package_source
 
 # Special rule for the target package_source
@@ -143,14 +143,14 @@ test/fast: test
 
 # The main all target
 all: cmake_check_build_system
-	cd /home/hirak/RapCompress/sailfish/build && $(CMAKE_COMMAND) -E cmake_progress_start /home/hirak/RapCompress/sailfish/build/CMakeFiles /home/hirak/RapCompress/sailfish/build/src/CMakeFiles/progress.marks
-	cd /home/hirak/RapCompress/sailfish/build && $(MAKE) -f CMakeFiles/Makefile2 src/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/hirak/RapCompress/sailfish/build/CMakeFiles 0
+	cd /home/hirak/quark/sailfish/build && $(CMAKE_COMMAND) -E cmake_progress_start /home/hirak/quark/sailfish/build/CMakeFiles /home/hirak/quark/sailfish/build/src/CMakeFiles/progress.marks
+	cd /home/hirak/quark/sailfish/build && $(MAKE) -f CMakeFiles/Makefile2 src/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/hirak/quark/sailfish/build/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
 clean:
-	cd /home/hirak/RapCompress/sailfish/build && $(MAKE) -f CMakeFiles/Makefile2 src/clean
+	cd /home/hirak/quark/sailfish/build && $(MAKE) -f CMakeFiles/Makefile2 src/clean
 .PHONY : clean
 
 # The main clean target
@@ -159,22 +159,22 @@ clean/fast: clean
 
 # Prepare targets for installation.
 preinstall: all
-	cd /home/hirak/RapCompress/sailfish/build && $(MAKE) -f CMakeFiles/Makefile2 src/preinstall
+	cd /home/hirak/quark/sailfish/build && $(MAKE) -f CMakeFiles/Makefile2 src/preinstall
 .PHONY : preinstall
 
 # Prepare targets for installation.
 preinstall/fast:
-	cd /home/hirak/RapCompress/sailfish/build && $(MAKE) -f CMakeFiles/Makefile2 src/preinstall
+	cd /home/hirak/quark/sailfish/build && $(MAKE) -f CMakeFiles/Makefile2 src/preinstall
 .PHONY : preinstall/fast
 
 # clear depends
 depend:
-	cd /home/hirak/RapCompress/sailfish/build && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
+	cd /home/hirak/quark/sailfish/build && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
 .PHONY : depend
 
 # Convenience name for target.
 src/CMakeFiles/sailfish.dir/rule:
-	cd /home/hirak/RapCompress/sailfish/build && $(MAKE) -f CMakeFiles/Makefile2 src/CMakeFiles/sailfish.dir/rule
+	cd /home/hirak/quark/sailfish/build && $(MAKE) -f CMakeFiles/Makefile2 src/CMakeFiles/sailfish.dir/rule
 .PHONY : src/CMakeFiles/sailfish.dir/rule
 
 # Convenience name for target.
@@ -183,12 +183,12 @@ sailfish: src/CMakeFiles/sailfish.dir/rule
 
 # fast build rule for target.
 sailfish/fast:
-	cd /home/hirak/RapCompress/sailfish/build && $(MAKE) -f src/CMakeFiles/sailfish.dir/build.make src/CMakeFiles/sailfish.dir/build
+	cd /home/hirak/quark/sailfish/build && $(MAKE) -f src/CMakeFiles/sailfish.dir/build.make src/CMakeFiles/sailfish.dir/build
 .PHONY : sailfish/fast
 
 # Convenience name for target.
 src/CMakeFiles/sailfish_core.dir/rule:
-	cd /home/hirak/RapCompress/sailfish/build && $(MAKE) -f CMakeFiles/Makefile2 src/CMakeFiles/sailfish_core.dir/rule
+	cd /home/hirak/quark/sailfish/build && $(MAKE) -f CMakeFiles/Makefile2 src/CMakeFiles/sailfish_core.dir/rule
 .PHONY : src/CMakeFiles/sailfish_core.dir/rule
 
 # Convenience name for target.
@@ -197,12 +197,12 @@ sailfish_core: src/CMakeFiles/sailfish_core.dir/rule
 
 # fast build rule for target.
 sailfish_core/fast:
-	cd /home/hirak/RapCompress/sailfish/build && $(MAKE) -f src/CMakeFiles/sailfish_core.dir/build.make src/CMakeFiles/sailfish_core.dir/build
+	cd /home/hirak/quark/sailfish/build && $(MAKE) -f src/CMakeFiles/sailfish_core.dir/build.make src/CMakeFiles/sailfish_core.dir/build
 .PHONY : sailfish_core/fast
 
 # Convenience name for target.
 src/CMakeFiles/unitTests.dir/rule:
-	cd /home/hirak/RapCompress/sailfish/build && $(MAKE) -f CMakeFiles/Makefile2 src/CMakeFiles/unitTests.dir/rule
+	cd /home/hirak/quark/sailfish/build && $(MAKE) -f CMakeFiles/Makefile2 src/CMakeFiles/unitTests.dir/rule
 .PHONY : src/CMakeFiles/unitTests.dir/rule
 
 # Convenience name for target.
@@ -211,7 +211,7 @@ unitTests: src/CMakeFiles/unitTests.dir/rule
 
 # fast build rule for target.
 unitTests/fast:
-	cd /home/hirak/RapCompress/sailfish/build && $(MAKE) -f src/CMakeFiles/unitTests.dir/build.make src/CMakeFiles/unitTests.dir/build
+	cd /home/hirak/quark/sailfish/build && $(MAKE) -f src/CMakeFiles/unitTests.dir/build.make src/CMakeFiles/unitTests.dir/build
 .PHONY : unitTests/fast
 
 CollapsedEMOptimizer.o: CollapsedEMOptimizer.cpp.o
@@ -219,7 +219,7 @@ CollapsedEMOptimizer.o: CollapsedEMOptimizer.cpp.o
 
 # target to build an object file
 CollapsedEMOptimizer.cpp.o:
-	cd /home/hirak/RapCompress/sailfish/build && $(MAKE) -f src/CMakeFiles/sailfish_core.dir/build.make src/CMakeFiles/sailfish_core.dir/CollapsedEMOptimizer.cpp.o
+	cd /home/hirak/quark/sailfish/build && $(MAKE) -f src/CMakeFiles/sailfish_core.dir/build.make src/CMakeFiles/sailfish_core.dir/CollapsedEMOptimizer.cpp.o
 .PHONY : CollapsedEMOptimizer.cpp.o
 
 CollapsedEMOptimizer.i: CollapsedEMOptimizer.cpp.i
@@ -227,7 +227,7 @@ CollapsedEMOptimizer.i: CollapsedEMOptimizer.cpp.i
 
 # target to preprocess a source file
 CollapsedEMOptimizer.cpp.i:
-	cd /home/hirak/RapCompress/sailfish/build && $(MAKE) -f src/CMakeFiles/sailfish_core.dir/build.make src/CMakeFiles/sailfish_core.dir/CollapsedEMOptimizer.cpp.i
+	cd /home/hirak/quark/sailfish/build && $(MAKE) -f src/CMakeFiles/sailfish_core.dir/build.make src/CMakeFiles/sailfish_core.dir/CollapsedEMOptimizer.cpp.i
 .PHONY : CollapsedEMOptimizer.cpp.i
 
 CollapsedEMOptimizer.s: CollapsedEMOptimizer.cpp.s
@@ -235,7 +235,7 @@ CollapsedEMOptimizer.s: CollapsedEMOptimizer.cpp.s
 
 # target to generate assembly for a file
 CollapsedEMOptimizer.cpp.s:
-	cd /home/hirak/RapCompress/sailfish/build && $(MAKE) -f src/CMakeFiles/sailfish_core.dir/build.make src/CMakeFiles/sailfish_core.dir/CollapsedEMOptimizer.cpp.s
+	cd /home/hirak/quark/sailfish/build && $(MAKE) -f src/CMakeFiles/sailfish_core.dir/build.make src/CMakeFiles/sailfish_core.dir/CollapsedEMOptimizer.cpp.s
 .PHONY : CollapsedEMOptimizer.cpp.s
 
 CollapsedGibbsSampler.o: CollapsedGibbsSampler.cpp.o
@@ -243,7 +243,7 @@ CollapsedGibbsSampler.o: CollapsedGibbsSampler.cpp.o
 
 # target to build an object file
 CollapsedGibbsSampler.cpp.o:
-	cd /home/hirak/RapCompress/sailfish/build && $(MAKE) -f src/CMakeFiles/sailfish_core.dir/build.make src/CMakeFiles/sailfish_core.dir/CollapsedGibbsSampler.cpp.o
+	cd /home/hirak/quark/sailfish/build && $(MAKE) -f src/CMakeFiles/sailfish_core.dir/build.make src/CMakeFiles/sailfish_core.dir/CollapsedGibbsSampler.cpp.o
 .PHONY : CollapsedGibbsSampler.cpp.o
 
 CollapsedGibbsSampler.i: CollapsedGibbsSampler.cpp.i
@@ -251,7 +251,7 @@ CollapsedGibbsSampler.i: CollapsedGibbsSampler.cpp.i
 
 # target to preprocess a source file
 CollapsedGibbsSampler.cpp.i:
-	cd /home/hirak/RapCompress/sailfish/build && $(MAKE) -f src/CMakeFiles/sailfish_core.dir/build.make src/CMakeFiles/sailfish_core.dir/CollapsedGibbsSampler.cpp.i
+	cd /home/hirak/quark/sailfish/build && $(MAKE) -f src/CMakeFiles/sailfish_core.dir/build.make src/CMakeFiles/sailfish_core.dir/CollapsedGibbsSampler.cpp.i
 .PHONY : CollapsedGibbsSampler.cpp.i
 
 CollapsedGibbsSampler.s: CollapsedGibbsSampler.cpp.s
@@ -259,7 +259,7 @@ CollapsedGibbsSampler.s: CollapsedGibbsSampler.cpp.s
 
 # target to generate assembly for a file
 CollapsedGibbsSampler.cpp.s:
-	cd /home/hirak/RapCompress/sailfish/build && $(MAKE) -f src/CMakeFiles/sailfish_core.dir/build.make src/CMakeFiles/sailfish_core.dir/CollapsedGibbsSampler.cpp.s
+	cd /home/hirak/quark/sailfish/build && $(MAKE) -f src/CMakeFiles/sailfish_core.dir/build.make src/CMakeFiles/sailfish_core.dir/CollapsedGibbsSampler.cpp.s
 .PHONY : CollapsedGibbsSampler.cpp.s
 
 EmpiricalDistribution.o: EmpiricalDistribution.cpp.o
@@ -267,7 +267,7 @@ EmpiricalDistribution.o: EmpiricalDistribution.cpp.o
 
 # target to build an object file
 EmpiricalDistribution.cpp.o:
-	cd /home/hirak/RapCompress/sailfish/build && $(MAKE) -f src/CMakeFiles/sailfish_core.dir/build.make src/CMakeFiles/sailfish_core.dir/EmpiricalDistribution.cpp.o
+	cd /home/hirak/quark/sailfish/build && $(MAKE) -f src/CMakeFiles/sailfish_core.dir/build.make src/CMakeFiles/sailfish_core.dir/EmpiricalDistribution.cpp.o
 .PHONY : EmpiricalDistribution.cpp.o
 
 EmpiricalDistribution.i: EmpiricalDistribution.cpp.i
@@ -275,7 +275,7 @@ EmpiricalDistribution.i: EmpiricalDistribution.cpp.i
 
 # target to preprocess a source file
 EmpiricalDistribution.cpp.i:
-	cd /home/hirak/RapCompress/sailfish/build && $(MAKE) -f src/CMakeFiles/sailfish_core.dir/build.make src/CMakeFiles/sailfish_core.dir/EmpiricalDistribution.cpp.i
+	cd /home/hirak/quark/sailfish/build && $(MAKE) -f src/CMakeFiles/sailfish_core.dir/build.make src/CMakeFiles/sailfish_core.dir/EmpiricalDistribution.cpp.i
 .PHONY : EmpiricalDistribution.cpp.i
 
 EmpiricalDistribution.s: EmpiricalDistribution.cpp.s
@@ -283,7 +283,7 @@ EmpiricalDistribution.s: EmpiricalDistribution.cpp.s
 
 # target to generate assembly for a file
 EmpiricalDistribution.cpp.s:
-	cd /home/hirak/RapCompress/sailfish/build && $(MAKE) -f src/CMakeFiles/sailfish_core.dir/build.make src/CMakeFiles/sailfish_core.dir/EmpiricalDistribution.cpp.s
+	cd /home/hirak/quark/sailfish/build && $(MAKE) -f src/CMakeFiles/sailfish_core.dir/build.make src/CMakeFiles/sailfish_core.dir/EmpiricalDistribution.cpp.s
 .PHONY : EmpiricalDistribution.cpp.s
 
 GZipWriter.o: GZipWriter.cpp.o
@@ -291,7 +291,7 @@ GZipWriter.o: GZipWriter.cpp.o
 
 # target to build an object file
 GZipWriter.cpp.o:
-	cd /home/hirak/RapCompress/sailfish/build && $(MAKE) -f src/CMakeFiles/sailfish_core.dir/build.make src/CMakeFiles/sailfish_core.dir/GZipWriter.cpp.o
+	cd /home/hirak/quark/sailfish/build && $(MAKE) -f src/CMakeFiles/sailfish_core.dir/build.make src/CMakeFiles/sailfish_core.dir/GZipWriter.cpp.o
 .PHONY : GZipWriter.cpp.o
 
 GZipWriter.i: GZipWriter.cpp.i
@@ -299,7 +299,7 @@ GZipWriter.i: GZipWriter.cpp.i
 
 # target to preprocess a source file
 GZipWriter.cpp.i:
-	cd /home/hirak/RapCompress/sailfish/build && $(MAKE) -f src/CMakeFiles/sailfish_core.dir/build.make src/CMakeFiles/sailfish_core.dir/GZipWriter.cpp.i
+	cd /home/hirak/quark/sailfish/build && $(MAKE) -f src/CMakeFiles/sailfish_core.dir/build.make src/CMakeFiles/sailfish_core.dir/GZipWriter.cpp.i
 .PHONY : GZipWriter.cpp.i
 
 GZipWriter.s: GZipWriter.cpp.s
@@ -307,7 +307,7 @@ GZipWriter.s: GZipWriter.cpp.s
 
 # target to generate assembly for a file
 GZipWriter.cpp.s:
-	cd /home/hirak/RapCompress/sailfish/build && $(MAKE) -f src/CMakeFiles/sailfish_core.dir/build.make src/CMakeFiles/sailfish_core.dir/GZipWriter.cpp.s
+	cd /home/hirak/quark/sailfish/build && $(MAKE) -f src/CMakeFiles/sailfish_core.dir/build.make src/CMakeFiles/sailfish_core.dir/GZipWriter.cpp.s
 .PHONY : GZipWriter.cpp.s
 
 LibraryFormat.o: LibraryFormat.cpp.o
@@ -315,7 +315,7 @@ LibraryFormat.o: LibraryFormat.cpp.o
 
 # target to build an object file
 LibraryFormat.cpp.o:
-	cd /home/hirak/RapCompress/sailfish/build && $(MAKE) -f src/CMakeFiles/sailfish_core.dir/build.make src/CMakeFiles/sailfish_core.dir/LibraryFormat.cpp.o
+	cd /home/hirak/quark/sailfish/build && $(MAKE) -f src/CMakeFiles/sailfish_core.dir/build.make src/CMakeFiles/sailfish_core.dir/LibraryFormat.cpp.o
 .PHONY : LibraryFormat.cpp.o
 
 LibraryFormat.i: LibraryFormat.cpp.i
@@ -323,7 +323,7 @@ LibraryFormat.i: LibraryFormat.cpp.i
 
 # target to preprocess a source file
 LibraryFormat.cpp.i:
-	cd /home/hirak/RapCompress/sailfish/build && $(MAKE) -f src/CMakeFiles/sailfish_core.dir/build.make src/CMakeFiles/sailfish_core.dir/LibraryFormat.cpp.i
+	cd /home/hirak/quark/sailfish/build && $(MAKE) -f src/CMakeFiles/sailfish_core.dir/build.make src/CMakeFiles/sailfish_core.dir/LibraryFormat.cpp.i
 .PHONY : LibraryFormat.cpp.i
 
 LibraryFormat.s: LibraryFormat.cpp.s
@@ -331,7 +331,7 @@ LibraryFormat.s: LibraryFormat.cpp.s
 
 # target to generate assembly for a file
 LibraryFormat.cpp.s:
-	cd /home/hirak/RapCompress/sailfish/build && $(MAKE) -f src/CMakeFiles/sailfish_core.dir/build.make src/CMakeFiles/sailfish_core.dir/LibraryFormat.cpp.s
+	cd /home/hirak/quark/sailfish/build && $(MAKE) -f src/CMakeFiles/sailfish_core.dir/build.make src/CMakeFiles/sailfish_core.dir/LibraryFormat.cpp.s
 .PHONY : LibraryFormat.cpp.s
 
 Sailfish.o: Sailfish.cpp.o
@@ -339,7 +339,7 @@ Sailfish.o: Sailfish.cpp.o
 
 # target to build an object file
 Sailfish.cpp.o:
-	cd /home/hirak/RapCompress/sailfish/build && $(MAKE) -f src/CMakeFiles/sailfish.dir/build.make src/CMakeFiles/sailfish.dir/Sailfish.cpp.o
+	cd /home/hirak/quark/sailfish/build && $(MAKE) -f src/CMakeFiles/sailfish.dir/build.make src/CMakeFiles/sailfish.dir/Sailfish.cpp.o
 .PHONY : Sailfish.cpp.o
 
 Sailfish.i: Sailfish.cpp.i
@@ -347,7 +347,7 @@ Sailfish.i: Sailfish.cpp.i
 
 # target to preprocess a source file
 Sailfish.cpp.i:
-	cd /home/hirak/RapCompress/sailfish/build && $(MAKE) -f src/CMakeFiles/sailfish.dir/build.make src/CMakeFiles/sailfish.dir/Sailfish.cpp.i
+	cd /home/hirak/quark/sailfish/build && $(MAKE) -f src/CMakeFiles/sailfish.dir/build.make src/CMakeFiles/sailfish.dir/Sailfish.cpp.i
 .PHONY : Sailfish.cpp.i
 
 Sailfish.s: Sailfish.cpp.s
@@ -355,7 +355,7 @@ Sailfish.s: Sailfish.cpp.s
 
 # target to generate assembly for a file
 Sailfish.cpp.s:
-	cd /home/hirak/RapCompress/sailfish/build && $(MAKE) -f src/CMakeFiles/sailfish.dir/build.make src/CMakeFiles/sailfish.dir/Sailfish.cpp.s
+	cd /home/hirak/quark/sailfish/build && $(MAKE) -f src/CMakeFiles/sailfish.dir/build.make src/CMakeFiles/sailfish.dir/Sailfish.cpp.s
 .PHONY : Sailfish.cpp.s
 
 SailfishIndexer.o: SailfishIndexer.cpp.o
@@ -363,7 +363,7 @@ SailfishIndexer.o: SailfishIndexer.cpp.o
 
 # target to build an object file
 SailfishIndexer.cpp.o:
-	cd /home/hirak/RapCompress/sailfish/build && $(MAKE) -f src/CMakeFiles/sailfish_core.dir/build.make src/CMakeFiles/sailfish_core.dir/SailfishIndexer.cpp.o
+	cd /home/hirak/quark/sailfish/build && $(MAKE) -f src/CMakeFiles/sailfish_core.dir/build.make src/CMakeFiles/sailfish_core.dir/SailfishIndexer.cpp.o
 .PHONY : SailfishIndexer.cpp.o
 
 SailfishIndexer.i: SailfishIndexer.cpp.i
@@ -371,7 +371,7 @@ SailfishIndexer.i: SailfishIndexer.cpp.i
 
 # target to preprocess a source file
 SailfishIndexer.cpp.i:
-	cd /home/hirak/RapCompress/sailfish/build && $(MAKE) -f src/CMakeFiles/sailfish_core.dir/build.make src/CMakeFiles/sailfish_core.dir/SailfishIndexer.cpp.i
+	cd /home/hirak/quark/sailfish/build && $(MAKE) -f src/CMakeFiles/sailfish_core.dir/build.make src/CMakeFiles/sailfish_core.dir/SailfishIndexer.cpp.i
 .PHONY : SailfishIndexer.cpp.i
 
 SailfishIndexer.s: SailfishIndexer.cpp.s
@@ -379,7 +379,7 @@ SailfishIndexer.s: SailfishIndexer.cpp.s
 
 # target to generate assembly for a file
 SailfishIndexer.cpp.s:
-	cd /home/hirak/RapCompress/sailfish/build && $(MAKE) -f src/CMakeFiles/sailfish_core.dir/build.make src/CMakeFiles/sailfish_core.dir/SailfishIndexer.cpp.s
+	cd /home/hirak/quark/sailfish/build && $(MAKE) -f src/CMakeFiles/sailfish_core.dir/build.make src/CMakeFiles/sailfish_core.dir/SailfishIndexer.cpp.s
 .PHONY : SailfishIndexer.cpp.s
 
 SailfishQuantify.o: SailfishQuantify.cpp.o
@@ -387,7 +387,7 @@ SailfishQuantify.o: SailfishQuantify.cpp.o
 
 # target to build an object file
 SailfishQuantify.cpp.o:
-	cd /home/hirak/RapCompress/sailfish/build && $(MAKE) -f src/CMakeFiles/sailfish_core.dir/build.make src/CMakeFiles/sailfish_core.dir/SailfishQuantify.cpp.o
+	cd /home/hirak/quark/sailfish/build && $(MAKE) -f src/CMakeFiles/sailfish_core.dir/build.make src/CMakeFiles/sailfish_core.dir/SailfishQuantify.cpp.o
 .PHONY : SailfishQuantify.cpp.o
 
 SailfishQuantify.i: SailfishQuantify.cpp.i
@@ -395,7 +395,7 @@ SailfishQuantify.i: SailfishQuantify.cpp.i
 
 # target to preprocess a source file
 SailfishQuantify.cpp.i:
-	cd /home/hirak/RapCompress/sailfish/build && $(MAKE) -f src/CMakeFiles/sailfish_core.dir/build.make src/CMakeFiles/sailfish_core.dir/SailfishQuantify.cpp.i
+	cd /home/hirak/quark/sailfish/build && $(MAKE) -f src/CMakeFiles/sailfish_core.dir/build.make src/CMakeFiles/sailfish_core.dir/SailfishQuantify.cpp.i
 .PHONY : SailfishQuantify.cpp.i
 
 SailfishQuantify.s: SailfishQuantify.cpp.s
@@ -403,7 +403,7 @@ SailfishQuantify.s: SailfishQuantify.cpp.s
 
 # target to generate assembly for a file
 SailfishQuantify.cpp.s:
-	cd /home/hirak/RapCompress/sailfish/build && $(MAKE) -f src/CMakeFiles/sailfish_core.dir/build.make src/CMakeFiles/sailfish_core.dir/SailfishQuantify.cpp.s
+	cd /home/hirak/quark/sailfish/build && $(MAKE) -f src/CMakeFiles/sailfish_core.dir/build.make src/CMakeFiles/sailfish_core.dir/SailfishQuantify.cpp.s
 .PHONY : SailfishQuantify.cpp.s
 
 SailfishStringUtils.o: SailfishStringUtils.cpp.o
@@ -411,7 +411,7 @@ SailfishStringUtils.o: SailfishStringUtils.cpp.o
 
 # target to build an object file
 SailfishStringUtils.cpp.o:
-	cd /home/hirak/RapCompress/sailfish/build && $(MAKE) -f src/CMakeFiles/sailfish_core.dir/build.make src/CMakeFiles/sailfish_core.dir/SailfishStringUtils.cpp.o
+	cd /home/hirak/quark/sailfish/build && $(MAKE) -f src/CMakeFiles/sailfish_core.dir/build.make src/CMakeFiles/sailfish_core.dir/SailfishStringUtils.cpp.o
 .PHONY : SailfishStringUtils.cpp.o
 
 SailfishStringUtils.i: SailfishStringUtils.cpp.i
@@ -419,7 +419,7 @@ SailfishStringUtils.i: SailfishStringUtils.cpp.i
 
 # target to preprocess a source file
 SailfishStringUtils.cpp.i:
-	cd /home/hirak/RapCompress/sailfish/build && $(MAKE) -f src/CMakeFiles/sailfish_core.dir/build.make src/CMakeFiles/sailfish_core.dir/SailfishStringUtils.cpp.i
+	cd /home/hirak/quark/sailfish/build && $(MAKE) -f src/CMakeFiles/sailfish_core.dir/build.make src/CMakeFiles/sailfish_core.dir/SailfishStringUtils.cpp.i
 .PHONY : SailfishStringUtils.cpp.i
 
 SailfishStringUtils.s: SailfishStringUtils.cpp.s
@@ -427,7 +427,7 @@ SailfishStringUtils.s: SailfishStringUtils.cpp.s
 
 # target to generate assembly for a file
 SailfishStringUtils.cpp.s:
-	cd /home/hirak/RapCompress/sailfish/build && $(MAKE) -f src/CMakeFiles/sailfish_core.dir/build.make src/CMakeFiles/sailfish_core.dir/SailfishStringUtils.cpp.s
+	cd /home/hirak/quark/sailfish/build && $(MAKE) -f src/CMakeFiles/sailfish_core.dir/build.make src/CMakeFiles/sailfish_core.dir/SailfishStringUtils.cpp.s
 .PHONY : SailfishStringUtils.cpp.s
 
 SailfishUtils.o: SailfishUtils.cpp.o
@@ -435,7 +435,7 @@ SailfishUtils.o: SailfishUtils.cpp.o
 
 # target to build an object file
 SailfishUtils.cpp.o:
-	cd /home/hirak/RapCompress/sailfish/build && $(MAKE) -f src/CMakeFiles/sailfish_core.dir/build.make src/CMakeFiles/sailfish_core.dir/SailfishUtils.cpp.o
+	cd /home/hirak/quark/sailfish/build && $(MAKE) -f src/CMakeFiles/sailfish_core.dir/build.make src/CMakeFiles/sailfish_core.dir/SailfishUtils.cpp.o
 .PHONY : SailfishUtils.cpp.o
 
 SailfishUtils.i: SailfishUtils.cpp.i
@@ -443,7 +443,7 @@ SailfishUtils.i: SailfishUtils.cpp.i
 
 # target to preprocess a source file
 SailfishUtils.cpp.i:
-	cd /home/hirak/RapCompress/sailfish/build && $(MAKE) -f src/CMakeFiles/sailfish_core.dir/build.make src/CMakeFiles/sailfish_core.dir/SailfishUtils.cpp.i
+	cd /home/hirak/quark/sailfish/build && $(MAKE) -f src/CMakeFiles/sailfish_core.dir/build.make src/CMakeFiles/sailfish_core.dir/SailfishUtils.cpp.i
 .PHONY : SailfishUtils.cpp.i
 
 SailfishUtils.s: SailfishUtils.cpp.s
@@ -451,7 +451,7 @@ SailfishUtils.s: SailfishUtils.cpp.s
 
 # target to generate assembly for a file
 SailfishUtils.cpp.s:
-	cd /home/hirak/RapCompress/sailfish/build && $(MAKE) -f src/CMakeFiles/sailfish_core.dir/build.make src/CMakeFiles/sailfish_core.dir/SailfishUtils.cpp.s
+	cd /home/hirak/quark/sailfish/build && $(MAKE) -f src/CMakeFiles/sailfish_core.dir/build.make src/CMakeFiles/sailfish_core.dir/SailfishUtils.cpp.s
 .PHONY : SailfishUtils.cpp.s
 
 TranscriptGroup.o: TranscriptGroup.cpp.o
@@ -459,7 +459,7 @@ TranscriptGroup.o: TranscriptGroup.cpp.o
 
 # target to build an object file
 TranscriptGroup.cpp.o:
-	cd /home/hirak/RapCompress/sailfish/build && $(MAKE) -f src/CMakeFiles/sailfish_core.dir/build.make src/CMakeFiles/sailfish_core.dir/TranscriptGroup.cpp.o
+	cd /home/hirak/quark/sailfish/build && $(MAKE) -f src/CMakeFiles/sailfish_core.dir/build.make src/CMakeFiles/sailfish_core.dir/TranscriptGroup.cpp.o
 .PHONY : TranscriptGroup.cpp.o
 
 TranscriptGroup.i: TranscriptGroup.cpp.i
@@ -467,7 +467,7 @@ TranscriptGroup.i: TranscriptGroup.cpp.i
 
 # target to preprocess a source file
 TranscriptGroup.cpp.i:
-	cd /home/hirak/RapCompress/sailfish/build && $(MAKE) -f src/CMakeFiles/sailfish_core.dir/build.make src/CMakeFiles/sailfish_core.dir/TranscriptGroup.cpp.i
+	cd /home/hirak/quark/sailfish/build && $(MAKE) -f src/CMakeFiles/sailfish_core.dir/build.make src/CMakeFiles/sailfish_core.dir/TranscriptGroup.cpp.i
 .PHONY : TranscriptGroup.cpp.i
 
 TranscriptGroup.s: TranscriptGroup.cpp.s
@@ -475,7 +475,7 @@ TranscriptGroup.s: TranscriptGroup.cpp.s
 
 # target to generate assembly for a file
 TranscriptGroup.cpp.s:
-	cd /home/hirak/RapCompress/sailfish/build && $(MAKE) -f src/CMakeFiles/sailfish_core.dir/build.make src/CMakeFiles/sailfish_core.dir/TranscriptGroup.cpp.s
+	cd /home/hirak/quark/sailfish/build && $(MAKE) -f src/CMakeFiles/sailfish_core.dir/build.make src/CMakeFiles/sailfish_core.dir/TranscriptGroup.cpp.s
 .PHONY : TranscriptGroup.cpp.s
 
 VersionChecker.o: VersionChecker.cpp.o
@@ -483,7 +483,7 @@ VersionChecker.o: VersionChecker.cpp.o
 
 # target to build an object file
 VersionChecker.cpp.o:
-	cd /home/hirak/RapCompress/sailfish/build && $(MAKE) -f src/CMakeFiles/sailfish_core.dir/build.make src/CMakeFiles/sailfish_core.dir/VersionChecker.cpp.o
+	cd /home/hirak/quark/sailfish/build && $(MAKE) -f src/CMakeFiles/sailfish_core.dir/build.make src/CMakeFiles/sailfish_core.dir/VersionChecker.cpp.o
 .PHONY : VersionChecker.cpp.o
 
 VersionChecker.i: VersionChecker.cpp.i
@@ -491,7 +491,7 @@ VersionChecker.i: VersionChecker.cpp.i
 
 # target to preprocess a source file
 VersionChecker.cpp.i:
-	cd /home/hirak/RapCompress/sailfish/build && $(MAKE) -f src/CMakeFiles/sailfish_core.dir/build.make src/CMakeFiles/sailfish_core.dir/VersionChecker.cpp.i
+	cd /home/hirak/quark/sailfish/build && $(MAKE) -f src/CMakeFiles/sailfish_core.dir/build.make src/CMakeFiles/sailfish_core.dir/VersionChecker.cpp.i
 .PHONY : VersionChecker.cpp.i
 
 VersionChecker.s: VersionChecker.cpp.s
@@ -499,7 +499,7 @@ VersionChecker.s: VersionChecker.cpp.s
 
 # target to generate assembly for a file
 VersionChecker.cpp.s:
-	cd /home/hirak/RapCompress/sailfish/build && $(MAKE) -f src/CMakeFiles/sailfish_core.dir/build.make src/CMakeFiles/sailfish_core.dir/VersionChecker.cpp.s
+	cd /home/hirak/quark/sailfish/build && $(MAKE) -f src/CMakeFiles/sailfish_core.dir/build.make src/CMakeFiles/sailfish_core.dir/VersionChecker.cpp.s
 .PHONY : VersionChecker.cpp.s
 
 __/external/install/src/rapmap/HitManager.o: __/external/install/src/rapmap/HitManager.cpp.o
@@ -507,7 +507,7 @@ __/external/install/src/rapmap/HitManager.o: __/external/install/src/rapmap/HitM
 
 # target to build an object file
 __/external/install/src/rapmap/HitManager.cpp.o:
-	cd /home/hirak/RapCompress/sailfish/build && $(MAKE) -f src/CMakeFiles/sailfish_core.dir/build.make src/CMakeFiles/sailfish_core.dir/__/external/install/src/rapmap/HitManager.cpp.o
+	cd /home/hirak/quark/sailfish/build && $(MAKE) -f src/CMakeFiles/sailfish_core.dir/build.make src/CMakeFiles/sailfish_core.dir/__/external/install/src/rapmap/HitManager.cpp.o
 .PHONY : __/external/install/src/rapmap/HitManager.cpp.o
 
 __/external/install/src/rapmap/HitManager.i: __/external/install/src/rapmap/HitManager.cpp.i
@@ -515,7 +515,7 @@ __/external/install/src/rapmap/HitManager.i: __/external/install/src/rapmap/HitM
 
 # target to preprocess a source file
 __/external/install/src/rapmap/HitManager.cpp.i:
-	cd /home/hirak/RapCompress/sailfish/build && $(MAKE) -f src/CMakeFiles/sailfish_core.dir/build.make src/CMakeFiles/sailfish_core.dir/__/external/install/src/rapmap/HitManager.cpp.i
+	cd /home/hirak/quark/sailfish/build && $(MAKE) -f src/CMakeFiles/sailfish_core.dir/build.make src/CMakeFiles/sailfish_core.dir/__/external/install/src/rapmap/HitManager.cpp.i
 .PHONY : __/external/install/src/rapmap/HitManager.cpp.i
 
 __/external/install/src/rapmap/HitManager.s: __/external/install/src/rapmap/HitManager.cpp.s
@@ -523,7 +523,7 @@ __/external/install/src/rapmap/HitManager.s: __/external/install/src/rapmap/HitM
 
 # target to generate assembly for a file
 __/external/install/src/rapmap/HitManager.cpp.s:
-	cd /home/hirak/RapCompress/sailfish/build && $(MAKE) -f src/CMakeFiles/sailfish_core.dir/build.make src/CMakeFiles/sailfish_core.dir/__/external/install/src/rapmap/HitManager.cpp.s
+	cd /home/hirak/quark/sailfish/build && $(MAKE) -f src/CMakeFiles/sailfish_core.dir/build.make src/CMakeFiles/sailfish_core.dir/__/external/install/src/rapmap/HitManager.cpp.s
 .PHONY : __/external/install/src/rapmap/HitManager.cpp.s
 
 __/external/install/src/rapmap/RapMapFileSystem.o: __/external/install/src/rapmap/RapMapFileSystem.cpp.o
@@ -531,7 +531,7 @@ __/external/install/src/rapmap/RapMapFileSystem.o: __/external/install/src/rapma
 
 # target to build an object file
 __/external/install/src/rapmap/RapMapFileSystem.cpp.o:
-	cd /home/hirak/RapCompress/sailfish/build && $(MAKE) -f src/CMakeFiles/sailfish_core.dir/build.make src/CMakeFiles/sailfish_core.dir/__/external/install/src/rapmap/RapMapFileSystem.cpp.o
+	cd /home/hirak/quark/sailfish/build && $(MAKE) -f src/CMakeFiles/sailfish_core.dir/build.make src/CMakeFiles/sailfish_core.dir/__/external/install/src/rapmap/RapMapFileSystem.cpp.o
 .PHONY : __/external/install/src/rapmap/RapMapFileSystem.cpp.o
 
 __/external/install/src/rapmap/RapMapFileSystem.i: __/external/install/src/rapmap/RapMapFileSystem.cpp.i
@@ -539,7 +539,7 @@ __/external/install/src/rapmap/RapMapFileSystem.i: __/external/install/src/rapma
 
 # target to preprocess a source file
 __/external/install/src/rapmap/RapMapFileSystem.cpp.i:
-	cd /home/hirak/RapCompress/sailfish/build && $(MAKE) -f src/CMakeFiles/sailfish_core.dir/build.make src/CMakeFiles/sailfish_core.dir/__/external/install/src/rapmap/RapMapFileSystem.cpp.i
+	cd /home/hirak/quark/sailfish/build && $(MAKE) -f src/CMakeFiles/sailfish_core.dir/build.make src/CMakeFiles/sailfish_core.dir/__/external/install/src/rapmap/RapMapFileSystem.cpp.i
 .PHONY : __/external/install/src/rapmap/RapMapFileSystem.cpp.i
 
 __/external/install/src/rapmap/RapMapFileSystem.s: __/external/install/src/rapmap/RapMapFileSystem.cpp.s
@@ -547,7 +547,7 @@ __/external/install/src/rapmap/RapMapFileSystem.s: __/external/install/src/rapma
 
 # target to generate assembly for a file
 __/external/install/src/rapmap/RapMapFileSystem.cpp.s:
-	cd /home/hirak/RapCompress/sailfish/build && $(MAKE) -f src/CMakeFiles/sailfish_core.dir/build.make src/CMakeFiles/sailfish_core.dir/__/external/install/src/rapmap/RapMapFileSystem.cpp.s
+	cd /home/hirak/quark/sailfish/build && $(MAKE) -f src/CMakeFiles/sailfish_core.dir/build.make src/CMakeFiles/sailfish_core.dir/__/external/install/src/rapmap/RapMapFileSystem.cpp.s
 .PHONY : __/external/install/src/rapmap/RapMapFileSystem.cpp.s
 
 __/external/install/src/rapmap/RapMapSAIndex.o: __/external/install/src/rapmap/RapMapSAIndex.cpp.o
@@ -555,7 +555,7 @@ __/external/install/src/rapmap/RapMapSAIndex.o: __/external/install/src/rapmap/R
 
 # target to build an object file
 __/external/install/src/rapmap/RapMapSAIndex.cpp.o:
-	cd /home/hirak/RapCompress/sailfish/build && $(MAKE) -f src/CMakeFiles/sailfish_core.dir/build.make src/CMakeFiles/sailfish_core.dir/__/external/install/src/rapmap/RapMapSAIndex.cpp.o
+	cd /home/hirak/quark/sailfish/build && $(MAKE) -f src/CMakeFiles/sailfish_core.dir/build.make src/CMakeFiles/sailfish_core.dir/__/external/install/src/rapmap/RapMapSAIndex.cpp.o
 .PHONY : __/external/install/src/rapmap/RapMapSAIndex.cpp.o
 
 __/external/install/src/rapmap/RapMapSAIndex.i: __/external/install/src/rapmap/RapMapSAIndex.cpp.i
@@ -563,7 +563,7 @@ __/external/install/src/rapmap/RapMapSAIndex.i: __/external/install/src/rapmap/R
 
 # target to preprocess a source file
 __/external/install/src/rapmap/RapMapSAIndex.cpp.i:
-	cd /home/hirak/RapCompress/sailfish/build && $(MAKE) -f src/CMakeFiles/sailfish_core.dir/build.make src/CMakeFiles/sailfish_core.dir/__/external/install/src/rapmap/RapMapSAIndex.cpp.i
+	cd /home/hirak/quark/sailfish/build && $(MAKE) -f src/CMakeFiles/sailfish_core.dir/build.make src/CMakeFiles/sailfish_core.dir/__/external/install/src/rapmap/RapMapSAIndex.cpp.i
 .PHONY : __/external/install/src/rapmap/RapMapSAIndex.cpp.i
 
 __/external/install/src/rapmap/RapMapSAIndex.s: __/external/install/src/rapmap/RapMapSAIndex.cpp.s
@@ -571,7 +571,7 @@ __/external/install/src/rapmap/RapMapSAIndex.s: __/external/install/src/rapmap/R
 
 # target to generate assembly for a file
 __/external/install/src/rapmap/RapMapSAIndex.cpp.s:
-	cd /home/hirak/RapCompress/sailfish/build && $(MAKE) -f src/CMakeFiles/sailfish_core.dir/build.make src/CMakeFiles/sailfish_core.dir/__/external/install/src/rapmap/RapMapSAIndex.cpp.s
+	cd /home/hirak/quark/sailfish/build && $(MAKE) -f src/CMakeFiles/sailfish_core.dir/build.make src/CMakeFiles/sailfish_core.dir/__/external/install/src/rapmap/RapMapSAIndex.cpp.s
 .PHONY : __/external/install/src/rapmap/RapMapSAIndex.cpp.s
 
 __/external/install/src/rapmap/RapMapSAIndexer.o: __/external/install/src/rapmap/RapMapSAIndexer.cpp.o
@@ -579,7 +579,7 @@ __/external/install/src/rapmap/RapMapSAIndexer.o: __/external/install/src/rapmap
 
 # target to build an object file
 __/external/install/src/rapmap/RapMapSAIndexer.cpp.o:
-	cd /home/hirak/RapCompress/sailfish/build && $(MAKE) -f src/CMakeFiles/sailfish_core.dir/build.make src/CMakeFiles/sailfish_core.dir/__/external/install/src/rapmap/RapMapSAIndexer.cpp.o
+	cd /home/hirak/quark/sailfish/build && $(MAKE) -f src/CMakeFiles/sailfish_core.dir/build.make src/CMakeFiles/sailfish_core.dir/__/external/install/src/rapmap/RapMapSAIndexer.cpp.o
 .PHONY : __/external/install/src/rapmap/RapMapSAIndexer.cpp.o
 
 __/external/install/src/rapmap/RapMapSAIndexer.i: __/external/install/src/rapmap/RapMapSAIndexer.cpp.i
@@ -587,7 +587,7 @@ __/external/install/src/rapmap/RapMapSAIndexer.i: __/external/install/src/rapmap
 
 # target to preprocess a source file
 __/external/install/src/rapmap/RapMapSAIndexer.cpp.i:
-	cd /home/hirak/RapCompress/sailfish/build && $(MAKE) -f src/CMakeFiles/sailfish_core.dir/build.make src/CMakeFiles/sailfish_core.dir/__/external/install/src/rapmap/RapMapSAIndexer.cpp.i
+	cd /home/hirak/quark/sailfish/build && $(MAKE) -f src/CMakeFiles/sailfish_core.dir/build.make src/CMakeFiles/sailfish_core.dir/__/external/install/src/rapmap/RapMapSAIndexer.cpp.i
 .PHONY : __/external/install/src/rapmap/RapMapSAIndexer.cpp.i
 
 __/external/install/src/rapmap/RapMapSAIndexer.s: __/external/install/src/rapmap/RapMapSAIndexer.cpp.s
@@ -595,7 +595,7 @@ __/external/install/src/rapmap/RapMapSAIndexer.s: __/external/install/src/rapmap
 
 # target to generate assembly for a file
 __/external/install/src/rapmap/RapMapSAIndexer.cpp.s:
-	cd /home/hirak/RapCompress/sailfish/build && $(MAKE) -f src/CMakeFiles/sailfish_core.dir/build.make src/CMakeFiles/sailfish_core.dir/__/external/install/src/rapmap/RapMapSAIndexer.cpp.s
+	cd /home/hirak/quark/sailfish/build && $(MAKE) -f src/CMakeFiles/sailfish_core.dir/build.make src/CMakeFiles/sailfish_core.dir/__/external/install/src/rapmap/RapMapSAIndexer.cpp.s
 .PHONY : __/external/install/src/rapmap/RapMapSAIndexer.cpp.s
 
 __/external/install/src/rapmap/RapMapUtils.o: __/external/install/src/rapmap/RapMapUtils.cpp.o
@@ -603,7 +603,7 @@ __/external/install/src/rapmap/RapMapUtils.o: __/external/install/src/rapmap/Rap
 
 # target to build an object file
 __/external/install/src/rapmap/RapMapUtils.cpp.o:
-	cd /home/hirak/RapCompress/sailfish/build && $(MAKE) -f src/CMakeFiles/sailfish_core.dir/build.make src/CMakeFiles/sailfish_core.dir/__/external/install/src/rapmap/RapMapUtils.cpp.o
+	cd /home/hirak/quark/sailfish/build && $(MAKE) -f src/CMakeFiles/sailfish_core.dir/build.make src/CMakeFiles/sailfish_core.dir/__/external/install/src/rapmap/RapMapUtils.cpp.o
 .PHONY : __/external/install/src/rapmap/RapMapUtils.cpp.o
 
 __/external/install/src/rapmap/RapMapUtils.i: __/external/install/src/rapmap/RapMapUtils.cpp.i
@@ -611,7 +611,7 @@ __/external/install/src/rapmap/RapMapUtils.i: __/external/install/src/rapmap/Rap
 
 # target to preprocess a source file
 __/external/install/src/rapmap/RapMapUtils.cpp.i:
-	cd /home/hirak/RapCompress/sailfish/build && $(MAKE) -f src/CMakeFiles/sailfish_core.dir/build.make src/CMakeFiles/sailfish_core.dir/__/external/install/src/rapmap/RapMapUtils.cpp.i
+	cd /home/hirak/quark/sailfish/build && $(MAKE) -f src/CMakeFiles/sailfish_core.dir/build.make src/CMakeFiles/sailfish_core.dir/__/external/install/src/rapmap/RapMapUtils.cpp.i
 .PHONY : __/external/install/src/rapmap/RapMapUtils.cpp.i
 
 __/external/install/src/rapmap/RapMapUtils.s: __/external/install/src/rapmap/RapMapUtils.cpp.s
@@ -619,7 +619,7 @@ __/external/install/src/rapmap/RapMapUtils.s: __/external/install/src/rapmap/Rap
 
 # target to generate assembly for a file
 __/external/install/src/rapmap/RapMapUtils.cpp.s:
-	cd /home/hirak/RapCompress/sailfish/build && $(MAKE) -f src/CMakeFiles/sailfish_core.dir/build.make src/CMakeFiles/sailfish_core.dir/__/external/install/src/rapmap/RapMapUtils.cpp.s
+	cd /home/hirak/quark/sailfish/build && $(MAKE) -f src/CMakeFiles/sailfish_core.dir/build.make src/CMakeFiles/sailfish_core.dir/__/external/install/src/rapmap/RapMapUtils.cpp.s
 .PHONY : __/external/install/src/rapmap/RapMapUtils.cpp.s
 
 __/external/install/src/rapmap/bit_array.o: __/external/install/src/rapmap/bit_array.c.o
@@ -627,7 +627,7 @@ __/external/install/src/rapmap/bit_array.o: __/external/install/src/rapmap/bit_a
 
 # target to build an object file
 __/external/install/src/rapmap/bit_array.c.o:
-	cd /home/hirak/RapCompress/sailfish/build && $(MAKE) -f src/CMakeFiles/sailfish_core.dir/build.make src/CMakeFiles/sailfish_core.dir/__/external/install/src/rapmap/bit_array.c.o
+	cd /home/hirak/quark/sailfish/build && $(MAKE) -f src/CMakeFiles/sailfish_core.dir/build.make src/CMakeFiles/sailfish_core.dir/__/external/install/src/rapmap/bit_array.c.o
 .PHONY : __/external/install/src/rapmap/bit_array.c.o
 
 __/external/install/src/rapmap/bit_array.i: __/external/install/src/rapmap/bit_array.c.i
@@ -635,7 +635,7 @@ __/external/install/src/rapmap/bit_array.i: __/external/install/src/rapmap/bit_a
 
 # target to preprocess a source file
 __/external/install/src/rapmap/bit_array.c.i:
-	cd /home/hirak/RapCompress/sailfish/build && $(MAKE) -f src/CMakeFiles/sailfish_core.dir/build.make src/CMakeFiles/sailfish_core.dir/__/external/install/src/rapmap/bit_array.c.i
+	cd /home/hirak/quark/sailfish/build && $(MAKE) -f src/CMakeFiles/sailfish_core.dir/build.make src/CMakeFiles/sailfish_core.dir/__/external/install/src/rapmap/bit_array.c.i
 .PHONY : __/external/install/src/rapmap/bit_array.c.i
 
 __/external/install/src/rapmap/bit_array.s: __/external/install/src/rapmap/bit_array.c.s
@@ -643,7 +643,7 @@ __/external/install/src/rapmap/bit_array.s: __/external/install/src/rapmap/bit_a
 
 # target to generate assembly for a file
 __/external/install/src/rapmap/bit_array.c.s:
-	cd /home/hirak/RapCompress/sailfish/build && $(MAKE) -f src/CMakeFiles/sailfish_core.dir/build.make src/CMakeFiles/sailfish_core.dir/__/external/install/src/rapmap/bit_array.c.s
+	cd /home/hirak/quark/sailfish/build && $(MAKE) -f src/CMakeFiles/sailfish_core.dir/build.make src/CMakeFiles/sailfish_core.dir/__/external/install/src/rapmap/bit_array.c.s
 .PHONY : __/external/install/src/rapmap/bit_array.c.s
 
 __/external/install/src/rapmap/rank9b.o: __/external/install/src/rapmap/rank9b.cpp.o
@@ -651,7 +651,7 @@ __/external/install/src/rapmap/rank9b.o: __/external/install/src/rapmap/rank9b.c
 
 # target to build an object file
 __/external/install/src/rapmap/rank9b.cpp.o:
-	cd /home/hirak/RapCompress/sailfish/build && $(MAKE) -f src/CMakeFiles/sailfish_core.dir/build.make src/CMakeFiles/sailfish_core.dir/__/external/install/src/rapmap/rank9b.cpp.o
+	cd /home/hirak/quark/sailfish/build && $(MAKE) -f src/CMakeFiles/sailfish_core.dir/build.make src/CMakeFiles/sailfish_core.dir/__/external/install/src/rapmap/rank9b.cpp.o
 .PHONY : __/external/install/src/rapmap/rank9b.cpp.o
 
 __/external/install/src/rapmap/rank9b.i: __/external/install/src/rapmap/rank9b.cpp.i
@@ -659,7 +659,7 @@ __/external/install/src/rapmap/rank9b.i: __/external/install/src/rapmap/rank9b.c
 
 # target to preprocess a source file
 __/external/install/src/rapmap/rank9b.cpp.i:
-	cd /home/hirak/RapCompress/sailfish/build && $(MAKE) -f src/CMakeFiles/sailfish_core.dir/build.make src/CMakeFiles/sailfish_core.dir/__/external/install/src/rapmap/rank9b.cpp.i
+	cd /home/hirak/quark/sailfish/build && $(MAKE) -f src/CMakeFiles/sailfish_core.dir/build.make src/CMakeFiles/sailfish_core.dir/__/external/install/src/rapmap/rank9b.cpp.i
 .PHONY : __/external/install/src/rapmap/rank9b.cpp.i
 
 __/external/install/src/rapmap/rank9b.s: __/external/install/src/rapmap/rank9b.cpp.s
@@ -667,7 +667,7 @@ __/external/install/src/rapmap/rank9b.s: __/external/install/src/rapmap/rank9b.c
 
 # target to generate assembly for a file
 __/external/install/src/rapmap/rank9b.cpp.s:
-	cd /home/hirak/RapCompress/sailfish/build && $(MAKE) -f src/CMakeFiles/sailfish_core.dir/build.make src/CMakeFiles/sailfish_core.dir/__/external/install/src/rapmap/rank9b.cpp.s
+	cd /home/hirak/quark/sailfish/build && $(MAKE) -f src/CMakeFiles/sailfish_core.dir/build.make src/CMakeFiles/sailfish_core.dir/__/external/install/src/rapmap/rank9b.cpp.s
 .PHONY : __/external/install/src/rapmap/rank9b.cpp.s
 
 __/tests/UnitTests.o: __/tests/UnitTests.cpp.o
@@ -675,7 +675,7 @@ __/tests/UnitTests.o: __/tests/UnitTests.cpp.o
 
 # target to build an object file
 __/tests/UnitTests.cpp.o:
-	cd /home/hirak/RapCompress/sailfish/build && $(MAKE) -f src/CMakeFiles/unitTests.dir/build.make src/CMakeFiles/unitTests.dir/__/tests/UnitTests.cpp.o
+	cd /home/hirak/quark/sailfish/build && $(MAKE) -f src/CMakeFiles/unitTests.dir/build.make src/CMakeFiles/unitTests.dir/__/tests/UnitTests.cpp.o
 .PHONY : __/tests/UnitTests.cpp.o
 
 __/tests/UnitTests.i: __/tests/UnitTests.cpp.i
@@ -683,7 +683,7 @@ __/tests/UnitTests.i: __/tests/UnitTests.cpp.i
 
 # target to preprocess a source file
 __/tests/UnitTests.cpp.i:
-	cd /home/hirak/RapCompress/sailfish/build && $(MAKE) -f src/CMakeFiles/unitTests.dir/build.make src/CMakeFiles/unitTests.dir/__/tests/UnitTests.cpp.i
+	cd /home/hirak/quark/sailfish/build && $(MAKE) -f src/CMakeFiles/unitTests.dir/build.make src/CMakeFiles/unitTests.dir/__/tests/UnitTests.cpp.i
 .PHONY : __/tests/UnitTests.cpp.i
 
 __/tests/UnitTests.s: __/tests/UnitTests.cpp.s
@@ -691,7 +691,7 @@ __/tests/UnitTests.s: __/tests/UnitTests.cpp.s
 
 # target to generate assembly for a file
 __/tests/UnitTests.cpp.s:
-	cd /home/hirak/RapCompress/sailfish/build && $(MAKE) -f src/CMakeFiles/unitTests.dir/build.make src/CMakeFiles/unitTests.dir/__/tests/UnitTests.cpp.s
+	cd /home/hirak/quark/sailfish/build && $(MAKE) -f src/CMakeFiles/unitTests.dir/build.make src/CMakeFiles/unitTests.dir/__/tests/UnitTests.cpp.s
 .PHONY : __/tests/UnitTests.cpp.s
 
 xxhash.o: xxhash.c.o
@@ -699,7 +699,7 @@ xxhash.o: xxhash.c.o
 
 # target to build an object file
 xxhash.c.o:
-	cd /home/hirak/RapCompress/sailfish/build && $(MAKE) -f src/CMakeFiles/sailfish_core.dir/build.make src/CMakeFiles/sailfish_core.dir/xxhash.c.o
+	cd /home/hirak/quark/sailfish/build && $(MAKE) -f src/CMakeFiles/sailfish_core.dir/build.make src/CMakeFiles/sailfish_core.dir/xxhash.c.o
 .PHONY : xxhash.c.o
 
 xxhash.i: xxhash.c.i
@@ -707,7 +707,7 @@ xxhash.i: xxhash.c.i
 
 # target to preprocess a source file
 xxhash.c.i:
-	cd /home/hirak/RapCompress/sailfish/build && $(MAKE) -f src/CMakeFiles/sailfish_core.dir/build.make src/CMakeFiles/sailfish_core.dir/xxhash.c.i
+	cd /home/hirak/quark/sailfish/build && $(MAKE) -f src/CMakeFiles/sailfish_core.dir/build.make src/CMakeFiles/sailfish_core.dir/xxhash.c.i
 .PHONY : xxhash.c.i
 
 xxhash.s: xxhash.c.s
@@ -715,7 +715,7 @@ xxhash.s: xxhash.c.s
 
 # target to generate assembly for a file
 xxhash.c.s:
-	cd /home/hirak/RapCompress/sailfish/build && $(MAKE) -f src/CMakeFiles/sailfish_core.dir/build.make src/CMakeFiles/sailfish_core.dir/xxhash.c.s
+	cd /home/hirak/quark/sailfish/build && $(MAKE) -f src/CMakeFiles/sailfish_core.dir/build.make src/CMakeFiles/sailfish_core.dir/xxhash.c.s
 .PHONY : xxhash.c.s
 
 # Help Target
@@ -810,6 +810,6 @@ help:
 # No rule that depends on this can have commands that come from listfiles
 # because they might be regenerated.
 cmake_check_build_system:
-	cd /home/hirak/RapCompress/sailfish/build && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
+	cd /home/hirak/quark/sailfish/build && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
 .PHONY : cmake_check_build_system
 

@@ -35,10 +35,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/hirak/RapCompress/sailfish/external/libgff
+CMAKE_SOURCE_DIR = /home/hirak/quark/sailfish/external/libgff
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/hirak/RapCompress/sailfish/external/libgff/build
+CMAKE_BINARY_DIR = /home/hirak/quark/sailfish/external/libgff/build
 
 # Include any dependencies generated for this target.
 include CMakeFiles/gff.dir/depend.make
@@ -51,17 +51,17 @@ include CMakeFiles/gff.dir/flags.make
 
 CMakeFiles/gff.dir/src/codons.cpp.o: CMakeFiles/gff.dir/flags.make
 CMakeFiles/gff.dir/src/codons.cpp.o: ../src/codons.cpp
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/hirak/RapCompress/sailfish/external/libgff/build/CMakeFiles $(CMAKE_PROGRESS_1)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/hirak/quark/sailfish/external/libgff/build/CMakeFiles $(CMAKE_PROGRESS_1)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/gff.dir/src/codons.cpp.o"
-	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/gff.dir/src/codons.cpp.o -c /home/hirak/RapCompress/sailfish/external/libgff/src/codons.cpp
+	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/gff.dir/src/codons.cpp.o -c /home/hirak/quark/sailfish/external/libgff/src/codons.cpp
 
 CMakeFiles/gff.dir/src/codons.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/gff.dir/src/codons.cpp.i"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/hirak/RapCompress/sailfish/external/libgff/src/codons.cpp > CMakeFiles/gff.dir/src/codons.cpp.i
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/hirak/quark/sailfish/external/libgff/src/codons.cpp > CMakeFiles/gff.dir/src/codons.cpp.i
 
 CMakeFiles/gff.dir/src/codons.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/gff.dir/src/codons.cpp.s"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/hirak/RapCompress/sailfish/external/libgff/src/codons.cpp -o CMakeFiles/gff.dir/src/codons.cpp.s
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/hirak/quark/sailfish/external/libgff/src/codons.cpp -o CMakeFiles/gff.dir/src/codons.cpp.s
 
 CMakeFiles/gff.dir/src/codons.cpp.o.requires:
 .PHONY : CMakeFiles/gff.dir/src/codons.cpp.o.requires
@@ -74,17 +74,17 @@ CMakeFiles/gff.dir/src/codons.cpp.o.provides.build: CMakeFiles/gff.dir/src/codon
 
 CMakeFiles/gff.dir/src/GArgs.cpp.o: CMakeFiles/gff.dir/flags.make
 CMakeFiles/gff.dir/src/GArgs.cpp.o: ../src/GArgs.cpp
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/hirak/RapCompress/sailfish/external/libgff/build/CMakeFiles $(CMAKE_PROGRESS_2)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/hirak/quark/sailfish/external/libgff/build/CMakeFiles $(CMAKE_PROGRESS_2)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/gff.dir/src/GArgs.cpp.o"
-	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/gff.dir/src/GArgs.cpp.o -c /home/hirak/RapCompress/sailfish/external/libgff/src/GArgs.cpp
+	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/gff.dir/src/GArgs.cpp.o -c /home/hirak/quark/sailfish/external/libgff/src/GArgs.cpp
 
 CMakeFiles/gff.dir/src/GArgs.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/gff.dir/src/GArgs.cpp.i"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/hirak/RapCompress/sailfish/external/libgff/src/GArgs.cpp > CMakeFiles/gff.dir/src/GArgs.cpp.i
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/hirak/quark/sailfish/external/libgff/src/GArgs.cpp > CMakeFiles/gff.dir/src/GArgs.cpp.i
 
 CMakeFiles/gff.dir/src/GArgs.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/gff.dir/src/GArgs.cpp.s"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/hirak/RapCompress/sailfish/external/libgff/src/GArgs.cpp -o CMakeFiles/gff.dir/src/GArgs.cpp.s
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/hirak/quark/sailfish/external/libgff/src/GArgs.cpp -o CMakeFiles/gff.dir/src/GArgs.cpp.s
 
 CMakeFiles/gff.dir/src/GArgs.cpp.o.requires:
 .PHONY : CMakeFiles/gff.dir/src/GArgs.cpp.o.requires
@@ -97,17 +97,17 @@ CMakeFiles/gff.dir/src/GArgs.cpp.o.provides.build: CMakeFiles/gff.dir/src/GArgs.
 
 CMakeFiles/gff.dir/src/GBase.cpp.o: CMakeFiles/gff.dir/flags.make
 CMakeFiles/gff.dir/src/GBase.cpp.o: ../src/GBase.cpp
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/hirak/RapCompress/sailfish/external/libgff/build/CMakeFiles $(CMAKE_PROGRESS_3)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/hirak/quark/sailfish/external/libgff/build/CMakeFiles $(CMAKE_PROGRESS_3)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/gff.dir/src/GBase.cpp.o"
-	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/gff.dir/src/GBase.cpp.o -c /home/hirak/RapCompress/sailfish/external/libgff/src/GBase.cpp
+	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/gff.dir/src/GBase.cpp.o -c /home/hirak/quark/sailfish/external/libgff/src/GBase.cpp
 
 CMakeFiles/gff.dir/src/GBase.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/gff.dir/src/GBase.cpp.i"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/hirak/RapCompress/sailfish/external/libgff/src/GBase.cpp > CMakeFiles/gff.dir/src/GBase.cpp.i
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/hirak/quark/sailfish/external/libgff/src/GBase.cpp > CMakeFiles/gff.dir/src/GBase.cpp.i
 
 CMakeFiles/gff.dir/src/GBase.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/gff.dir/src/GBase.cpp.s"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/hirak/RapCompress/sailfish/external/libgff/src/GBase.cpp -o CMakeFiles/gff.dir/src/GBase.cpp.s
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/hirak/quark/sailfish/external/libgff/src/GBase.cpp -o CMakeFiles/gff.dir/src/GBase.cpp.s
 
 CMakeFiles/gff.dir/src/GBase.cpp.o.requires:
 .PHONY : CMakeFiles/gff.dir/src/GBase.cpp.o.requires
@@ -120,17 +120,17 @@ CMakeFiles/gff.dir/src/GBase.cpp.o.provides.build: CMakeFiles/gff.dir/src/GBase.
 
 CMakeFiles/gff.dir/src/gdna.cpp.o: CMakeFiles/gff.dir/flags.make
 CMakeFiles/gff.dir/src/gdna.cpp.o: ../src/gdna.cpp
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/hirak/RapCompress/sailfish/external/libgff/build/CMakeFiles $(CMAKE_PROGRESS_4)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/hirak/quark/sailfish/external/libgff/build/CMakeFiles $(CMAKE_PROGRESS_4)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/gff.dir/src/gdna.cpp.o"
-	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/gff.dir/src/gdna.cpp.o -c /home/hirak/RapCompress/sailfish/external/libgff/src/gdna.cpp
+	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/gff.dir/src/gdna.cpp.o -c /home/hirak/quark/sailfish/external/libgff/src/gdna.cpp
 
 CMakeFiles/gff.dir/src/gdna.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/gff.dir/src/gdna.cpp.i"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/hirak/RapCompress/sailfish/external/libgff/src/gdna.cpp > CMakeFiles/gff.dir/src/gdna.cpp.i
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/hirak/quark/sailfish/external/libgff/src/gdna.cpp > CMakeFiles/gff.dir/src/gdna.cpp.i
 
 CMakeFiles/gff.dir/src/gdna.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/gff.dir/src/gdna.cpp.s"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/hirak/RapCompress/sailfish/external/libgff/src/gdna.cpp -o CMakeFiles/gff.dir/src/gdna.cpp.s
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/hirak/quark/sailfish/external/libgff/src/gdna.cpp -o CMakeFiles/gff.dir/src/gdna.cpp.s
 
 CMakeFiles/gff.dir/src/gdna.cpp.o.requires:
 .PHONY : CMakeFiles/gff.dir/src/gdna.cpp.o.requires
@@ -143,17 +143,17 @@ CMakeFiles/gff.dir/src/gdna.cpp.o.provides.build: CMakeFiles/gff.dir/src/gdna.cp
 
 CMakeFiles/gff.dir/src/GFaSeqGet.cpp.o: CMakeFiles/gff.dir/flags.make
 CMakeFiles/gff.dir/src/GFaSeqGet.cpp.o: ../src/GFaSeqGet.cpp
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/hirak/RapCompress/sailfish/external/libgff/build/CMakeFiles $(CMAKE_PROGRESS_5)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/hirak/quark/sailfish/external/libgff/build/CMakeFiles $(CMAKE_PROGRESS_5)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/gff.dir/src/GFaSeqGet.cpp.o"
-	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/gff.dir/src/GFaSeqGet.cpp.o -c /home/hirak/RapCompress/sailfish/external/libgff/src/GFaSeqGet.cpp
+	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/gff.dir/src/GFaSeqGet.cpp.o -c /home/hirak/quark/sailfish/external/libgff/src/GFaSeqGet.cpp
 
 CMakeFiles/gff.dir/src/GFaSeqGet.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/gff.dir/src/GFaSeqGet.cpp.i"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/hirak/RapCompress/sailfish/external/libgff/src/GFaSeqGet.cpp > CMakeFiles/gff.dir/src/GFaSeqGet.cpp.i
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/hirak/quark/sailfish/external/libgff/src/GFaSeqGet.cpp > CMakeFiles/gff.dir/src/GFaSeqGet.cpp.i
 
 CMakeFiles/gff.dir/src/GFaSeqGet.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/gff.dir/src/GFaSeqGet.cpp.s"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/hirak/RapCompress/sailfish/external/libgff/src/GFaSeqGet.cpp -o CMakeFiles/gff.dir/src/GFaSeqGet.cpp.s
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/hirak/quark/sailfish/external/libgff/src/GFaSeqGet.cpp -o CMakeFiles/gff.dir/src/GFaSeqGet.cpp.s
 
 CMakeFiles/gff.dir/src/GFaSeqGet.cpp.o.requires:
 .PHONY : CMakeFiles/gff.dir/src/GFaSeqGet.cpp.o.requires
@@ -166,17 +166,17 @@ CMakeFiles/gff.dir/src/GFaSeqGet.cpp.o.provides.build: CMakeFiles/gff.dir/src/GF
 
 CMakeFiles/gff.dir/src/GFastaIndex.cpp.o: CMakeFiles/gff.dir/flags.make
 CMakeFiles/gff.dir/src/GFastaIndex.cpp.o: ../src/GFastaIndex.cpp
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/hirak/RapCompress/sailfish/external/libgff/build/CMakeFiles $(CMAKE_PROGRESS_6)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/hirak/quark/sailfish/external/libgff/build/CMakeFiles $(CMAKE_PROGRESS_6)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/gff.dir/src/GFastaIndex.cpp.o"
-	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/gff.dir/src/GFastaIndex.cpp.o -c /home/hirak/RapCompress/sailfish/external/libgff/src/GFastaIndex.cpp
+	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/gff.dir/src/GFastaIndex.cpp.o -c /home/hirak/quark/sailfish/external/libgff/src/GFastaIndex.cpp
 
 CMakeFiles/gff.dir/src/GFastaIndex.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/gff.dir/src/GFastaIndex.cpp.i"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/hirak/RapCompress/sailfish/external/libgff/src/GFastaIndex.cpp > CMakeFiles/gff.dir/src/GFastaIndex.cpp.i
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/hirak/quark/sailfish/external/libgff/src/GFastaIndex.cpp > CMakeFiles/gff.dir/src/GFastaIndex.cpp.i
 
 CMakeFiles/gff.dir/src/GFastaIndex.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/gff.dir/src/GFastaIndex.cpp.s"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/hirak/RapCompress/sailfish/external/libgff/src/GFastaIndex.cpp -o CMakeFiles/gff.dir/src/GFastaIndex.cpp.s
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/hirak/quark/sailfish/external/libgff/src/GFastaIndex.cpp -o CMakeFiles/gff.dir/src/GFastaIndex.cpp.s
 
 CMakeFiles/gff.dir/src/GFastaIndex.cpp.o.requires:
 .PHONY : CMakeFiles/gff.dir/src/GFastaIndex.cpp.o.requires
@@ -189,17 +189,17 @@ CMakeFiles/gff.dir/src/GFastaIndex.cpp.o.provides.build: CMakeFiles/gff.dir/src/
 
 CMakeFiles/gff.dir/src/gff.cpp.o: CMakeFiles/gff.dir/flags.make
 CMakeFiles/gff.dir/src/gff.cpp.o: ../src/gff.cpp
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/hirak/RapCompress/sailfish/external/libgff/build/CMakeFiles $(CMAKE_PROGRESS_7)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/hirak/quark/sailfish/external/libgff/build/CMakeFiles $(CMAKE_PROGRESS_7)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/gff.dir/src/gff.cpp.o"
-	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/gff.dir/src/gff.cpp.o -c /home/hirak/RapCompress/sailfish/external/libgff/src/gff.cpp
+	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/gff.dir/src/gff.cpp.o -c /home/hirak/quark/sailfish/external/libgff/src/gff.cpp
 
 CMakeFiles/gff.dir/src/gff.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/gff.dir/src/gff.cpp.i"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/hirak/RapCompress/sailfish/external/libgff/src/gff.cpp > CMakeFiles/gff.dir/src/gff.cpp.i
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/hirak/quark/sailfish/external/libgff/src/gff.cpp > CMakeFiles/gff.dir/src/gff.cpp.i
 
 CMakeFiles/gff.dir/src/gff.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/gff.dir/src/gff.cpp.s"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/hirak/RapCompress/sailfish/external/libgff/src/gff.cpp -o CMakeFiles/gff.dir/src/gff.cpp.s
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/hirak/quark/sailfish/external/libgff/src/gff.cpp -o CMakeFiles/gff.dir/src/gff.cpp.s
 
 CMakeFiles/gff.dir/src/gff.cpp.o.requires:
 .PHONY : CMakeFiles/gff.dir/src/gff.cpp.o.requires
@@ -212,17 +212,17 @@ CMakeFiles/gff.dir/src/gff.cpp.o.provides.build: CMakeFiles/gff.dir/src/gff.cpp.
 
 CMakeFiles/gff.dir/src/gff_utils.cpp.o: CMakeFiles/gff.dir/flags.make
 CMakeFiles/gff.dir/src/gff_utils.cpp.o: ../src/gff_utils.cpp
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/hirak/RapCompress/sailfish/external/libgff/build/CMakeFiles $(CMAKE_PROGRESS_8)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/hirak/quark/sailfish/external/libgff/build/CMakeFiles $(CMAKE_PROGRESS_8)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/gff.dir/src/gff_utils.cpp.o"
-	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/gff.dir/src/gff_utils.cpp.o -c /home/hirak/RapCompress/sailfish/external/libgff/src/gff_utils.cpp
+	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/gff.dir/src/gff_utils.cpp.o -c /home/hirak/quark/sailfish/external/libgff/src/gff_utils.cpp
 
 CMakeFiles/gff.dir/src/gff_utils.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/gff.dir/src/gff_utils.cpp.i"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/hirak/RapCompress/sailfish/external/libgff/src/gff_utils.cpp > CMakeFiles/gff.dir/src/gff_utils.cpp.i
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/hirak/quark/sailfish/external/libgff/src/gff_utils.cpp > CMakeFiles/gff.dir/src/gff_utils.cpp.i
 
 CMakeFiles/gff.dir/src/gff_utils.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/gff.dir/src/gff_utils.cpp.s"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/hirak/RapCompress/sailfish/external/libgff/src/gff_utils.cpp -o CMakeFiles/gff.dir/src/gff_utils.cpp.s
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/hirak/quark/sailfish/external/libgff/src/gff_utils.cpp -o CMakeFiles/gff.dir/src/gff_utils.cpp.s
 
 CMakeFiles/gff.dir/src/gff_utils.cpp.o.requires:
 .PHONY : CMakeFiles/gff.dir/src/gff_utils.cpp.o.requires
@@ -235,17 +235,17 @@ CMakeFiles/gff.dir/src/gff_utils.cpp.o.provides.build: CMakeFiles/gff.dir/src/gf
 
 CMakeFiles/gff.dir/src/GStr.cpp.o: CMakeFiles/gff.dir/flags.make
 CMakeFiles/gff.dir/src/GStr.cpp.o: ../src/GStr.cpp
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/hirak/RapCompress/sailfish/external/libgff/build/CMakeFiles $(CMAKE_PROGRESS_9)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/hirak/quark/sailfish/external/libgff/build/CMakeFiles $(CMAKE_PROGRESS_9)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/gff.dir/src/GStr.cpp.o"
-	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/gff.dir/src/GStr.cpp.o -c /home/hirak/RapCompress/sailfish/external/libgff/src/GStr.cpp
+	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/gff.dir/src/GStr.cpp.o -c /home/hirak/quark/sailfish/external/libgff/src/GStr.cpp
 
 CMakeFiles/gff.dir/src/GStr.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/gff.dir/src/GStr.cpp.i"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/hirak/RapCompress/sailfish/external/libgff/src/GStr.cpp > CMakeFiles/gff.dir/src/GStr.cpp.i
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/hirak/quark/sailfish/external/libgff/src/GStr.cpp > CMakeFiles/gff.dir/src/GStr.cpp.i
 
 CMakeFiles/gff.dir/src/GStr.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/gff.dir/src/GStr.cpp.s"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/hirak/RapCompress/sailfish/external/libgff/src/GStr.cpp -o CMakeFiles/gff.dir/src/GStr.cpp.s
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/hirak/quark/sailfish/external/libgff/src/GStr.cpp -o CMakeFiles/gff.dir/src/GStr.cpp.s
 
 CMakeFiles/gff.dir/src/GStr.cpp.o.requires:
 .PHONY : CMakeFiles/gff.dir/src/GStr.cpp.o.requires
@@ -306,6 +306,6 @@ CMakeFiles/gff.dir/clean:
 .PHONY : CMakeFiles/gff.dir/clean
 
 CMakeFiles/gff.dir/depend:
-	cd /home/hirak/RapCompress/sailfish/external/libgff/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/hirak/RapCompress/sailfish/external/libgff /home/hirak/RapCompress/sailfish/external/libgff /home/hirak/RapCompress/sailfish/external/libgff/build /home/hirak/RapCompress/sailfish/external/libgff/build /home/hirak/RapCompress/sailfish/external/libgff/build/CMakeFiles/gff.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/hirak/quark/sailfish/external/libgff/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/hirak/quark/sailfish/external/libgff /home/hirak/quark/sailfish/external/libgff /home/hirak/quark/sailfish/external/libgff/build /home/hirak/quark/sailfish/external/libgff/build /home/hirak/quark/sailfish/external/libgff/build/CMakeFiles/gff.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/gff.dir/depend
 

@@ -38,10 +38,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/hirak/RapCompress/sailfish
+CMAKE_SOURCE_DIR = /home/hirak/quark/sailfish
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/hirak/RapCompress/sailfish/build
+CMAKE_BINARY_DIR = /home/hirak/quark/sailfish/build
 
 # Utility rule file for libdivsufsort.
 
@@ -58,61 +58,61 @@ CMakeFiles/libdivsufsort-complete: libdivsufsort-prefix/src/libdivsufsort-stamp/
 CMakeFiles/libdivsufsort-complete: libdivsufsort-prefix/src/libdivsufsort-stamp/libdivsufsort-configure
 CMakeFiles/libdivsufsort-complete: libdivsufsort-prefix/src/libdivsufsort-stamp/libdivsufsort-build
 CMakeFiles/libdivsufsort-complete: libdivsufsort-prefix/src/libdivsufsort-stamp/libdivsufsort-install
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/hirak/RapCompress/sailfish/build/CMakeFiles $(CMAKE_PROGRESS_1)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/hirak/quark/sailfish/build/CMakeFiles $(CMAKE_PROGRESS_1)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold "Completed 'libdivsufsort'"
-	/usr/bin/cmake -E make_directory /home/hirak/RapCompress/sailfish/build/CMakeFiles
-	/usr/bin/cmake -E touch /home/hirak/RapCompress/sailfish/build/CMakeFiles/libdivsufsort-complete
-	/usr/bin/cmake -E touch /home/hirak/RapCompress/sailfish/build/libdivsufsort-prefix/src/libdivsufsort-stamp/libdivsufsort-done
+	/usr/bin/cmake -E make_directory /home/hirak/quark/sailfish/build/CMakeFiles
+	/usr/bin/cmake -E touch /home/hirak/quark/sailfish/build/CMakeFiles/libdivsufsort-complete
+	/usr/bin/cmake -E touch /home/hirak/quark/sailfish/build/libdivsufsort-prefix/src/libdivsufsort-stamp/libdivsufsort-done
 
 libdivsufsort-prefix/src/libdivsufsort-stamp/libdivsufsort-install: libdivsufsort-prefix/src/libdivsufsort-stamp/libdivsufsort-build
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/hirak/RapCompress/sailfish/build/CMakeFiles $(CMAKE_PROGRESS_2)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/hirak/quark/sailfish/build/CMakeFiles $(CMAKE_PROGRESS_2)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold "Performing install step for 'libdivsufsort'"
-	cd /home/hirak/RapCompress/sailfish/external/libdivsufsort-master/build && $(MAKE) install
-	cd /home/hirak/RapCompress/sailfish/external/libdivsufsort-master/build && /usr/bin/cmake -E touch /home/hirak/RapCompress/sailfish/build/libdivsufsort-prefix/src/libdivsufsort-stamp/libdivsufsort-install
+	cd /home/hirak/quark/sailfish/external/libdivsufsort-master/build && $(MAKE) install
+	cd /home/hirak/quark/sailfish/external/libdivsufsort-master/build && /usr/bin/cmake -E touch /home/hirak/quark/sailfish/build/libdivsufsort-prefix/src/libdivsufsort-stamp/libdivsufsort-install
 
 libdivsufsort-prefix/src/libdivsufsort-stamp/libdivsufsort-mkdir:
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/hirak/RapCompress/sailfish/build/CMakeFiles $(CMAKE_PROGRESS_3)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/hirak/quark/sailfish/build/CMakeFiles $(CMAKE_PROGRESS_3)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold "Creating directories for 'libdivsufsort'"
-	/usr/bin/cmake -E make_directory /home/hirak/RapCompress/sailfish/external/libdivsufsort-master
-	/usr/bin/cmake -E make_directory /home/hirak/RapCompress/sailfish/external/libdivsufsort-master/build
-	/usr/bin/cmake -E make_directory /home/hirak/RapCompress/sailfish/external/install
-	/usr/bin/cmake -E make_directory /home/hirak/RapCompress/sailfish/build/libdivsufsort-prefix/tmp
-	/usr/bin/cmake -E make_directory /home/hirak/RapCompress/sailfish/build/libdivsufsort-prefix/src/libdivsufsort-stamp
-	/usr/bin/cmake -E make_directory /home/hirak/RapCompress/sailfish/external
-	/usr/bin/cmake -E touch /home/hirak/RapCompress/sailfish/build/libdivsufsort-prefix/src/libdivsufsort-stamp/libdivsufsort-mkdir
+	/usr/bin/cmake -E make_directory /home/hirak/quark/sailfish/external/libdivsufsort-master
+	/usr/bin/cmake -E make_directory /home/hirak/quark/sailfish/external/libdivsufsort-master/build
+	/usr/bin/cmake -E make_directory /home/hirak/quark/sailfish/external/install
+	/usr/bin/cmake -E make_directory /home/hirak/quark/sailfish/build/libdivsufsort-prefix/tmp
+	/usr/bin/cmake -E make_directory /home/hirak/quark/sailfish/build/libdivsufsort-prefix/src/libdivsufsort-stamp
+	/usr/bin/cmake -E make_directory /home/hirak/quark/sailfish/external
+	/usr/bin/cmake -E touch /home/hirak/quark/sailfish/build/libdivsufsort-prefix/src/libdivsufsort-stamp/libdivsufsort-mkdir
 
 libdivsufsort-prefix/src/libdivsufsort-stamp/libdivsufsort-download: libdivsufsort-prefix/src/libdivsufsort-stamp/libdivsufsort-urlinfo.txt
 libdivsufsort-prefix/src/libdivsufsort-stamp/libdivsufsort-download: libdivsufsort-prefix/src/libdivsufsort-stamp/libdivsufsort-mkdir
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/hirak/RapCompress/sailfish/build/CMakeFiles $(CMAKE_PROGRESS_4)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/hirak/quark/sailfish/build/CMakeFiles $(CMAKE_PROGRESS_4)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold "Performing download step (verify and extract) for 'libdivsufsort'"
-	cd /home/hirak/RapCompress/sailfish/external && /usr/bin/cmake -P /home/hirak/RapCompress/sailfish/build/libdivsufsort-prefix/src/libdivsufsort-stamp/verify-libdivsufsort.cmake
-	cd /home/hirak/RapCompress/sailfish/external && /usr/bin/cmake -P /home/hirak/RapCompress/sailfish/build/libdivsufsort-prefix/src/libdivsufsort-stamp/extract-libdivsufsort.cmake
-	cd /home/hirak/RapCompress/sailfish/external && /usr/bin/cmake -E touch /home/hirak/RapCompress/sailfish/build/libdivsufsort-prefix/src/libdivsufsort-stamp/libdivsufsort-download
+	cd /home/hirak/quark/sailfish/external && /usr/bin/cmake -P /home/hirak/quark/sailfish/build/libdivsufsort-prefix/src/libdivsufsort-stamp/verify-libdivsufsort.cmake
+	cd /home/hirak/quark/sailfish/external && /usr/bin/cmake -P /home/hirak/quark/sailfish/build/libdivsufsort-prefix/src/libdivsufsort-stamp/extract-libdivsufsort.cmake
+	cd /home/hirak/quark/sailfish/external && /usr/bin/cmake -E touch /home/hirak/quark/sailfish/build/libdivsufsort-prefix/src/libdivsufsort-stamp/libdivsufsort-download
 
 libdivsufsort-prefix/src/libdivsufsort-stamp/libdivsufsort-update: libdivsufsort-prefix/src/libdivsufsort-stamp/libdivsufsort-download
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/hirak/RapCompress/sailfish/build/CMakeFiles $(CMAKE_PROGRESS_5)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/hirak/quark/sailfish/build/CMakeFiles $(CMAKE_PROGRESS_5)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold "Performing update step for 'libdivsufsort'"
-	cd /home/hirak/RapCompress/sailfish/external/libdivsufsort-master && sh -c "mkdir -p /home/hirak/RapCompress/sailfish/external/libdivsufsort-master/build"
-	cd /home/hirak/RapCompress/sailfish/external/libdivsufsort-master && /usr/bin/cmake -E touch /home/hirak/RapCompress/sailfish/build/libdivsufsort-prefix/src/libdivsufsort-stamp/libdivsufsort-update
+	cd /home/hirak/quark/sailfish/external/libdivsufsort-master && sh -c "mkdir -p /home/hirak/quark/sailfish/external/libdivsufsort-master/build"
+	cd /home/hirak/quark/sailfish/external/libdivsufsort-master && /usr/bin/cmake -E touch /home/hirak/quark/sailfish/build/libdivsufsort-prefix/src/libdivsufsort-stamp/libdivsufsort-update
 
 libdivsufsort-prefix/src/libdivsufsort-stamp/libdivsufsort-patch: libdivsufsort-prefix/src/libdivsufsort-stamp/libdivsufsort-download
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/hirak/RapCompress/sailfish/build/CMakeFiles $(CMAKE_PROGRESS_6)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/hirak/quark/sailfish/build/CMakeFiles $(CMAKE_PROGRESS_6)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold "No patch step for 'libdivsufsort'"
-	/usr/bin/cmake -E touch /home/hirak/RapCompress/sailfish/build/libdivsufsort-prefix/src/libdivsufsort-stamp/libdivsufsort-patch
+	/usr/bin/cmake -E touch /home/hirak/quark/sailfish/build/libdivsufsort-prefix/src/libdivsufsort-stamp/libdivsufsort-patch
 
 libdivsufsort-prefix/src/libdivsufsort-stamp/libdivsufsort-configure: libdivsufsort-prefix/tmp/libdivsufsort-cfgcmd.txt
 libdivsufsort-prefix/src/libdivsufsort-stamp/libdivsufsort-configure: libdivsufsort-prefix/src/libdivsufsort-stamp/libdivsufsort-update
 libdivsufsort-prefix/src/libdivsufsort-stamp/libdivsufsort-configure: libdivsufsort-prefix/src/libdivsufsort-stamp/libdivsufsort-patch
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/hirak/RapCompress/sailfish/build/CMakeFiles $(CMAKE_PROGRESS_7)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/hirak/quark/sailfish/build/CMakeFiles $(CMAKE_PROGRESS_7)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold "Performing configure step for 'libdivsufsort'"
-	cd /home/hirak/RapCompress/sailfish/external/libdivsufsort-master/build && /usr/bin/cmake -DCMAKE_INSTALL_PREFIX:PATH=/home/hirak/RapCompress/sailfish/external/install -DBUILD_DIVSUFSORT64=TRUE -DUSE_OPENMP=TRUE -DBUILD_SHARED_LIBS=FALSE "-GUnix Makefiles" /home/hirak/RapCompress/sailfish/external/libdivsufsort-master
-	cd /home/hirak/RapCompress/sailfish/external/libdivsufsort-master/build && /usr/bin/cmake -E touch /home/hirak/RapCompress/sailfish/build/libdivsufsort-prefix/src/libdivsufsort-stamp/libdivsufsort-configure
+	cd /home/hirak/quark/sailfish/external/libdivsufsort-master/build && /usr/bin/cmake -DCMAKE_INSTALL_PREFIX:PATH=/home/hirak/quark/sailfish/external/install -DBUILD_DIVSUFSORT64=TRUE -DUSE_OPENMP=TRUE -DBUILD_SHARED_LIBS=FALSE "-GUnix Makefiles" /home/hirak/quark/sailfish/external/libdivsufsort-master
+	cd /home/hirak/quark/sailfish/external/libdivsufsort-master/build && /usr/bin/cmake -E touch /home/hirak/quark/sailfish/build/libdivsufsort-prefix/src/libdivsufsort-stamp/libdivsufsort-configure
 
 libdivsufsort-prefix/src/libdivsufsort-stamp/libdivsufsort-build: libdivsufsort-prefix/src/libdivsufsort-stamp/libdivsufsort-configure
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/hirak/RapCompress/sailfish/build/CMakeFiles $(CMAKE_PROGRESS_8)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/hirak/quark/sailfish/build/CMakeFiles $(CMAKE_PROGRESS_8)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold "Performing build step for 'libdivsufsort'"
-	cd /home/hirak/RapCompress/sailfish/external/libdivsufsort-master/build && $(MAKE)
-	cd /home/hirak/RapCompress/sailfish/external/libdivsufsort-master/build && /usr/bin/cmake -E touch /home/hirak/RapCompress/sailfish/build/libdivsufsort-prefix/src/libdivsufsort-stamp/libdivsufsort-build
+	cd /home/hirak/quark/sailfish/external/libdivsufsort-master/build && $(MAKE)
+	cd /home/hirak/quark/sailfish/external/libdivsufsort-master/build && /usr/bin/cmake -E touch /home/hirak/quark/sailfish/build/libdivsufsort-prefix/src/libdivsufsort-stamp/libdivsufsort-build
 
 libdivsufsort: CMakeFiles/libdivsufsort
 libdivsufsort: CMakeFiles/libdivsufsort-complete
@@ -135,6 +135,6 @@ CMakeFiles/libdivsufsort.dir/clean:
 .PHONY : CMakeFiles/libdivsufsort.dir/clean
 
 CMakeFiles/libdivsufsort.dir/depend:
-	cd /home/hirak/RapCompress/sailfish/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/hirak/RapCompress/sailfish /home/hirak/RapCompress/sailfish /home/hirak/RapCompress/sailfish/build /home/hirak/RapCompress/sailfish/build /home/hirak/RapCompress/sailfish/build/CMakeFiles/libdivsufsort.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/hirak/quark/sailfish/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/hirak/quark/sailfish /home/hirak/quark/sailfish /home/hirak/quark/sailfish/build /home/hirak/quark/sailfish/build /home/hirak/quark/sailfish/build/CMakeFiles/libdivsufsort.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/libdivsufsort.dir/depend
 

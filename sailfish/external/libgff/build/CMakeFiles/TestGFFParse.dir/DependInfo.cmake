@@ -4,13 +4,13 @@ SET(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 SET(CMAKE_DEPENDS_CHECK_CXX
-  "/home/hirak/RapCompress/sailfish/external/libgff/src/TestGFFParse.cpp" "/home/hirak/RapCompress/sailfish/external/libgff/build/CMakeFiles/TestGFFParse.dir/src/TestGFFParse.cpp.o"
+  "/home/hirak/quark/sailfish/external/libgff/src/TestGFFParse.cpp" "/home/hirak/quark/sailfish/external/libgff/build/CMakeFiles/TestGFFParse.dir/src/TestGFFParse.cpp.o"
   )
 SET(CMAKE_CXX_COMPILER_ID "GNU")
 
 # Targets to which this target links.
 SET(CMAKE_TARGET_LINKED_INFO_FILES
-  "/home/hirak/RapCompress/sailfish/external/libgff/build/CMakeFiles/gff.dir/DependInfo.cmake"
+  "/home/hirak/quark/sailfish/external/libgff/build/CMakeFiles/gff.dir/DependInfo.cmake"
   )
 
 # The include file search paths:

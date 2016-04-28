@@ -4,15 +4,15 @@ SET(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 SET(CMAKE_DEPENDS_CHECK_CXX
-  "/home/hirak/RapCompress/sailfish/external/libgff/src/GArgs.cpp" "/home/hirak/RapCompress/sailfish/external/libgff/build/CMakeFiles/gff.dir/src/GArgs.cpp.o"
-  "/home/hirak/RapCompress/sailfish/external/libgff/src/GBase.cpp" "/home/hirak/RapCompress/sailfish/external/libgff/build/CMakeFiles/gff.dir/src/GBase.cpp.o"
-  "/home/hirak/RapCompress/sailfish/external/libgff/src/GFaSeqGet.cpp" "/home/hirak/RapCompress/sailfish/external/libgff/build/CMakeFiles/gff.dir/src/GFaSeqGet.cpp.o"
-  "/home/hirak/RapCompress/sailfish/external/libgff/src/GFastaIndex.cpp" "/home/hirak/RapCompress/sailfish/external/libgff/build/CMakeFiles/gff.dir/src/GFastaIndex.cpp.o"
-  "/home/hirak/RapCompress/sailfish/external/libgff/src/GStr.cpp" "/home/hirak/RapCompress/sailfish/external/libgff/build/CMakeFiles/gff.dir/src/GStr.cpp.o"
-  "/home/hirak/RapCompress/sailfish/external/libgff/src/codons.cpp" "/home/hirak/RapCompress/sailfish/external/libgff/build/CMakeFiles/gff.dir/src/codons.cpp.o"
-  "/home/hirak/RapCompress/sailfish/external/libgff/src/gdna.cpp" "/home/hirak/RapCompress/sailfish/external/libgff/build/CMakeFiles/gff.dir/src/gdna.cpp.o"
-  "/home/hirak/RapCompress/sailfish/external/libgff/src/gff.cpp" "/home/hirak/RapCompress/sailfish/external/libgff/build/CMakeFiles/gff.dir/src/gff.cpp.o"
-  "/home/hirak/RapCompress/sailfish/external/libgff/src/gff_utils.cpp" "/home/hirak/RapCompress/sailfish/external/libgff/build/CMakeFiles/gff.dir/src/gff_utils.cpp.o"
+  "/home/hirak/quark/sailfish/external/libgff/src/GArgs.cpp" "/home/hirak/quark/sailfish/external/libgff/build/CMakeFiles/gff.dir/src/GArgs.cpp.o"
+  "/home/hirak/quark/sailfish/external/libgff/src/GBase.cpp" "/home/hirak/quark/sailfish/external/libgff/build/CMakeFiles/gff.dir/src/GBase.cpp.o"
+  "/home/hirak/quark/sailfish/external/libgff/src/GFaSeqGet.cpp" "/home/hirak/quark/sailfish/external/libgff/build/CMakeFiles/gff.dir/src/GFaSeqGet.cpp.o"
+  "/home/hirak/quark/sailfish/external/libgff/src/GFastaIndex.cpp" "/home/hirak/quark/sailfish/external/libgff/build/CMakeFiles/gff.dir/src/GFastaIndex.cpp.o"
+  "/home/hirak/quark/sailfish/external/libgff/src/GStr.cpp" "/home/hirak/quark/sailfish/external/libgff/build/CMakeFiles/gff.dir/src/GStr.cpp.o"
+  "/home/hirak/quark/sailfish/external/libgff/src/codons.cpp" "/home/hirak/quark/sailfish/external/libgff/build/CMakeFiles/gff.dir/src/codons.cpp.o"
+  "/home/hirak/quark/sailfish/external/libgff/src/gdna.cpp" "/home/hirak/quark/sailfish/external/libgff/build/CMakeFiles/gff.dir/src/gdna.cpp.o"
+  "/home/hirak/quark/sailfish/external/libgff/src/gff.cpp" "/home/hirak/quark/sailfish/external/libgff/build/CMakeFiles/gff.dir/src/gff.cpp.o"
+  "/home/hirak/quark/sailfish/external/libgff/src/gff_utils.cpp" "/home/hirak/quark/sailfish/external/libgff/build/CMakeFiles/gff.dir/src/gff_utils.cpp.o"
   )
 SET(CMAKE_CXX_COMPILER_ID "GNU")
 

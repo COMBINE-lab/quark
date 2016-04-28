@@ -47,10 +47,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/hirak/RapCompress/sailfish/external/libgff
+CMAKE_SOURCE_DIR = /home/hirak/quark/sailfish/external/libgff
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/hirak/RapCompress/sailfish/external/libgff/build
+CMAKE_BINARY_DIR = /home/hirak/quark/sailfish/external/libgff/build
 
 #=============================================================================
 # Target rules for target CMakeFiles/TestGFFParse.dir
@@ -59,7 +59,7 @@ CMAKE_BINARY_DIR = /home/hirak/RapCompress/sailfish/external/libgff/build
 CMakeFiles/TestGFFParse.dir/all: CMakeFiles/gff.dir/all
 	$(MAKE) -f CMakeFiles/TestGFFParse.dir/build.make CMakeFiles/TestGFFParse.dir/depend
 	$(MAKE) -f CMakeFiles/TestGFFParse.dir/build.make CMakeFiles/TestGFFParse.dir/build
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/hirak/RapCompress/sailfish/external/libgff/build/CMakeFiles  1
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/hirak/quark/sailfish/external/libgff/build/CMakeFiles  1
 	@echo "Built target TestGFFParse"
 .PHONY : CMakeFiles/TestGFFParse.dir/all
 
@@ -69,9 +69,9 @@ all: CMakeFiles/TestGFFParse.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/TestGFFParse.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/hirak/RapCompress/sailfish/external/libgff/build/CMakeFiles 10
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/hirak/quark/sailfish/external/libgff/build/CMakeFiles 10
 	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/TestGFFParse.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/hirak/RapCompress/sailfish/external/libgff/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/hirak/quark/sailfish/external/libgff/build/CMakeFiles 0
 .PHONY : CMakeFiles/TestGFFParse.dir/rule
 
 # Convenience name for target.
@@ -94,7 +94,7 @@ clean: CMakeFiles/TestGFFParse.dir/clean
 CMakeFiles/gff.dir/all:
 	$(MAKE) -f CMakeFiles/gff.dir/build.make CMakeFiles/gff.dir/depend
 	$(MAKE) -f CMakeFiles/gff.dir/build.make CMakeFiles/gff.dir/build
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/hirak/RapCompress/sailfish/external/libgff/build/CMakeFiles  2 3 4 5 6 7 8 9 10
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/hirak/quark/sailfish/external/libgff/build/CMakeFiles  2 3 4 5 6 7 8 9 10
 	@echo "Built target gff"
 .PHONY : CMakeFiles/gff.dir/all
 
@@ -104,9 +104,9 @@ all: CMakeFiles/gff.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/gff.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/hirak/RapCompress/sailfish/external/libgff/build/CMakeFiles 9
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/hirak/quark/sailfish/external/libgff/build/CMakeFiles 9
 	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/gff.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/hirak/RapCompress/sailfish/external/libgff/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/hirak/quark/sailfish/external/libgff/build/CMakeFiles 0
 .PHONY : CMakeFiles/gff.dir/rule
 
 # Convenience name for target.

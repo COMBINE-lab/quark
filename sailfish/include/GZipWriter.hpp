@@ -22,7 +22,8 @@ class GZipWriter {
 
     bool writeEquivCounts(
         const SailfishOpts& opts,
-        ReadExperiment& experiment);
+        ReadExperiment& experiment,
+        std::vector<std::vector<std::string> >& unmapped);
 
     bool writeMeta(
 	const SailfishOpts& opts,

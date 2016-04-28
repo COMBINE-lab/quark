@@ -38,4 +38,4 @@ dlopen=''
 dlpreopen=''
 
 # Directory that this library needs to be installed in:
-libdir='/home/hirak/RapCompress/sailfish/external/install/lib'
+libdir='/home/hirak/quark/sailfish/external/install/lib'

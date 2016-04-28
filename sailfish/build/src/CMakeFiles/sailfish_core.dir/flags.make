@@ -3,11 +3,11 @@
 
 # compile C with /usr/bin/cc
 # compile CXX with /usr/bin/c++
-C_FLAGS = -I/home/hirak/RapCompress/sailfish/tests -I/home/hirak/RapCompress/sailfish/include -I/home/hirak/RapCompress/sailfish/include/eigen3 -I/home/hirak/RapCompress/sailfish/external -I/home/hirak/RapCompress/sailfish/external/cereal/include -I/home/hirak/RapCompress/sailfish/external/install/include -I/home/hirak/RapCompress/sailfish/external/install/include/rapmap -I/home/hirak/RapCompress/sailfish/external/install/include/jellyfish-2.2.3 -I/usr/local/include   
+C_FLAGS = -I/home/hirak/quark/sailfish/tests -I/home/hirak/quark/sailfish/include -I/home/hirak/quark/sailfish/include/eigen3 -I/home/hirak/quark/sailfish/external -I/home/hirak/quark/sailfish/external/cereal/include -I/home/hirak/quark/sailfish/external/install/include -I/home/hirak/quark/sailfish/external/install/include/rapmap -I/home/hirak/quark/sailfish/external/install/include/jellyfish-2.2.3 -I/usr/local/include   
 
 C_DEFINES = 
 
-CXX_FLAGS = -pthread -funroll-loops -fPIC -fomit-frame-pointer -Ofast -DHAVE_ANSI_TERM -DHAVE_SSTREAM -DRAPMAP_SALMON_SUPPORT -Wall -std=c++11 -Wreturn-type -Werror=return-type -static-libstdc++ -Wno-deprecated-register -Wno-unused-local-typedefs -I/home/hirak/RapCompress/sailfish/tests -I/home/hirak/RapCompress/sailfish/include -I/home/hirak/RapCompress/sailfish/include/eigen3 -I/home/hirak/RapCompress/sailfish/external -I/home/hirak/RapCompress/sailfish/external/cereal/include -I/home/hirak/RapCompress/sailfish/external/install/include -I/home/hirak/RapCompress/sailfish/external/install/include/rapmap -I/home/hirak/RapCompress/sailfish/external/install/include/jellyfish-2.2.3 -I/usr/local/include   
+CXX_FLAGS = -pthread -funroll-loops -fPIC -fomit-frame-pointer -Ofast -DHAVE_ANSI_TERM -DHAVE_SSTREAM -DRAPMAP_SALMON_SUPPORT -Wall -std=c++11 -Wreturn-type -Werror=return-type -static-libstdc++ -Wno-deprecated-register -Wno-unused-local-typedefs -I/home/hirak/quark/sailfish/tests -I/home/hirak/quark/sailfish/include -I/home/hirak/quark/sailfish/include/eigen3 -I/home/hirak/quark/sailfish/external -I/home/hirak/quark/sailfish/external/cereal/include -I/home/hirak/quark/sailfish/external/install/include -I/home/hirak/quark/sailfish/external/install/include/rapmap -I/home/hirak/quark/sailfish/external/install/include/jellyfish-2.2.3 -I/usr/local/include   
 
 CXX_DEFINES = 
 

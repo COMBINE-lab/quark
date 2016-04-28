@@ -1,8 +1,8 @@
-# Install script for directory: /home/hirak/RapCompress/sailfish/src
+# Install script for directory: /home/hirak/quark/sailfish/src
 
 # Set the install prefix
 IF(NOT DEFINED CMAKE_INSTALL_PREFIX)
-  SET(CMAKE_INSTALL_PREFIX "/home/hirak/RapCompress/sailfish")
+  SET(CMAKE_INSTALL_PREFIX "/home/hirak/quark/sailfish")
 ENDIF(NOT DEFINED CMAKE_INSTALL_PREFIX)
 STRING(REGEX REPLACE "/$" "" CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
 
@@ -33,11 +33,11 @@ IF(NOT DEFINED CMAKE_INSTALL_SO_NO_EXE)
 ENDIF(NOT DEFINED CMAKE_INSTALL_SO_NO_EXE)
 
 IF(NOT CMAKE_INSTALL_COMPONENT OR "${CMAKE_INSTALL_COMPONENT}" STREQUAL "Unspecified")
-  FILE(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib" TYPE DIRECTORY FILES "/home/hirak/RapCompress/sailfish/external/install/lib/" FILES_MATCHING REGEX "/libtbb[^/]*\\.so[^/]*$")
+  FILE(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib" TYPE DIRECTORY FILES "/home/hirak/quark/sailfish/external/install/lib/" FILES_MATCHING REGEX "/libtbb[^/]*\\.so[^/]*$")
 ENDIF(NOT CMAKE_INSTALL_COMPONENT OR "${CMAKE_INSTALL_COMPONENT}" STREQUAL "Unspecified")
 
 IF(NOT CMAKE_INSTALL_COMPONENT OR "${CMAKE_INSTALL_COMPONENT}" STREQUAL "Unspecified")
-  FILE(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/bin" TYPE EXECUTABLE FILES "/home/hirak/RapCompress/sailfish/build/src/sailfish")
+  FILE(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/bin" TYPE EXECUTABLE FILES "/home/hirak/quark/sailfish/build/src/sailfish")
   IF(EXISTS "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/bin/sailfish" AND
      NOT IS_SYMLINK "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/bin/sailfish")
     IF(CMAKE_INSTALL_DO_STRIP)
@@ -47,11 +47,11 @@ IF(NOT CMAKE_INSTALL_COMPONENT OR "${CMAKE_INSTALL_COMPONENT}" STREQUAL "Unspeci
 ENDIF(NOT CMAKE_INSTALL_COMPONENT OR "${CMAKE_INSTALL_COMPONENT}" STREQUAL "Unspecified")
 
 IF(NOT CMAKE_INSTALL_COMPONENT OR "${CMAKE_INSTALL_COMPONENT}" STREQUAL "Unspecified")
-  FILE(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib" TYPE STATIC_LIBRARY FILES "/home/hirak/RapCompress/sailfish/build/src/libsailfish_core.a")
+  FILE(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib" TYPE STATIC_LIBRARY FILES "/home/hirak/quark/sailfish/build/src/libsailfish_core.a")
 ENDIF(NOT CMAKE_INSTALL_COMPONENT OR "${CMAKE_INSTALL_COMPONENT}" STREQUAL "Unspecified")
 
 IF(NOT CMAKE_INSTALL_COMPONENT OR "${CMAKE_INSTALL_COMPONENT}" STREQUAL "Unspecified")
-  FILE(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/tests" TYPE EXECUTABLE FILES "/home/hirak/RapCompress/sailfish/build/src/unitTests")
+  FILE(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/tests" TYPE EXECUTABLE FILES "/home/hirak/quark/sailfish/build/src/unitTests")
   IF(EXISTS "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/tests/unitTests" AND
      NOT IS_SYMLINK "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/tests/unitTests")
     IF(CMAKE_INSTALL_DO_STRIP)
@@ -64,8 +64,8 @@ IF(NOT CMAKE_INSTALL_COMPONENT OR "${CMAKE_INSTALL_COMPONENT}" STREQUAL "Unspeci
   
     execute_process(COMMAND "/usr/bin/cmake"
                             -DCMAKE_SYSTEM_NAME=Linux
-                            -DCMAKE_INSTALL_PREFIX=/home/hirak/RapCompress/sailfish 
-                            -P "/home/hirak/RapCompress/sailfish/cmake/PostInstall.cmake")
+                            -DCMAKE_INSTALL_PREFIX=/home/hirak/quark/sailfish 
+                            -P "/home/hirak/quark/sailfish/cmake/PostInstall.cmake")
     
 ENDIF(NOT CMAKE_INSTALL_COMPONENT OR "${CMAKE_INSTALL_COMPONENT}" STREQUAL "Unspecified")
 

@@ -1,7 +1,7 @@
 # Make file names absolute:
 #
-get_filename_component(filename "/home/hirak/RapCompress/sailfish/external/libdivsufsort.zip" ABSOLUTE)
-get_filename_component(directory "/home/hirak/RapCompress/sailfish/external/libdivsufsort-master" ABSOLUTE)
+get_filename_component(filename "/home/hirak/quark/sailfish/external/libdivsufsort.zip" ABSOLUTE)
+get_filename_component(directory "/home/hirak/quark/sailfish/external/libdivsufsort-master" ABSOLUTE)
 
 message(STATUS "extracting...
      src='${filename}'

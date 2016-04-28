@@ -38,10 +38,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/hirak/RapCompress/sailfish
+CMAKE_SOURCE_DIR = /home/hirak/quark/sailfish
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/hirak/RapCompress/sailfish/build
+CMAKE_BINARY_DIR = /home/hirak/quark/sailfish/build
 
 # Utility rule file for libgff.
 
@@ -58,59 +58,59 @@ CMakeFiles/libgff-complete: libgff-prefix/src/libgff-stamp/libgff-patch
 CMakeFiles/libgff-complete: libgff-prefix/src/libgff-stamp/libgff-configure
 CMakeFiles/libgff-complete: libgff-prefix/src/libgff-stamp/libgff-build
 CMakeFiles/libgff-complete: libgff-prefix/src/libgff-stamp/libgff-install
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/hirak/RapCompress/sailfish/build/CMakeFiles $(CMAKE_PROGRESS_1)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/hirak/quark/sailfish/build/CMakeFiles $(CMAKE_PROGRESS_1)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold "Completed 'libgff'"
-	/usr/bin/cmake -E make_directory /home/hirak/RapCompress/sailfish/build/CMakeFiles
-	/usr/bin/cmake -E touch /home/hirak/RapCompress/sailfish/build/CMakeFiles/libgff-complete
-	/usr/bin/cmake -E touch /home/hirak/RapCompress/sailfish/build/libgff-prefix/src/libgff-stamp/libgff-done
+	/usr/bin/cmake -E make_directory /home/hirak/quark/sailfish/build/CMakeFiles
+	/usr/bin/cmake -E touch /home/hirak/quark/sailfish/build/CMakeFiles/libgff-complete
+	/usr/bin/cmake -E touch /home/hirak/quark/sailfish/build/libgff-prefix/src/libgff-stamp/libgff-done
 
 libgff-prefix/src/libgff-stamp/libgff-install: libgff-prefix/src/libgff-stamp/libgff-build
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/hirak/RapCompress/sailfish/build/CMakeFiles $(CMAKE_PROGRESS_2)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/hirak/quark/sailfish/build/CMakeFiles $(CMAKE_PROGRESS_2)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold "Performing install step for 'libgff'"
-	cd /home/hirak/RapCompress/sailfish/external/libgff/build && $(MAKE) install
-	cd /home/hirak/RapCompress/sailfish/external/libgff/build && /usr/bin/cmake -E touch /home/hirak/RapCompress/sailfish/build/libgff-prefix/src/libgff-stamp/libgff-install
+	cd /home/hirak/quark/sailfish/external/libgff/build && $(MAKE) install
+	cd /home/hirak/quark/sailfish/external/libgff/build && /usr/bin/cmake -E touch /home/hirak/quark/sailfish/build/libgff-prefix/src/libgff-stamp/libgff-install
 
 libgff-prefix/src/libgff-stamp/libgff-mkdir:
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/hirak/RapCompress/sailfish/build/CMakeFiles $(CMAKE_PROGRESS_3)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/hirak/quark/sailfish/build/CMakeFiles $(CMAKE_PROGRESS_3)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold "Creating directories for 'libgff'"
-	/usr/bin/cmake -E make_directory /home/hirak/RapCompress/sailfish/external/libgff
-	/usr/bin/cmake -E make_directory /home/hirak/RapCompress/sailfish/external/libgff/build
-	/usr/bin/cmake -E make_directory /home/hirak/RapCompress/sailfish/external/install
-	/usr/bin/cmake -E make_directory /home/hirak/RapCompress/sailfish/build/libgff-prefix/tmp
-	/usr/bin/cmake -E make_directory /home/hirak/RapCompress/sailfish/build/libgff-prefix/src/libgff-stamp
-	/usr/bin/cmake -E make_directory /home/hirak/RapCompress/sailfish/external
-	/usr/bin/cmake -E touch /home/hirak/RapCompress/sailfish/build/libgff-prefix/src/libgff-stamp/libgff-mkdir
+	/usr/bin/cmake -E make_directory /home/hirak/quark/sailfish/external/libgff
+	/usr/bin/cmake -E make_directory /home/hirak/quark/sailfish/external/libgff/build
+	/usr/bin/cmake -E make_directory /home/hirak/quark/sailfish/external/install
+	/usr/bin/cmake -E make_directory /home/hirak/quark/sailfish/build/libgff-prefix/tmp
+	/usr/bin/cmake -E make_directory /home/hirak/quark/sailfish/build/libgff-prefix/src/libgff-stamp
+	/usr/bin/cmake -E make_directory /home/hirak/quark/sailfish/external
+	/usr/bin/cmake -E touch /home/hirak/quark/sailfish/build/libgff-prefix/src/libgff-stamp/libgff-mkdir
 
 libgff-prefix/src/libgff-stamp/libgff-download: libgff-prefix/src/libgff-stamp/libgff-mkdir
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/hirak/RapCompress/sailfish/build/CMakeFiles $(CMAKE_PROGRESS_4)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/hirak/quark/sailfish/build/CMakeFiles $(CMAKE_PROGRESS_4)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold "Performing download step for 'libgff'"
-	cd /home/hirak/RapCompress/sailfish/external && curl -k -L https://github.com/Kingsford-Group/libgff/archive/v1.0.tar.gz -o libgff.tgz && tar -xzvf libgff.tgz && rm -fr libgff && mv libgff-1.0 libgff
-	cd /home/hirak/RapCompress/sailfish/external && /usr/bin/cmake -E touch /home/hirak/RapCompress/sailfish/build/libgff-prefix/src/libgff-stamp/libgff-download
+	cd /home/hirak/quark/sailfish/external && curl -k -L https://github.com/Kingsford-Group/libgff/archive/v1.0.tar.gz -o libgff.tgz && tar -xzvf libgff.tgz && rm -fr libgff && mv libgff-1.0 libgff
+	cd /home/hirak/quark/sailfish/external && /usr/bin/cmake -E touch /home/hirak/quark/sailfish/build/libgff-prefix/src/libgff-stamp/libgff-download
 
 libgff-prefix/src/libgff-stamp/libgff-update: libgff-prefix/src/libgff-stamp/libgff-download
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/hirak/RapCompress/sailfish/build/CMakeFiles $(CMAKE_PROGRESS_5)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/hirak/quark/sailfish/build/CMakeFiles $(CMAKE_PROGRESS_5)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold "Performing update step for 'libgff'"
-	cd /home/hirak/RapCompress/sailfish/external/libgff && sh -c "mkdir -p /home/hirak/RapCompress/sailfish/external/libgff/build"
-	cd /home/hirak/RapCompress/sailfish/external/libgff && /usr/bin/cmake -E touch /home/hirak/RapCompress/sailfish/build/libgff-prefix/src/libgff-stamp/libgff-update
+	cd /home/hirak/quark/sailfish/external/libgff && sh -c "mkdir -p /home/hirak/quark/sailfish/external/libgff/build"
+	cd /home/hirak/quark/sailfish/external/libgff && /usr/bin/cmake -E touch /home/hirak/quark/sailfish/build/libgff-prefix/src/libgff-stamp/libgff-update
 
 libgff-prefix/src/libgff-stamp/libgff-patch: libgff-prefix/src/libgff-stamp/libgff-download
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/hirak/RapCompress/sailfish/build/CMakeFiles $(CMAKE_PROGRESS_6)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/hirak/quark/sailfish/build/CMakeFiles $(CMAKE_PROGRESS_6)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold "No patch step for 'libgff'"
-	/usr/bin/cmake -E touch /home/hirak/RapCompress/sailfish/build/libgff-prefix/src/libgff-stamp/libgff-patch
+	/usr/bin/cmake -E touch /home/hirak/quark/sailfish/build/libgff-prefix/src/libgff-stamp/libgff-patch
 
 libgff-prefix/src/libgff-stamp/libgff-configure: libgff-prefix/tmp/libgff-cfgcmd.txt
 libgff-prefix/src/libgff-stamp/libgff-configure: libgff-prefix/src/libgff-stamp/libgff-update
 libgff-prefix/src/libgff-stamp/libgff-configure: libgff-prefix/src/libgff-stamp/libgff-patch
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/hirak/RapCompress/sailfish/build/CMakeFiles $(CMAKE_PROGRESS_7)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/hirak/quark/sailfish/build/CMakeFiles $(CMAKE_PROGRESS_7)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold "Performing configure step for 'libgff'"
-	cd /home/hirak/RapCompress/sailfish/external/libgff/build && /usr/bin/cmake -DCMAKE_INSTALL_PREFIX:PATH=/home/hirak/RapCompress/sailfish/external/install "-GUnix Makefiles" /home/hirak/RapCompress/sailfish/external/libgff
-	cd /home/hirak/RapCompress/sailfish/external/libgff/build && /usr/bin/cmake -E touch /home/hirak/RapCompress/sailfish/build/libgff-prefix/src/libgff-stamp/libgff-configure
+	cd /home/hirak/quark/sailfish/external/libgff/build && /usr/bin/cmake -DCMAKE_INSTALL_PREFIX:PATH=/home/hirak/quark/sailfish/external/install "-GUnix Makefiles" /home/hirak/quark/sailfish/external/libgff
+	cd /home/hirak/quark/sailfish/external/libgff/build && /usr/bin/cmake -E touch /home/hirak/quark/sailfish/build/libgff-prefix/src/libgff-stamp/libgff-configure
 
 libgff-prefix/src/libgff-stamp/libgff-build: libgff-prefix/src/libgff-stamp/libgff-configure
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/hirak/RapCompress/sailfish/build/CMakeFiles $(CMAKE_PROGRESS_8)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/hirak/quark/sailfish/build/CMakeFiles $(CMAKE_PROGRESS_8)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold "Performing build step for 'libgff'"
-	cd /home/hirak/RapCompress/sailfish/external/libgff/build && $(MAKE)
-	cd /home/hirak/RapCompress/sailfish/external/libgff/build && /usr/bin/cmake -E touch /home/hirak/RapCompress/sailfish/build/libgff-prefix/src/libgff-stamp/libgff-build
+	cd /home/hirak/quark/sailfish/external/libgff/build && $(MAKE)
+	cd /home/hirak/quark/sailfish/external/libgff/build && /usr/bin/cmake -E touch /home/hirak/quark/sailfish/build/libgff-prefix/src/libgff-stamp/libgff-build
 
 libgff: CMakeFiles/libgff
 libgff: CMakeFiles/libgff-complete
@@ -133,6 +133,6 @@ CMakeFiles/libgff.dir/clean:
 .PHONY : CMakeFiles/libgff.dir/clean
 
 CMakeFiles/libgff.dir/depend:
-	cd /home/hirak/RapCompress/sailfish/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/hirak/RapCompress/sailfish /home/hirak/RapCompress/sailfish /home/hirak/RapCompress/sailfish/build /home/hirak/RapCompress/sailfish/build /home/hirak/RapCompress/sailfish/build/CMakeFiles/libgff.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/hirak/quark/sailfish/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/hirak/quark/sailfish /home/hirak/quark/sailfish /home/hirak/quark/sailfish/build /home/hirak/quark/sailfish/build /home/hirak/quark/sailfish/build/CMakeFiles/libgff.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/libgff.dir/depend
 

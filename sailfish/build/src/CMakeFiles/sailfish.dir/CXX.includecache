@@ -2010,7 +2010,7 @@ details/spdlog_impl.h
 stddef.h
 -
 
-/home/hirak/RapCompress/sailfish/src/Sailfish.cpp
+/home/hirak/quark/sailfish/src/Sailfish.cpp
 boost/thread/thread.hpp
 -
 boost/lockfree/queue.hpp
@@ -2046,7 +2046,7 @@ chrono
 iomanip
 -
 cereal/archives/binary.hpp
-/home/hirak/RapCompress/sailfish/src/cereal/archives/binary.hpp
+/home/hirak/quark/sailfish/src/cereal/archives/binary.hpp
 boost/program_options.hpp
 -
 boost/program_options/parsers.hpp
@@ -2056,9 +2056,9 @@ boost/range/irange.hpp
 boost/filesystem.hpp
 -
 SailfishUtils.hpp
-/home/hirak/RapCompress/sailfish/src/SailfishUtils.hpp
+/home/hirak/quark/sailfish/src/SailfishUtils.hpp
 SailfishConfig.hpp
-/home/hirak/RapCompress/sailfish/src/SailfishConfig.hpp
+/home/hirak/quark/sailfish/src/SailfishConfig.hpp
 VersionChecker.hpp
-/home/hirak/RapCompress/sailfish/src/VersionChecker.hpp
+/home/hirak/quark/sailfish/src/VersionChecker.hpp
 
