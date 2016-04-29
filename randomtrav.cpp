@@ -8,6 +8,7 @@
 #include <list>
 #include <set>
 #include <boost/functional/hash.hpp>
+#include <boost/filesystem.hpp>
 #include <ctime>
 #include <cstdlib>
 #include <algorithm>
@@ -193,7 +194,10 @@ int main(int argc,char *argv[]){
     std::cout<<"\n Writing read ids in DFS order \n";
 	std::ofstream ofs;
 	ofs.open(argv[3], std::ofstream::out);
-    std::string tmpFile = "tmpeq.aux";
+    boost::filesystem::path p(argv[3]);
+    boost::filesystem::path outdir = p.parent_path();
+    std::string tmpFile = outdir.string() + std::string("/tmpeq.aux");
+    std::cout<<"\n Cardinality of eq classes written in "<<tmpFile<<"\n";
     std::ofstream oftmp ;
     oftmp.open(tmpFile, std::ofstream::out) ;
 

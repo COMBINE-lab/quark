@@ -1,3 +1,15 @@
+#*****************************************************************************
+# Take equivalence classes and make graph out of it
+# Input : Eq Class
+# Output: 1. A .net file with the graph
+# 2. A file containing read ids with eq2readID.txt with the following
+# format,
+# <eq class id>
+# <number of read ids>
+# <id1>
+# <id2>
+# ...
+#****************************************************************************
 from functools import partial
 import numpy as np
 import cPickle as pickle
@@ -37,31 +49,37 @@ class EquivCollection(object):
         else:
             self.eqClasses[tids] = count
 
-def readEqClass(eqfile, eqCollection):
-    with open(eqfile) as ifile:
-        numTran = int(ifile.readline().rstrip())
-        numEq = int(ifile.readline().rstrip())
-        print("file: {}; # tran = {}; # eq = {}".format(eqfile, numTran, numEq))
-        if not eqCollection.hasNames:
-            tnames = []
-            for i in xrange(numTran):
-                tnames.append(ifile.readline().rstrip())
-            eqCollection.setNames(tnames)
-        else:
-            for i in xrange(numTran):
-                ifile.readline()
+def readEqClass(eqfile, eqCollection, oFile):
+    with open(oFile,'w') as wfile:
+        with open(eqfile) as ifile:
+            numTran = int(ifile.readline().rstrip())
+            numEq = int(ifile.readline().rstrip())
+            print("file: {}; # tran = {}; # eq = {}".format(eqfile, numTran, numEq))
+            if not eqCollection.hasNames:
+                tnames = []
+                for i in xrange(numTran):
+                    tnames.append(ifile.readline().rstrip())
+                eqCollection.setNames(tnames)
+            else:
+                for i in xrange(numTran):
+                    ifile.readline()
 
-        for i in xrange(numEq):
-            toks = map(int, ifile.readline().rstrip().split('\t'))
-            nt = toks[0]
-            tids = tuple(toks[1:-1])
-            count = toks[-1]
-            eqCollection.add(tids, count)
+            for i in xrange(numEq):
+                toks = map(str, ifile.readline().rstrip().split('\t'))
+                nt = toks[0]
+                tids = tuple(toks[1:int(nt)+1])
+                count = toks[-1]
+                eqCollection.add(tids, count)
+                readnames = tuple(toks[int(nt)+2:-1])
+                print>>wfile,i
+                print>>wfile,len(readnames)
+                for rid in readnames:
+                    print>>wfile,rid
 
 import itertools
 from joblib import Parallel, delayed
 
-def transFormClasses(equiv, oFile):
+def transFormClasses(equiv, gFile):
     from collections import defaultdict
     tr2eq = defaultdict(list)
     classDict = {}
@@ -78,7 +96,7 @@ def transFormClasses(equiv, oFile):
                     weightedDict[(g1,g2)] += 1
                 else:
                     weightedDict[(g1,g2)] = 1
-    with open(oFile,'w') as ofWriter:
+    with open(gFile,'w') as ofWriter:
         for gpair,count in weightedDict.iteritems():
             denom = len(classDict[gpair[0]]) + len(classDict[gpair[1]])
             denom = float(len(set(classDict[gpair[0]]).union(set(classDict[gpair[1]]))))
@@ -114,13 +132,14 @@ def main():
     import argparse
     parser = argparse.ArgumentParser(description="blah blah")
     parser.add_argument('-i',type=str,help="eq class file")
-    parser.add_argument('-o',type=str,help="eq class file")
+    parser.add_argument('-g',type=str,help="Graph file")
+    parser.add_argument('-o',type=str,help="File with ids")
     args = parser.parse_args()
     #eqPath = "/mnt/scratch1/hirak/RapCompressData/sailfish/sailfish_quant/aux/eq_classes.txt"
     eqPath = args.i
     equiv = EquivCollection()
-    readEqClass(eqPath, equiv)
-    transFormClasses(equiv,args.o)
+    readEqClass(eqPath, equiv, args.o)
+    transFormClasses(equiv,args.g)
     groups = equiv.eqClasses.keys()
     liX = xrange(len(groups))
     #oGraphFile = open("/mnt/scratch1/hirak/RapCompressData/graph.net",'w')
