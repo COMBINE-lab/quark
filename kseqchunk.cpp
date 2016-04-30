@@ -10,6 +10,8 @@ Output:
 ****************************************************************************/
 #include <zlib.h>
 #include <stdio.h>
+#include <set>
+#include <sstream>
 #include <iostream>
 #include <vector>
 #include <set>
@@ -20,6 +22,8 @@ Output:
 
 #include "kseq.h"
 
+typedef std::unordered_map<int,std::set<std::string> > EqReadID ;
+typedef std::unordered_map<int,std::vector<std::string> > EqSeq ;
 
 
 KSEQ_INIT(gzFile, gzread)
@@ -36,6 +40,38 @@ struct read_record{
     }
 };
 
+void buildEqHeaders(auto& orderFile,auto& chunkFile, EqReadID &eids){
+    // read the chunk sizes in reverse
+    std::vector<int> chunkSizes ;
+    std::ifstream ifs(chunkFile);
+    if(ifs.is_open()){
+        for(std::string line; std::getline(ifs,line);){
+            std::istringstream iss(line);
+            int n;
+            iss >> n;
+            chunkSizes.push_back(n);
+        }
+    }
+    // Reverse the vector chunkSizes
+    //std::reverse(chunkSizes.begin(),chunkSizes.end());
+    ifs.close();
+    std::ifstream ifsorder(orderFile);
+    int orderId = 1;
+    if(ifsorder.is_open()){
+        for(int chunk : chunkSizes){
+            std::set<std::string> tmpheaders;
+            for(int i=0;i < chunk; ++i){
+                std::string line;
+                std::getline(ifsorder,line);
+                tmpheaders.insert(line);
+            }
+            eids[orderId] = tmpheaders;
+            ++orderId;
+        }
+    }
+
+}
+
 int main(int argc, char *argv[])
 {
 
@@ -46,6 +82,14 @@ int main(int argc, char *argv[])
 	}
     //read the fastq file because it will be needed for everything
     // TODO: unordered_map is not a smart idea, have to do better
+    //
+
+    EqReadID eids;
+    buildEqHeaders(argv[3],argv[4],eids);
+    std::cout << "\n Size of unordered map "<< eids.size() ;
+
+    return 0;
+
     std::vector<read_record > allreads ;
     std::string outdir = argv[6];
 
