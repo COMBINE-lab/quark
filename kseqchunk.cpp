@@ -14,6 +14,7 @@ Output:
 #include <sstream>
 #include <iostream>
 #include <vector>
+#include <tuple>
 #include <set>
 #include <algorithm>
 #include <unordered_map>
@@ -23,7 +24,9 @@ Output:
 #include "kseq.h"
 
 typedef std::unordered_map<int,std::set<std::string> > EqReadID ;
-typedef std::unordered_map<int,std::vector<std::string> > EqSeq ;
+typedef std::unordered_map<std::string, int> RevReadIDEq ;
+typedef std::pair<std::string,std::string> matepair ;
+typedef std::unordered_map<int,std::vector<matepair> > EqSeq ;
 
 
 KSEQ_INIT(gzFile, gzread)
@@ -40,7 +43,7 @@ struct read_record{
     }
 };
 
-void buildEqHeaders(auto& orderFile,auto& chunkFile, EqReadID &eids){
+void buildEqHeaders(auto& orderFile,auto& chunkFile, RevReadIDEq &revidreq){
     // read the chunk sizes in reverse
     std::vector<int> chunkSizes ;
     std::ifstream ifs(chunkFile);
@@ -59,18 +62,72 @@ void buildEqHeaders(auto& orderFile,auto& chunkFile, EqReadID &eids){
     int orderId = 1;
     if(ifsorder.is_open()){
         for(int chunk : chunkSizes){
-            std::set<std::string> tmpheaders;
             for(int i=0;i < chunk; ++i){
                 std::string line;
                 std::getline(ifsorder,line);
-                tmpheaders.insert(line);
+                revidreq[line] = orderId;
             }
-            eids[orderId] = tmpheaders;
+            if (orderId%100 == 0){
+                std::cout << orderId << " equivalence processed \r" << std::flush ;
+            }
             ++orderId;
         }
     }
+    std::cout <<"\n" <<orderId << " total equivalence classes "<<"\n";
+    ifs.close();
 
 }
+
+void populateEqSeq(auto& fqFile,
+                   auto& mateFile,
+                   EqSeq &eseq,
+                   RevReadIDEq &req,
+                   auto& unmappedHeaders,
+                   auto& u_records){
+
+    std::cout << "\n Start reading read from fastq "<<fqFile << " and " <<mateFile << "\n";
+	gzFile fpleft, fpright;
+	kseq_t *seql,*seqr;
+	int ll,lr;
+	fpleft = gzopen(fqFile, "r");
+	fpright = gzopen(mateFile, "r");
+    seql = kseq_init(fpleft);
+    seqr = kseq_init(fpright);
+
+    int numReads = 0;
+	while ((ll = kseq_read(seql) >= 0) && (lr = kseq_read(seqr) >= 0)) {
+        std::string header = seql->name.s;
+        if(unmappedHeaders.find(header) != unmappedHeaders.end()){
+            std::string name(header);
+            std::string sequl(seql->seq.s);
+            std::string quali(seql->qual.s);
+            std::string sequr(seqr->seq.s);
+            read_record v(name,sequl,sequr,quali);
+            u_records.push_back(v);
+            continue ;
+        }
+        std::string sequl = seql->seq.s;
+        std::string sequr = seqr->seq.s;
+        matepair p = std::make_pair(sequl,sequr);
+        int classid = req[header];
+        if(eseq.find(classid) != eseq.end()){
+            eseq[classid].push_back(p);
+        }
+        else{
+             eseq[classid] = {p};
+        }
+        if (numReads%1000000 == 0){
+            std::cout << numReads/1000000 << " million reads processed \r" << std::flush ;
+        }
+        numReads++;
+	}
+	kseq_destroy(seqr);
+	kseq_destroy(seql);
+	gzclose(fpleft);
+	gzclose(fpright);
+}
+
+
 
 int main(int argc, char *argv[])
 {
@@ -84,16 +141,18 @@ int main(int argc, char *argv[])
     // TODO: unordered_map is not a smart idea, have to do better
     //
 
-    EqReadID eids;
-    buildEqHeaders(argv[3],argv[4],eids);
-    std::cout << "\n Size of unordered map "<< eids.size() ;
+    std::cout << "\nGathering eqiovalence classes \n";
+    RevReadIDEq req ;
 
-    return 0;
+    buildEqHeaders(argv[3],argv[4],req);
+    std::cout << "\n equivalence classes gathered\n" ;
+
+
 
     std::vector<read_record > allreads ;
     std::string outdir = argv[6];
 
-    std::cout << "\n Start reading read from fastq "<<argv[1] << " and " <<argv[2] << "\n";
+    /*
 	gzFile fpleft, fpright;
 	kseq_t *seql,*seqr;
 	int ll,lr;
@@ -115,12 +174,27 @@ int main(int argc, char *argv[])
         }
         numReads++;
 	}
-
+    */
 
     //get done with unmapped file
     //You just have to write the read seq
     //read the unmapped headers
-    std::cout << "\n Start writing unmapped reads \n";
+    EqSeq eseq; // equivalence class contain <class id>: vector of pair sequence
+
+    {
+        std::vector<read_record> u_records ;
+
+        std::cout << "\n Start reading unmapped read headers \n";
+        std::set<std::string> unmappedHeaders;
+        std::ifstream ifsunmapped;
+        ifsunmapped.open(argv[5],std::ifstream::in);
+        for(std::string line; std::getline(ifsunmapped,line) ;){
+             unmappedHeaders.insert(line);
+        }
+        //output to std::vector<matepair>
+        populateEqSeq(argv[1],argv[2],eseq,req,unmappedHeaders,u_records);// Populate eseq
+
+    /*
     {
         std::set<std::string> unmappedHeaders;
         std::ifstream ifsunmapped;
@@ -141,8 +215,10 @@ int main(int argc, char *argv[])
                         return unmappedHeaders.find(r.name) != unmappedHeaders.end();
                     }),
                     allreads.end() );
+    }*/
 
         //Write them
+
         std::ofstream ofs_unmapped_l;
         std::ofstream ofs_unmapped_r;
 
@@ -165,6 +241,7 @@ int main(int argc, char *argv[])
             ofs_unmapped_r << urid.comment << "\n";
             ofs_unmapped_r << urid.quality << "\n";
         }
+        std::cout << "\n Done writing unmapped reads \n";
 
         /*
         for(auto &urid : u_records){
@@ -184,6 +261,7 @@ int main(int argc, char *argv[])
     //create vector of all read sequence
     //std::vector<kseq_t *> allreads ;
     //std::vector<std::string > readids ;
+    /*
     std::unordered_map<std::string,int > nameToRank ;
     std::ifstream ifs;
     ifs.open(argv[3],std::ifstream::in) ;
@@ -214,10 +292,11 @@ int main(int argc, char *argv[])
     clock_gettime(CLOCK_REALTIME, &endt);
     //inttimeval_subtract(&result,&startt,&endt);
     std::cout << "\n Sorting done, took "<< (endt.tv_sec - startt.tv_sec) << " sec to finish \n";
-
+    */
 
 
     //Open two output streams
+    //from eseq
     //for .h file
     {
         std::ofstream ofs_mapped_l;
@@ -228,27 +307,25 @@ int main(int argc, char *argv[])
         ofs_mapped_r.open(File_r, std::ofstream::out);
         std::ofstream ofsl;
 
-        std::cout << "\n Start writing to shuffled fastq "<<argv[3] << "\n";
+        std::cout << "\n Start writing to shuffled seq to "<< File_l << " " << File_r << "\n";
 
-        numReads = 0;
-        for(auto &readid: allreads){
-            ofs_mapped_l<<readid.seq << "\n";
-            ofs_mapped_r<<readid.mateseq << "\n";
-            if (numReads%10000 == 0){
-                std::cout << numReads+1 << " reads written \r" << std::flush ;
+        int numReads = 0;
+        for(auto &eqClass : eseq){
+            auto pvec = eqClass.second;
+            for(auto& p : pvec){
+                ofs_mapped_l<<p.first << "\n";
+                ofs_mapped_r<<p.second << "\n";
+                if (numReads%10000 == 0){
+                    std::cout << numReads+1 << " reads written \r" << std::flush ;
+                }
+                numReads++;
             }
-            numReads++;
         }
         ofs_mapped_l.close();
         ofs_mapped_r.close();
     }
 
 	//printf("return value: %d\n", l);
-	kseq_destroy(seqr);
-	kseq_destroy(seql);
-    ifs.close() ;
-	gzclose(fpleft);
-	gzclose(fpright);
 	return 0;
 }
 //How to run
