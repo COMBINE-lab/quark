@@ -21,9 +21,9 @@ Output:
 #include <unordered_map>
 #include <fstream>
 #include <sys/time.h>
-#include <Kmer.hpp>
+//#include <Kmer.hpp>
 #include <boost/functional/hash.hpp>
-#include <hash.hpp>
+//#include <hash.hpp>
 #include <cigargen.h>
 #include "kseq.h"
 
@@ -131,6 +131,7 @@ void populateEqSeq(auto& fqFile,
 	gzclose(fpright);
 }
 
+/*
 namespace std{
     template<typename T> struct myhash;
     template <> struct myhash<Kmer>
@@ -140,8 +141,9 @@ namespace std{
         }
     };
 }
+*/
 
-
+typedef std::string Kmer;
 typedef std::pair<int,int> Edge;
 typedef std::vector<int> Path ;
 typedef std::unordered_map< Edge, double, boost::hash< Edge > > EdgeList ;
@@ -154,60 +156,75 @@ typedef struct Graph{
 };
 
 // Adopted from https://github.com/sbebo/graph/blob/master/mst.cpp
-typedef struct UnionFind{
-    std::vector<int> parent;
-    std::vector<int> rank;
-    UnionFind(int n):parent(n),rank(n)
+struct UnionFind{
+    std::vector<int> parent; //parent for each node
+    std::vector<int> rank;  //rank for each node
+
+    UnionFind(int n): parent(n), rank(n)
     {
-        for(int i = 0; i < n;i++)
-            make_set(n);
-    }
-    void make_set(int i){
-        parent[i] = i;
-        rank[i] = 0;
-    }
-    int find_set(int i){
-        if(i != parent[i])
-            parent[i] = find_set(parent[i]);
-    }
-    void join(int i,int j){
-        i = find_set(i);
-        j = find_set(j);
-        if(i == j)
-            return;
-        if(rank[i]>rank[j]){
-             parent[j] = i;
-        }else{
-            parent[i] = j;
-            if(rank[i] == rank[j]){
-                rank[j] += 1;
-            }
+        for(int i=0;i<n;i++)
+            make_set(i);
+
         }
+
+    void make_set(int i)
+    {
+        parent[i]=i;
+        rank[i]=0;
     }
+
+
+    int find_set(int i)
+    {
+        if(i!=parent[i])
+            parent[i] = find_set(parent[i]); //path compression
+        return parent[i];
+    }
+
+    void join(int i, int j)
+    {
+        i=find_set(i);
+        j=find_set(j);
+        if (i==j)
+            return;
+        if (rank[i]>rank[j])  //i longer. attach j to i
+            parent[j]=i;
+        else{
+            parent[i]=j; //i not longer. attach i to j
+            if(rank[i]==rank[j]) //rank grows if equal length
+                rank[j]+=1;
+        }
+
+    }
+
 };
 
 
 void createGraph(auto& svec, Graph &lg){
 
-    std::cout << "\n in graph "<<svec.size() << "\n";
+    //std::cout << "\n in graph "<<svec.size() << "\n";
     for(int i=0;i<svec.size()-1;++i){
-        for(int j=i;j<svec.size();++j){
-            Edge epair = std::make_pair(svec[i],svec[j]);
-            lg.v.insert(svec[i]);
-            lg.v.insert(svec[j]);
-            if(lg.e.find(epair) == lg.e.end()){
-                lg.e[epair] = 1;
-            }else{
-                lg.e[epair] += 1;
-            }
-            if(lg.adj.find(svec[i]) == lg.adj.end() && lg.adj.find(svec[j]) == lg.adj.end()){
-                //seeing this edge for the first time
-                lg.adj[svec[i]] = {svec[j]};
-                lg.adj[svec[j]] = {svec[i]};
-            }else{
-                // add
-                lg.adj[svec[i]].push_back(svec[j]) ;
-                lg.adj[svec[j]].push_back(svec[i]) ;
+        for(int j=i+1;j<svec.size();++j){
+            //std::cout << svec[i]<< " "<<svec[j]<<"\n";
+            if(svec[i] < svec[j]){
+                Edge epair = std::make_pair(svec[i],svec[j]);
+                lg.v.insert(svec[i]);
+                lg.v.insert(svec[j]);
+                if(lg.e.find(epair) == lg.e.end()){
+                    lg.e[epair] = 1;
+                }else{
+                    lg.e[epair] += 1;
+                }
+                if(lg.adj.find(svec[i]) == lg.adj.end() && lg.adj.find(svec[j]) == lg.adj.end()){
+                    //seeing this edge for the first time
+                    lg.adj[svec[i]] = {svec[j]};
+                    lg.adj[svec[j]] = {svec[i]};
+                }else{
+                    // add
+                    lg.adj[svec[i]].push_back(svec[j]) ;
+                    lg.adj[svec[j]].push_back(svec[i]) ;
+                }
+
             }
         }
     }
@@ -218,7 +235,7 @@ void kruskal(Graph &g){
 }
 
 int maxDegree(AdjList &adj){
-    std::cout <<"\n" <<adj.size() << "\n";
+    //std::cout <<"\n" <<adj.size() << "\n";
     int m = 0;
     int ind = 0;
     for(auto u : adj){
@@ -232,6 +249,7 @@ int maxDegree(AdjList &adj){
 
 void createMST(Graph &g, Graph &tr){
     int n = g.e.size();
+    //std::cout << "\n Forest size "<<n<<"\n";
     UnionFind forest(n);
     // sort the edges
     std::vector<Edge> eorder;
@@ -242,12 +260,17 @@ void createMST(Graph &g, Graph &tr){
                 return g.e[e1] > g.e[e2];
             });
     int size = 0;
+    //std::cout << "\n eorder size "<<eorder.size()<<"\n";
     for(int i = 0; i < n-1; i++){
         Edge currE = eorder.at(i);
         int a = currE.first ;
         int b = currE.second ;
+        //std::cout << "\n a "<<a<<" f(a) "<<forest.find_set(a)<<" b "<<b<<"\n";
         if(forest.find_set(a) != forest.find_set(b)){
+            //std::cout << "\na "<<a<<"b "<<b<<"\n";
             tr.e[currE] = g.e[currE];
+            forest.join(a,b);
+            size++;
             tr.v.insert(a);
             tr.v.insert(b);
             if(tr.adj.find(a) == tr.adj.end() && tr.adj.find(b) == tr.adj.end()){
@@ -273,7 +296,7 @@ typedef struct Rline{
 typedef std::vector<Rline> Robj;
 
 void createObj(auto &tr,int start_node ,auto& seqs, Robj &obj){
-    std::cout << "\n "<< start_node<< "\n" ;
+    //std::cout << "\n Start Node "<< start_node<< "\n" ;
     std::set<int> seenNodes;
     std::queue<int> L;
     std::string refString = seqs.at(start_node);
@@ -284,7 +307,9 @@ void createObj(auto &tr,int start_node ,auto& seqs, Robj &obj){
     bool atfirst = true;
     while(L.size() > 0){
         //see the start node
+        //std::cout << "\n L sz "<<L.size()<<"\n";
         int curr_start = L.front();
+        L.pop();
         auto qvec = tr.adj[curr_start] ;
         seenNodes.insert(curr_start);
         for(auto v_i: qvec){
@@ -312,24 +337,24 @@ void createObj(auto &tr,int start_node ,auto& seqs, Robj &obj){
 }
 
 void buildReadGraph(auto &pvec, auto& lobj, auto& robj){
-    std::cout << "\nIn build graph \n";
+    //std::cout << "\nIn build graph \n";
     int k = 31;
     std::vector<std::string> lefts;
     std::vector<std::string> rights;
 
-    std::cout << "\nSetting kmer size to  "<<k<<"\n";
-    Kmer::set_k(k);
+    //std::cout << "\nSetting kmer size to  "<<k<<"\n";
+    //Kmer::set_k(k);
     for(auto p : pvec){
         lefts.push_back(p.first);
         rights.push_back(p.second);
     }
-    std::unordered_map<Kmer, std::vector<int>, std::myhash<Kmer> > leftkmers;
-    std::unordered_map<Kmer, std::vector<int>, std::myhash<Kmer> > rightkmers;
+    std::unordered_map<Kmer, std::vector<int>, boost::hash<Kmer> > leftkmers;
+    std::unordered_map<Kmer, std::vector<int>, boost::hash<Kmer> > rightkmers;
     int rid = 0;
     for(auto &val : lefts){
-        std::cout << val.length() << "\n";
+        //std::cout << val.length() << "\n";
         for(int i = 0; i < val.length()-k+1;++i){
-            Kmer o((const char *)val.substr(i,k).c_str());
+            Kmer o(val.substr(i,k));
             if(leftkmers.find(o) == leftkmers.end()){
                 leftkmers[o] = {rid};
             }else{
@@ -341,7 +366,7 @@ void buildReadGraph(auto &pvec, auto& lobj, auto& robj){
     rid = 0;
 
     for(auto &val : rights){
-        std::cout << val.length() << "\n";
+        //std::cout << val.length() << "\n";
         for(int i = 0; i < val.length()-k+1;++i){
             Kmer o((const char *)val.substr(i,k).c_str());
             if(rightkmers.find(o) == rightkmers.end()){
@@ -361,8 +386,17 @@ void buildReadGraph(auto &pvec, auto& lobj, auto& robj){
         createGraph(svec,lg);
     }
 
+    //std::cout << "\n Graph created with V:"<<lg.v.size()<<" E:"<<lg.e.size()<<"\n";
     //Done with making edge list and adj
+    //
+    //print graph : testing
+    for(auto ed: lg.e){
+        auto e1 = ed.first;
+        double val = ed.second;
+        //std::cout << "\n "<<e1.first<<" "<<e1.second<<" "<<val<<"\n";
+    }
     createMST(lg,ltr);
+    //std::cout << "\n MST created with V:"<<ltr.v.size()<<" E:"<<ltr.e.size()<<" adj sz: "<<ltr.adj.size()<<"\n";
     int start_node = maxDegree(ltr.adj);
     createObj(ltr,start_node,lefts,lobj);
 
@@ -552,21 +586,26 @@ int main(int argc, char *argv[])
     {
         std::cout << "\n Start writing quark files \n";
         std::vector<Robj> finalLeftObjs,finalRightObjs;
+        int eqCount = 0;
         for(auto eqClass : eseq){
             int id = eqClass.first;
             auto pvec = eqClass.second ;
             if(pvec.size() > 4){
+                eqCount++;
                 Robj lobj,robj;
                 buildReadGraph(pvec,lobj,robj);
                 finalLeftObjs.push_back(lobj);
                 finalRightObjs.push_back(robj);
-                eseq.erase(id);
+                //eseq.erase(id);
+
+                std::cout << "\n Done for eq: "<<eqCount << "\n";
             }
         }
 
     //For now write them in pure text in .quark files
     //
 
+        std::cout << "\n Still writing quark files \n";
         std::ofstream ofs_mapped_l;
         std::ofstream ofs_mapped_r;
         std::string File_l = outdir + std::string("r1.quark");
