@@ -19,6 +19,7 @@ Output:
 #include <algorithm>
 #include <queue>
 #include <unordered_map>
+#include <unordered_set>
 #include <fstream>
 #include <sys/time.h>
 //#include <Kmer.hpp>
@@ -26,6 +27,7 @@ Output:
 //#include <hash.hpp>
 #include <cigargen.h>
 #include "kseq.h"
+#include "edlib.h"
 
 typedef std::unordered_map<int,std::set<std::string> > EqReadID ;
 typedef std::unordered_map<std::string, int> RevReadIDEq ;
@@ -147,8 +149,8 @@ typedef std::string Kmer;
 typedef std::pair<int,int> Edge;
 typedef std::vector<int> Path ;
 typedef std::unordered_map< Edge, double, boost::hash< Edge > > EdgeList ;
-typedef std::unordered_map< int, std::list<int> > AdjList;
-typedef std::set<int> Vertices;
+typedef std::unordered_map< int, std::vector<int> > AdjList;
+typedef std::unordered_set<int> Vertices;
 typedef struct Graph{
     EdgeList e;
     Vertices v;
@@ -260,8 +262,10 @@ void createMST(Graph &g, Graph &tr){
                 return g.e[e1] > g.e[e2];
             });
     int size = 0;
+    std::unordered_set<int> seenV ;
+    seenV.reserve(g.v.size());
     //std::cout << "\n eorder size "<<eorder.size()<<"\n";
-    for(int i = 0; i < n-1; i++){
+    for(int i = 0; seenV.size() < g.v.size(); i++){
         Edge currE = eorder.at(i);
         int a = currE.first ;
         int b = currE.second ;
@@ -270,7 +274,8 @@ void createMST(Graph &g, Graph &tr){
             //std::cout << "\na "<<a<<"b "<<b<<"\n";
             tr.e[currE] = g.e[currE];
             forest.join(a,b);
-            size++;
+            seenV.insert(a);
+            seenV.insert(b);
             tr.v.insert(a);
             tr.v.insert(b);
             if(tr.adj.find(a) == tr.adj.end() && tr.adj.find(b) == tr.adj.end()){
@@ -294,6 +299,7 @@ typedef struct Rline{
 };
 
 typedef std::vector<Rline> Robj;
+
 
 void createObj(auto &tr,int start_node ,auto& seqs, Robj &obj){
     //std::cout << "\n Start Node "<< start_node<< "\n" ;
@@ -380,10 +386,12 @@ void buildReadGraph(auto &pvec, auto& lobj, auto& robj){
 
     Graph lg,rg,ltr,rtr;
 
+    std::cout << "\n Number of kmers = " << leftkmers.size() << '\n';
     for(auto &kmere : leftkmers){
         auto svec = kmere.second;
         std::sort(svec.begin(),svec.end());
         createGraph(svec,lg);
+        //std::cout << "\n Graph created with V:"<<lg.v.size()<<" E:"<<lg.e.size()<<"\n";
     }
 
     //std::cout << "\n Graph created with V:"<<lg.v.size()<<" E:"<<lg.e.size()<<"\n";
@@ -582,6 +590,7 @@ int main(int argc, char *argv[])
     std::cout << "\n Sorting done, took "<< (endt.tv_sec - startt.tv_sec) << " sec to finish \n";
     */
 
+    std::cout << "Number of equivalence Classes "<<eseq.size()<<"\n";
     //At this point we have all the reads and the make a read GRaph and do mst
     {
         std::cout << "\n Start writing quark files \n";
@@ -604,6 +613,7 @@ int main(int argc, char *argv[])
 
     //For now write them in pure text in .quark files
     //
+    std::cout << "Number of equivalence Classes remain"<<eseq.size()<<"\n";
 
         std::cout << "\n Still writing quark files \n";
         std::ofstream ofs_mapped_l;
