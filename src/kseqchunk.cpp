@@ -358,30 +358,11 @@ void return_tf (auto &val, auto& kmerlist, auto &v){
 //void return idf()
 void refineKmers(auto& lefts, auto& final_kmers_left){
 
-}
-
-void buildReadGraph_tfidf(auto &pvec, auto& lobj, auto& robj){
-    //use boost matrix and vector
     using namespace boost::numeric::ublas ;
-    std::cout << "\nIn tf-idf calculation block\n" ;
-    int k = 31;
-    std::vector<std::string> lefts;
-    std::vector<std::string> rights;
-
-    //std::cout << "\nSetting kmer size to  "<<k<<"\n";
-    //Kmer::set_k(k);
-    for(auto p : pvec){
-        lefts.push_back(p.first);
-        rights.push_back(p.second);
-    }
-    //using kmersfreq = std::unordered_map<std::string ,long long int>;
+    int k=31;
     using kmers = std::unordered_set<std::string>;
     using kmerRank = std::unordered_map<std::string, int>;
-    using kmerHash = std::unordered_map<std::string,std::vector<int> >;
     kmers leftkmers;
-    kmers rightkmers;
-    kmerHash lhash;
-    kmerHash rhash;
     std::vector<std::string> revMap;
 
     int rid = 0;//
@@ -403,7 +384,7 @@ void buildReadGraph_tfidf(auto &pvec, auto& lobj, auto& robj){
     long long int id = 0;
     for(auto mer: leftkmers){
         lRank[mer] = id;
-        revMap(id) = mer;
+        revMap[id] = mer;
         ++id;
     }
     // Get the freq vector for each doc
@@ -432,11 +413,9 @@ void buildReadGraph_tfidf(auto &pvec, auto& lobj, auto& robj){
         compressed_vector<double> tmpterm = column(tfmat,i);
         idf(i) = std::log(double(nrow)/double(std::accumulate(tmpterm.begin(),tmpterm.end(),0.0f))) ;
     }
-    kmerHash final_kmers_left;
-    std::vector<int> final_kmers_right;
 
     for(int i=0;i < nrow; ++i){
-        std::priority_queue<int, std::vector<int> std::greater<int> > tmpminheap;
+        std::priority_queue<int, std::vector<int>, std::greater<int> > tmpminheap;
         compressed_vector<double> tmpterm = row(tfmat,i);
         int sum = std::accumulate(tmpterm.begin(),tmpterm.end(),0.0f);
         row(tfmat,i) = row(tfmat,i) / double(sum);
@@ -447,7 +426,7 @@ void buildReadGraph_tfidf(auto &pvec, auto& lobj, auto& robj){
                  tmpminheap.push(j);
             }else{
                 if(tf_ij(j) > 0.0){
-                    if(tf_if(tmpminheap.top()) < tf_if(j))
+                    if(tf_ij(tmpminheap.top()) < tf_ij(j))
                         tmpminheap.pop();
                         tmpminheap.push(j);
                 }
@@ -455,19 +434,72 @@ void buildReadGraph_tfidf(auto &pvec, auto& lobj, auto& robj){
         }
         //take most 20% kmers
         //item j has
-        for(!tmpminheap.empty()){
+        while(!tmpminheap.empty()){
             std::string mer = revMap[tmpminheap.top()];
             if(final_kmers_left.find(mer) == final_kmers_left.end()){
                 final_kmers_left[mer]={i};
             }else{
-                final_kmers_left.push_back(i);
+                final_kmers_left[mer].push_back(i);
             }
         }
     }
+}
+
+void buildReadGraph_tfidf(auto &pvec, auto& lobj, auto& robj){
+    //use boost matrix and vector
+    std::cout << "\nIn tf-idf calculation block\n" ;
+    int k = 31;
+    std::vector<std::string> lefts;
+    std::vector<std::string> rights;
+
+    //std::cout << "\nSetting kmer size to  "<<k<<"\n";
+    //Kmer::set_k(k);
+    for(auto p : pvec){
+        lefts.push_back(p.first);
+        rights.push_back(p.second);
+    }
+    //using kmersfreq = std::unordered_map<std::string ,long long int>;
+    using kmerHash = std::unordered_map<std::string,std::vector<int> >;
     //Clear the vector
     //vec.clear();
 
+    Graph lg,rg,ltr,rtr;
+    kmerHash leftkmers;
+    kmerHash rightkmers;
+    refineKmers(lefts,leftkmers);
+    refineKmers(rights,rightkmers);
 
+    std::cout << "\n Number of kmers = " << leftkmers.size() << '\n';
+    for(auto &kmere : leftkmers){
+        auto svec = kmere.second;
+        std::sort(svec.begin(),svec.end());
+        createGraph(svec,lg);
+        //std::cout << "\n Graph created with V:"<<lg.v.size()<<" E:"<<lg.e.size()<<"\n";
+    }
+    std::cout << "\n Home fully it has less size";
+
+    //print graph : testing
+    for(auto ed: lg.e){
+        auto e1 = ed.first;
+        double val = ed.second;
+        //std::cout << "\n "<<e1.first<<" "<<e1.second<<" "<<val<<"\n";
+    }
+    createMST(lg,ltr);
+    //std::cout << "\n MST created with V:"<<ltr.v.size()<<" E:"<<ltr.e.size()<<" adj sz: "<<ltr.adj.size()<<"\n";
+    int start_node = maxDegree(ltr.adj);
+    createObj(ltr,start_node,lefts,lobj);
+
+
+    for(auto &kmere : rightkmers){
+        auto svec = kmere.second;
+        std::sort(svec.begin(),svec.end());
+        createGraph(svec,rg);
+    }
+
+    //Done with making edge list and adj
+    createMST(rg,rtr);
+    start_node = maxDegree(rtr.adj);
+    createObj(rtr,start_node,rights,robj);
 }
 
 void buildReadGraph(auto &pvec, auto& lobj, auto& robj){
@@ -730,7 +762,7 @@ int main(int argc, char *argv[])
             if(pvec.size() > 4){
                 eqCount++;
                 Robj lobj,robj;
-                buildReadGraph(pvec,lobj,robj);
+                //buildReadGraph(pvec,lobj,robj);
                 buildReadGraph_tfidf(pvec,lobj,robj) ;
                 finalLeftObjs.push_back(lobj);
                 finalRightObjs.push_back(robj);
