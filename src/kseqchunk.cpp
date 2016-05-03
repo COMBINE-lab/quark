@@ -23,9 +23,13 @@ Output:
 #include <fstream>
 #include <sys/time.h>
 //#include <Kmer.hpp>
+#include <boost/numeric/ublas/matrix_sparse.hpp>
+#include <boost/numeric/ublas/matrix_proxy.hpp>
+#include <boost/numeric/ublas/io.hpp>
 #include <boost/functional/hash.hpp>
+//#include <Eigen/Dense>
 //#include <hash.hpp>
-#include <cigargen.h>
+#include "cigargen.h"
 #include "kseq.h"
 #include "edlib.h"
 
@@ -342,6 +346,99 @@ void createObj(auto &tr,int start_node ,auto& seqs, Robj &obj){
     }
 }
 
+void return_tf (auto &val, auto& kmerlist, auto &v){
+    int k = 31;
+    for(int i = 0; i < val.length()-k+1;++i){
+        std::string mer = (val.substr(i,k));
+        v(kmerlist[mer]) += 1;
+    }
+    //v = v / v.sum();
+}
+
+//void return idf()
+
+void buildReadGraph_tfidf(auto &pvec, auto& lobj, auto& robj){
+    //use boost matrix and vector
+    using namespace boost::numeric::ublas ;
+    std::cout << "\nIn tf-idf calculation block\n" ;
+    int k = 31;
+    std::vector<std::string> lefts;
+    std::vector<std::string> rights;
+
+    //std::cout << "\nSetting kmer size to  "<<k<<"\n";
+    //Kmer::set_k(k);
+    for(auto p : pvec){
+        lefts.push_back(p.first);
+        rights.push_back(p.second);
+    }
+    //using kmersfreq = std::unordered_map<std::string ,long long int>;
+    using kmers = std::unordered_set<std::string>;
+    using kmerRank = std::unordered_map<std::string,long long int>;
+    kmers leftkmers;
+    kmers rightkmers;
+    int rid = 0;//
+    //create a freq vector for each document
+    //First do it for a read
+    // populate the kmer set
+    // that is get all the terms
+    for(auto &val : lefts){
+        //std::cout << val.length() << "\n";
+        for(int i = 0; i < val.length()-k+1;++i){
+            std::string mer = (val.substr(i,k));
+            leftkmers.insert(mer);
+        }
+        rid++;
+    }
+    //rank them
+    kmerRank lRank ;
+    long long int id = 0;
+    for(auto mer: leftkmers){
+        lRank[mer] = id;
+        ++id;
+    }
+    // Get the freq vector for each doc
+    // Vector for each read in this batch
+    compressed_matrix<double> tfmat(lefts.size(),lRank.size());
+    int rowid = 0;
+    for(auto &l : lefts){
+        compressed_vector<double> currReadif(lRank.size(),0) ;
+        return_tf(l,lRank,currReadif);
+        row(tfmat,rowid) = currReadif;
+        ++rowid;
+    }
+    int ncol = tfmat.size2();
+    int nrow = tfmat.size1();
+    // The matrix contains all the information
+    // rows are documents / cols are terms
+    // We want top few terms for each document
+    // if the length of a doc is n there are
+    // n - k + 1 terms in it.
+    // We can take top 20% terms , this can
+    // act as a parameter later
+    compressed_vector<double> idf(ncol) ;
+    for(int i=0; i < ncol; ++i){
+        compressed_vector<double> tmpterm = column(tfmat,i);
+        idf(i) = std::log(double(nrow)/double(std::accumulate(tmpterm.begin(),tmpterm.end(),0.0f))) ;
+    }
+
+    for(int i=0;i < nrow; ++i){
+        compressed_vector<double> tmpterm = row(tfmat,i);
+        int sum = std::accumulate(tmpterm.begin(),tmpterm.end(),0.0f);
+        row(tfmat,i) = row(tfmat,i) / double(sum);
+        compressed_vector<double> tf_ij(ncol);
+        for(int j = 0; j < ncol;++j){
+            tf_ij(j) = idf(j) * tfmat(i,j);
+        }
+        //take most 20% kmers
+        //
+        std::cout << tf_ij << std::endl ;
+    }
+    //Clear the vector
+    //vec.clear();
+
+
+}
+
 void buildReadGraph(auto &pvec, auto& lobj, auto& robj){
     //std::cout << "\nIn build graph \n";
     int k = 31;
@@ -603,6 +700,7 @@ int main(int argc, char *argv[])
                 eqCount++;
                 Robj lobj,robj;
                 buildReadGraph(pvec,lobj,robj);
+                buildReadGraph_tfidf(pvec,lobj,robj) ;
                 finalLeftObjs.push_back(lobj);
                 finalRightObjs.push_back(robj);
                 //eseq.erase(id);
