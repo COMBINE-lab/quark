@@ -356,6 +356,9 @@ void return_tf (auto &val, auto& kmerlist, auto &v){
 }
 
 //void return idf()
+void refineKmers(auto& lefts, auto& final_kmers_left){
+
+}
 
 void buildReadGraph_tfidf(auto &pvec, auto& lobj, auto& robj){
     //use boost matrix and vector
@@ -373,9 +376,14 @@ void buildReadGraph_tfidf(auto &pvec, auto& lobj, auto& robj){
     }
     //using kmersfreq = std::unordered_map<std::string ,long long int>;
     using kmers = std::unordered_set<std::string>;
-    using kmerRank = std::unordered_map<std::string,long long int>;
+    using kmerRank = std::unordered_map<std::string, int>;
+    using kmerHash = std::unordered_map<std::string,std::vector<int> >;
     kmers leftkmers;
     kmers rightkmers;
+    kmerHash lhash;
+    kmerHash rhash;
+    std::vector<std::string> revMap;
+
     int rid = 0;//
     //create a freq vector for each document
     //First do it for a read
@@ -391,9 +399,11 @@ void buildReadGraph_tfidf(auto &pvec, auto& lobj, auto& robj){
     }
     //rank them
     kmerRank lRank ;
+    revMap.resize(leftkmers.size());
     long long int id = 0;
     for(auto mer: leftkmers){
         lRank[mer] = id;
+        revMap(id) = mer;
         ++id;
     }
     // Get the freq vector for each doc
@@ -415,23 +425,44 @@ void buildReadGraph_tfidf(auto &pvec, auto& lobj, auto& robj){
     // n - k + 1 terms in it.
     // We can take top 20% terms , this can
     // act as a parameter later
+    //priority queue to contain top elements
+    //
     compressed_vector<double> idf(ncol) ;
     for(int i=0; i < ncol; ++i){
         compressed_vector<double> tmpterm = column(tfmat,i);
         idf(i) = std::log(double(nrow)/double(std::accumulate(tmpterm.begin(),tmpterm.end(),0.0f))) ;
     }
+    kmerHash final_kmers_left;
+    std::vector<int> final_kmers_right;
 
     for(int i=0;i < nrow; ++i){
+        std::priority_queue<int, std::vector<int> std::greater<int> > tmpminheap;
         compressed_vector<double> tmpterm = row(tfmat,i);
         int sum = std::accumulate(tmpterm.begin(),tmpterm.end(),0.0f);
         row(tfmat,i) = row(tfmat,i) / double(sum);
         compressed_vector<double> tf_ij(ncol);
         for(int j = 0; j < ncol;++j){
             tf_ij(j) = idf(j) * tfmat(i,j);
+            if(tmpminheap.size() < 20 && tf_ij(j) > 0.0){
+                 tmpminheap.push(j);
+            }else{
+                if(tf_ij(j) > 0.0){
+                    if(tf_if(tmpminheap.top()) < tf_if(j))
+                        tmpminheap.pop();
+                        tmpminheap.push(j);
+                }
+            }
         }
         //take most 20% kmers
-        //
-        std::cout << tf_ij << std::endl ;
+        //item j has
+        for(!tmpminheap.empty()){
+            std::string mer = revMap[tmpminheap.top()];
+            if(final_kmers_left.find(mer) == final_kmers_left.end()){
+                final_kmers_left[mer]={i};
+            }else{
+                final_kmers_left.push_back(i);
+            }
+        }
     }
     //Clear the vector
     //vec.clear();
