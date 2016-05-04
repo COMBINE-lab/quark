@@ -28,13 +28,13 @@ rule run_sailfish:
     input:
         index = data_path + "sailfish/sailfish_index/index_31/"
     output:
-        sfpath = data_path + "quarksailfish/sailfish_quant"
+        sfpath = data_path + "graphshuffled/sailfish_quant"
     threads:
         sailfish_threads
     run:
         shell ("mkdir -p {output.sfpath}")
-        one = data_path + "flux/reads/r1.fq.gz"
-        two = data_path + "flux/reads/r2.fq.gz"
-        shell("{} quant -i {} -l IU -p {} -1 <(gunzip -c {}) -2 <(gunzip -c {}) -o {} --dumpEq".format(sailfish_binary, input.index, sailfish_threads, one, two, output.sfpath))
+        one = data_path + "flux/reads/random.1.fq"
+        two = data_path + "flux/reads/random.2.fq"
+        shell("{} quant -i {} -l IU -p {} -1 {} -2 {} -o {} --dumpEq".format(sailfish_binary, input.index, sailfish_threads, one, two, output.sfpath))
 
 

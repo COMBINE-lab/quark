@@ -751,6 +751,7 @@ int main(int argc, char *argv[])
     */
 
     std::cout << "Number of equivalence Classes "<<eseq.size()<<"\n";
+    /*
     //At this point we have all the reads and the make a read GRaph and do mst
     {
         std::cout << "\n Start writing quark files \n";
@@ -798,7 +799,7 @@ int main(int argc, char *argv[])
             }
             ofs_mapped_r<<"\n";
         }
-    }
+    }*/
     //Open two output streams
     //from eseq
     //for .h file

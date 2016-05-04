@@ -1,0 +1,88 @@
+#snakemake --config r1=/mnt/scratch1/hirak/RapCompressData/smalltestbed/reads/testr1.fq r2=/mnt/scratch1/hirak/
+# RapCompressData/smalltestbed/reads/testr2.fq exp=/mnt/scratch1/hirak/RapCompressData/smalltestbed/quarksailfish/ outdir=/mnt/scratch1/hir
+# ak/RapCompressData/snaketest/
+
+import os
+import sys
+import subprocess
+import json
+from os.path import join as pjoin
+from os.path import exists as pexists
+import glob
+
+#configfile: "param.json"
+outdir = config.get("outdir")
+expdir = config.get("exp")
+
+READ_1 = config.get("r1")
+READ_2 = config.get("r2")
+
+def eqclass(path):
+    return os.path.join(path,"sailfish_quant/aux/eq_classes.txt")
+
+def ufile(path):
+    return os.path.join(path,"sailfish_quant/aux/unmapped_read.txt")
+
+
+
+def graph(path):
+    return os.path.join(path,"graph.net")
+
+def rid(path):
+    return os.path.join(path,"eq2readID.txt")
+
+def order(path):
+    return os.path.join(path,"nodes.order")
+
+def tmp(path):
+    return os.path.join(path,"tmpeq.aux")
+
+
+
+
+eqclassfile = eqclass(expdir)
+graphfile = graph(expdir)
+eq2read = rid(expdir)
+orderfile = order(expdir)
+tmpfile = tmp(expdir)
+unmapped = ufile(expdir)
+
+rule all:
+    input: graphfile,
+           eq2read, 
+           orderfile, 
+           os.path.join(outdir,"r1.h"), 
+           os.path.join(outdir,"r2.h"),
+           os.path.join(outdir,"r1.l.fq"),
+           os.path.join(outdir,"r2.l.fq")
+
+
+#make graphs
+rule buildgraph:
+    input: i = eqclassfile
+    output:  g = graphfile, o = eq2read
+    shell:"python eqgraph_v1.py -i {input.i} -g {output.g} -o {output.o}"
+
+#make DFS
+rule graphtrav:
+    input: graphfile, eq2read
+    output: orderfile
+    shell:"./randomtrav {graphfile} {eq2read} {orderfile}"
+
+
+# call kseqchunk
+rule run_kseqchunk:
+    output: os.path.join(outdir,"r1.h"),
+            os.path.join(outdir,"r2.h"),
+            os.path.join(outdir,"r1.l.fq"),
+            os.path.join(outdir,"r2.l.fq")
+    run:
+        if(pexists(outdir)):
+            shell("mkdir -p {outdir}")
+        shell("./kseqchunk {READ_1} {READ_2} {orderfile} {tmpfile} {unmapped} {outdir}")
+        
+rule clean:
+    shell:
+        """
+        rm -r {outdir} 
+        """

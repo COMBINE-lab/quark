@@ -38,12 +38,12 @@ typedef std::unordered_map<int,std::vector<matepair> > EqSeq ;
 
 KSEQ_INIT(gzFile, gzread)
 
-void refineKmers2(std::vector<std::string>& lefts, 
-                  std::unordered_map<std::string, std::vector<int>>& final_kmers_left, 
+void refineKmers2(std::vector<std::string>& lefts,
+                  std::unordered_map<std::string, std::vector<int>>& final_kmers_left,
                   std::vector<int>& unmappedIDs) {
   // maps kmers to read ids
   int k = 31;
-  std::cout << "we are in new refineKmer2\n";
+  //std::cout << "we are in new refineKmer2\n";
   std::unordered_set<std::string> invalidKmers;
   std::vector<int> coveredReads(lefts.size(), 0);
 
@@ -124,12 +124,12 @@ struct EdgeInfo {
 };
 
 template <typename GraphT>
-void buildGraph(std::unordered_map<std::string, 
+void buildGraph(std::unordered_map<std::string,
                 std::vector<int>>& merMap,
                 std::vector<int>& isolatedIDs,
                 GraphT& G) {
     using VD = typename boost::graph_traits<GraphT>::vertex_descriptor;
-    
+
     //Graph G;
     std::unordered_map<int, VD> vertMap;
 
@@ -139,7 +139,7 @@ void buildGraph(std::unordered_map<std::string,
             auto vi = readIDs[i];
             auto itI = vertMap.find(vi);
 
-            VD descI; 
+            VD descI;
             if (itI == vertMap.end()) {
                 descI = boost::add_vertex(G);
                 G[descI].readID = vi;
@@ -153,7 +153,7 @@ void buildGraph(std::unordered_map<std::string,
                 auto vj = readIDs[j];
                 auto itJ = vertMap.find(vj);
 
-                VD descJ; 
+                VD descJ;
                 if (itJ == vertMap.end()) {
                     descJ = boost::add_vertex(G);
                     G[descJ].readID = vj;
@@ -162,7 +162,7 @@ void buildGraph(std::unordered_map<std::string,
                 } else {
                     descJ = itJ->second;
                 }
-               
+
                 auto edgeDesc = boost::edge(descI, descJ, G);
                 if (edgeDesc.second) { // edge already exists
                     G[edgeDesc.first].weight += 1.0;
@@ -174,7 +174,7 @@ void buildGraph(std::unordered_map<std::string,
         }
     }
     // Add the disconnected nodes
-   
+
     for (auto x : isolatedIDs) {
         auto vd = boost::add_vertex(G);
         G[vd].readID = x;
@@ -185,10 +185,10 @@ void buildGraph(std::unordered_map<std::string,
 #include <boost/utility.hpp>
 
 template <typename GraphT>
-void visitViaDFS(GraphT& G, 
-                 std::vector<std::string>& readSeqsLeft, 
-                 std::vector<std::string>& readSeqsRight, 
-                 std::ofstream& outFileLeft, 
+void visitViaDFS(GraphT& G,
+                 std::vector<std::string>& readSeqsLeft,
+                 std::vector<std::string>& readSeqsRight,
+                 std::ofstream& outFileLeft,
                  std::ofstream& outFileRight) {
 
     using VD = typename boost::graph_traits<GraphT>::vertex_descriptor;
@@ -203,7 +203,7 @@ void visitViaDFS(GraphT& G,
     for (boost::tie(vi, vi_end) = boost::vertices(G); vi != vi_end; ++vi) {
         unvisited.insert(*vi);
     }
-    
+
     size_t visited{0};
     while (!unvisited.empty()) {
         // start from a random vertex
@@ -226,7 +226,7 @@ void visitViaDFS(GraphT& G,
                 for (boost::tie(ei, ei_end) = boost::out_edges(v, G); ei != ei_end; ++ei) {
                     edges.push_back(*ei);
                 }
-                std::sort(edges.begin(), edges.end(), 
+                std::sort(edges.begin(), edges.end(),
                           [&G](const EdgeDesc& e1, const EdgeDesc& e2) -> bool {
                               return G[e1].weight > G[e2].weight;
                           });
@@ -239,13 +239,13 @@ void visitViaDFS(GraphT& G,
             }
         }
     }
-    
+
 
 }
 
-void encodeAsPath(std::vector<std::string>& readSeqsLeft, 
-                  std::vector<std::string>& readSeqsRight, 
-                  std::ofstream& outFileLeft, 
+void encodeAsPath(std::vector<std::string>& readSeqsLeft,
+                  std::vector<std::string>& readSeqsRight,
+                  std::ofstream& outFileLeft,
                   std::ofstream& outFileRight) {
 
     /** **/
@@ -253,7 +253,7 @@ void encodeAsPath(std::vector<std::string>& readSeqsLeft,
     using Graph = boost::adjacency_list<boost::vecS, boost::vecS, boost::undirectedS, VertexInfo, EdgeInfo>;
     using Edge = boost::graph_traits<Graph>::edge_descriptor;
     using VD = boost::graph_traits<Graph>::vertex_descriptor;
-    
+
     Graph G;
     std::vector<int> isolatedLeft;
     std::vector<int> isolatedRight;
@@ -262,7 +262,7 @@ void encodeAsPath(std::vector<std::string>& readSeqsLeft,
 
     refineKmers2(readSeqsLeft, merMapLeft, isolatedLeft);
     buildGraph(merMapLeft, isolatedLeft, G);
-    
+
     visitViaDFS(G, readSeqsLeft, readSeqsRight, outFileLeft, outFileRight);
 }
 
@@ -323,7 +323,7 @@ int main(int argc, char *argv[])
       gzFile fp1, fp2;
       kseq_t *seq1, *seq2;
       int l1, l2;
-      
+
       std::string outDir(outname.getValue());
       std::string outFilenameLeft = outDir + "/r1.enc";
       std::string outFilenameRight = outDir + "/r2.enc";
@@ -336,7 +336,7 @@ int main(int argc, char *argv[])
       size_t eqID{0};
       bool done{false};
       while (!done) {
-          
+
           size_t numToProcess{0};
           struct EqClassInfo {
               std::vector<std::string> readSeqsLeft;
@@ -350,7 +350,7 @@ int main(int argc, char *argv[])
               numToProcess += classSize;
           }
           if (numToProcess < chunkSize) { done = true; }
-          
+
 
           // map a read name to it's equivalence class
 
@@ -369,7 +369,7 @@ int main(int argc, char *argv[])
 
           fp1 = gzopen(read1.getValue().c_str(), "r"); // STEP 2: open the file handler
           seq1 = kseq_init(fp1); // STEP 3: initialize seq
-      
+
           fp2 = gzopen(read2.getValue().c_str(), "r"); // STEP 2: open the file handler
           seq2 = kseq_init(fp2); // STEP 3: initialize seq
 
@@ -379,16 +379,16 @@ int main(int argc, char *argv[])
               //std::cout << "r: " << seq1->name.s << '\n';
               if (it != readNames.end()) {
                   auto& eq = chunkSizes[it->second];
-                  eq.readSeqsLeft.push_back(seq1->seq.s); 
-                  eq.readSeqsRight.push_back(seq2->seq.s); 
+                  eq.readSeqsLeft.push_back(seq1->seq.s);
+                  eq.readSeqsRight.push_back(seq2->seq.s);
               } else if (readNames.find(seq2->name.s) != readNames.end()) {
                   auto& eq = chunkSizes[it->second];
-                  eq.readSeqsLeft.push_back(seq1->seq.s); 
-                  eq.readSeqsRight.push_back(seq2->seq.s); 
+                  eq.readSeqsLeft.push_back(seq1->seq.s);
+                  eq.readSeqsRight.push_back(seq2->seq.s);
               }
               ++readID;
-          } 
-          
+          }
+
           gzclose(fp1);
           gzclose(fp2);
 
@@ -416,7 +416,7 @@ int main(int argc, char *argv[])
 	std::string lFile_r = outDir + std::string("/r2.l.fq");
 	std::ofstream ofs_unmapped_l(lFile_l, std::ofstream::out);
 	std::ofstream ofs_unmapped_r(lFile_r, std::ofstream::out);
-    
+
     std::ifstream unmappedInput(unmappedFile.getValue());
     std::unordered_set<std::string> unmappedNames;
     std::string rn;
@@ -425,7 +425,7 @@ int main(int argc, char *argv[])
 
     fp1 = gzopen(read1.getValue().c_str(), "r"); // STEP 2: open the file handler
     seq1 = kseq_init(fp1); // STEP 3: initialize seq
-      
+
     fp2 = gzopen(read2.getValue().c_str(), "r"); // STEP 2: open the file handler
     seq2 = kseq_init(fp2); // STEP 3: initialize seq
 
@@ -445,14 +445,14 @@ int main(int argc, char *argv[])
             ofs_unmapped_l << seq1->seq.s << '\n';
             ofs_unmapped_l << "+" << '\n';
             ofs_unmapped_l << seq1->qual.s << '\n';
-            
+
             ofs_unmapped_r << "@" << seq2->name.s << '\n';
             ofs_unmapped_r << seq2->seq.s << '\n';
             ofs_unmapped_r << "+" << '\n';
             ofs_unmapped_r << seq2->qual.s << '\n';
         }
-    } 
-          
+    }
+
     gzclose(fp1);
     gzclose(fp2);
       return 0;
