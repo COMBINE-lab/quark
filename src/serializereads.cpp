@@ -189,9 +189,47 @@ int RandomSample(Vertices& vs){
                         //
 }
 
-void createObj(auto &tr,int start_node ,auto& seqs, Robj &obj){
+void createObj(auto& order,auto& seq, Robj &obj){
     //std::cout << "\n Start Node "<< start_node<< "\n" ;
+    //
+    //
+    //
+    //
+    std::cout << "\n In createObj \n" ;
     std::set<int> seenNodes;
+    for(auto p : order){
+        for(int i = 0; i < p.size()-1;++i){
+            auto u = p[i];
+            auto v = p[i+1];
+            /* edlib module
+           auto query =(const unsigned char *)seq[u].c_str();
+            auto target =(const unsigned char *)seq[v].c_str();
+            int alphabetLength = 4;
+            int queryLength = seq[u].size();
+            int targetLength = seq[v].size();
+            int score, numLocations, alignmentLength;
+            int* startLocations;
+            int* endLocations;
+            unsigned char* alignment;
+            edlibCalcEditDistance(query, queryLength, target, targetLength,
+                                          alphabetLength, -1, EDLIB_MODE_NW, true, true,
+                                                                &score, &endLocations, &startLocations, &numLocations,
+                                                                                      &alignment, &alignmentLength);
+            char* cigar;
+            edlibAlignmentToCigar(alignment, alignmentLength, EDLIB_CIGAR_EXTENDED, &cigar);
+            */
+                    std::string reference = seq[u];
+                    std::string query = seq[v];
+                    std::string cigar;
+                    std::string alignment = "";
+                    uint32_t alignment_l = 0;
+                    int32_t edit_distance = GenerateCigar((char *) query.c_str(),
+                            query.size(), (char *) reference.c_str(),
+                            reference.size(), &cigar, &alignment_l, &alignment);
+            std::cout <<reference.size()<<" "<<query.size()<<" " <<  cigar <<std::endl;
+        }
+    }
+    /*
     std::queue<int> L;
     std::string refString = seqs.at(start_node);
     L.push(start_node);
@@ -227,7 +265,7 @@ void createObj(auto &tr,int start_node ,auto& seqs, Robj &obj){
                 }
             }
         }
-    }
+    }*/
 }
 
 void return_tf (auto &val, auto& kmerlist, auto &v){
@@ -322,9 +360,9 @@ void createGraph(auto& kmerhash, auto& G){
     std::cout<< "\n Graph creation complete \n" ;
 }
 
-void DFS(auto&g, auto& path_t){
+void DFS(auto&g, auto& path, auto& lone){
     //Take the highest node;
-    //std::cout << "\n A Graph with v: "<<g.v.size()<<" e: "<<g.e.size()<<"\n";
+    std::cout << "\n A Graph with v: "<<g.v.size()<<" e: "<<g.adj.size()<<"\n";
     auto vcopy = g.v ;
     //take the maximum edge
     //
@@ -340,8 +378,9 @@ void DFS(auto&g, auto& path_t){
    auto u = maxe.first ;
    auto v = maxe.second ;
    //std::cout << "seed node "<< u << "\n";
-   //start doing dfs unless you see all noes ;
+   //start doing dfs unless you see all nodes ;
    bool start = true;
+   std::vector<int> path_t;
    while(!vcopy.empty()){
         int seed ;
         if(start){
@@ -357,12 +396,20 @@ void DFS(auto&g, auto& path_t){
             int v = dfsstack.top();
             dfsstack.pop();
             if(seenV.find(v) == seenV.end()){
-                path_t.push_back(v);
+
                 seenV.insert(v);
                 //std::cout<< "\n visited "<<v<<"\n";
                 //std::cout<< "\n size of vcopy:  "<<vcopy.size()<<"\n";
+                //std::cout<< "\n size of path_t:  "<<path_t.size()<<"\n";
                 vcopy.erase(v);
+                if(g.adj.find(v) == g.adj.end()){
+                    std::cout << "\n no edge with "<<v << "\n";
+                    lone.push_back(v);
+                    continue;
+                }
+                path_t.push_back(v);
                 std::vector<int> neighbors = g.adj[v];
+                //std::cout << " \n WTF \n";
                 std::vector<Edge> incEdges ;
                 for(auto& i: neighbors){
                     if(seenV.find(i) == seenV.end()){
@@ -380,6 +427,11 @@ void DFS(auto&g, auto& path_t){
                 }
             }
 
+        }
+        if(!path_t.empty()){
+            std::cout << "\n path_t size "<<path_t.size()<<std::endl;
+            path.push_back(path_t);
+            path_t.clear();
         }
 
     }
@@ -413,11 +465,22 @@ void buildReadGraph_tfidf(auto &pvec, auto& lobj, auto& robj){
 
     std::cout << "\n Number of kmers = " << leftkmers.size() << '\n';
     createGraph(leftkmers,lg);
-    std::vector<int> order_l;
-    std::vector<int> order_r;
-    DFS(lg,order_l);
-    DFS(lg,order_r);
+    std::vector<std::vector<int> > order_l;
+    std::vector<std::vector<int> > order_r;
+    std::vector<int> lone_l;
+    std::vector<int> lone_r;
+    DFS(lg,order_l,lone_l);
+    std::cout << "\n path size is "<<order_l.size() << "\n";
+    DFS(lg,order_r,lone_r);
 
+    //for order use quark objects
+
+    if(!order_l.empty()){
+        createObj(order_l,lefts,lobj);
+    }
+    if(!order_r.empty()){
+        createObj(order_r,rights,robj);
+    }
 
 }
 

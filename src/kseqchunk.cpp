@@ -254,8 +254,17 @@ int maxDegree(AdjList &adj){
 }
 
 void createMST(Graph &g, Graph &tr){
+    //convertGraph
+    //Graph tmpG ;
+    std::unordered_map<uint32_t, uint32_t> relabel;
+    std::vector<uint32_t> backward_label;
+    for (auto v : g.v) {
+        relabel[v] = relabel.size();
+        backward_label.push_back(v);
+    }
+
     int n = g.e.size();
-    //std::cout << "\n Forest size "<<n<<"\n";
+    std::cout << "\n Forest size "<<n<<"\n";
     UnionFind forest(n);
     // sort the edges
     std::vector<Edge> eorder;
@@ -268,11 +277,11 @@ void createMST(Graph &g, Graph &tr){
     int size = 0;
     std::unordered_set<int> seenV ;
     seenV.reserve(g.v.size());
-    //std::cout << "\n eorder size "<<eorder.size()<<"\n";
-    for(int i = 0; seenV.size() < g.v.size(); i++){
+    std::cout << "\n eorder size "<<eorder.size()<<"\n";
+    for(int i = 0; i < g.e.size(); i++){
         Edge currE = eorder.at(i);
-        int a = currE.first ;
-        int b = currE.second ;
+        int a = relabel[currE.first];
+        int b = relabel[currE.second];
         //std::cout << "\n a "<<a<<" f(a) "<<forest.find_set(a)<<" b "<<b<<"\n";
         if(forest.find_set(a) != forest.find_set(b)){
             //std::cout << "\na "<<a<<"b "<<b<<"\n";
@@ -280,17 +289,22 @@ void createMST(Graph &g, Graph &tr){
             forest.join(a,b);
             seenV.insert(a);
             seenV.insert(b);
-            tr.v.insert(a);
-            tr.v.insert(b);
-            if(tr.adj.find(a) == tr.adj.end() && tr.adj.find(b) == tr.adj.end()){
-                tr.adj[a] = {b};
-                tr.adj[b] = {a};
+            //
+            int ap = backward_label[a];
+            int bp = backward_label[b];
+            tr.v.insert(ap);
+            tr.v.insert(bp);
+            if(tr.adj.find(ap) == tr.adj.end() && tr.adj.find(bp) == tr.adj.end()){
+                tr.adj[ap] = {bp};
+                tr.adj[bp] = {ap};
             }else{
-                tr.adj[a].push_back(b);
-                tr.adj[b].push_back(a);
+                tr.adj[ap].push_back(bp);
+                tr.adj[bp].push_back(ap);
             }
         }
     }
+
+    //Graph tr2;
 
 }
 typedef struct Rline{
@@ -353,6 +367,55 @@ void return_tf (auto &val, auto& kmerlist, auto &v){
         v(kmerlist[mer]) += 1;
     }
     //v = v / v.sum();
+}
+
+void refineKmers2(auto& lefts, auto& final_kmers_left, auto& unmappedIDs) {
+  // maps kmers to read ids
+  int k = 31;
+  std::cout << "we are in new refineKmer2\n";
+  std::unordered_set<std::string> invalidKmers;
+  std::vector<int> coveredReads(lefts.size(), 0);
+
+  int cutoff = 20; // ** arbitrary **
+  int rid = 0;//
+  //create a freq vector for each document
+  //First do it for a read
+  // populate the kmer set
+  // that is get all the terms
+  for(auto &val : lefts){
+      //std::cout << val.length() << "\n";
+      for(int i = 0; i < val.length()-k+1;++i){
+          std::string mer = (val.substr(i,k));
+          auto it = final_kmers_left.find(mer);
+          if (it != final_kmers_left.end()) {
+              if (it->second.size() > cutoff) {
+                  invalidKmers.insert(mer);
+                  continue;
+              }
+              // if the last read is the same as the current read, then skip it
+              if (it->second.size() == 0) { std::cerr << "WTF!\n"; }
+              if (it->second.back() != rid) {
+                  it->second.push_back(rid);
+                  coveredReads[rid]++;
+              }
+          } else { // otherwise
+              final_kmers_left[mer].push_back(rid);
+          }
+      }
+      rid++;
+  }
+
+  for (auto& m : invalidKmers) {
+    std::vector<int>& readIds = final_kmers_left[m];
+    for (int r : readIds) {
+      coveredReads[r]--;
+    }
+    final_kmers_left.erase(m);
+  }
+
+  for (size_t i = 0; i < coveredReads.size(); ++i) {
+    if (coveredReads[i] == 0) { unmappedIDs.push_back(i); }
+  }
 }
 
 //void return idf()
@@ -466,8 +529,10 @@ void buildReadGraph_tfidf(auto &pvec, auto& lobj, auto& robj){
     Graph lg,rg,ltr,rtr;
     kmerHash leftkmers;
     kmerHash rightkmers;
-    refineKmers(lefts,leftkmers);
-    refineKmers(rights,rightkmers);
+    std::vector<int> ul ;
+    std::vector<int> ur ;
+    refineKmers2(lefts,leftkmers,ul);
+    refineKmers2(rights,rightkmers,ur);
 
     std::cout << "\n Number of kmers = " << leftkmers.size() << '\n';
     for(auto &kmere : leftkmers){
@@ -476,7 +541,7 @@ void buildReadGraph_tfidf(auto &pvec, auto& lobj, auto& robj){
         createGraph(svec,lg);
         //std::cout << "\n Graph created with V:"<<lg.v.size()<<" E:"<<lg.e.size()<<"\n";
     }
-    std::cout << "\n Home fully it has less size";
+    std::cout << "\n Hope fully it has less size";
 
     //print graph : testing
     for(auto ed: lg.e){
@@ -484,6 +549,8 @@ void buildReadGraph_tfidf(auto &pvec, auto& lobj, auto& robj){
         double val = ed.second;
         //std::cout << "\n "<<e1.first<<" "<<e1.second<<" "<<val<<"\n";
     }
+
+    std::cout << "\n "<<lg.v.size()<<" "<<lg.e.size()<<" "<<"\n";
     createMST(lg,ltr);
     //std::cout << "\n MST created with V:"<<ltr.v.size()<<" E:"<<ltr.e.size()<<" adj sz: "<<ltr.adj.size()<<"\n";
     int start_node = maxDegree(ltr.adj);
