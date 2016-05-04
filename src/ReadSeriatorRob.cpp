@@ -331,16 +331,40 @@ int main(int argc, char *argv[])
       std::ofstream outFileRight(outFilenameRight.c_str());
       // process the equivalence class
       // read the size of the next equivalence class
+      const size_t chunkSize{2000000};
       size_t classSize{0};
       size_t eqID{0};
-      while (sizeFile >> classSize) {
+      bool done{false};
+      while (!done) {
+          
+          size_t numToProcess{0};
+          struct EqClassInfo {
+              std::vector<std::string> readSeqsLeft;
+              std::vector<std::string> readSeqsRight;
+              size_t chunkSize;
+          };
+
+          std::vector<EqClassInfo> chunkSizes;
+          while ((sizeFile >> classSize) and (numToProcess < chunkSize)) {
+              chunkSizes.push_back({std::vector<std::string>(), std::vector<std::string>(), classSize});
+              numToProcess += classSize;
+          }
+          if (numToProcess < chunkSize) { done = true; }
+          
+
+          // map a read name to it's equivalence class
+
+          std::unordered_map<std::string, size_t> readNames;
+          size_t classID{0};
+          size_t nextTarget = chunkSizes.front().chunkSize;
+
           // the next eq class has classSize reads, whose names are given by the
           // next classSize lines in the order file.
-          std::unordered_set<std::string> readNames;
-          for (size_t i = 0; i < classSize; ++i) {
+          for (size_t i = 0; i < numToProcess; ++i) {
+              if (i >= nextTarget) { classID++; nextTarget += chunkSizes[classID].chunkSize; }
               std::string rn;
               orderFile >> rn;
-              readNames.insert(rn);
+              readNames[rn] = classID;
           }
 
           fp1 = gzopen(read1.getValue().c_str(), "r"); // STEP 2: open the file handler
@@ -349,18 +373,18 @@ int main(int argc, char *argv[])
           fp2 = gzopen(read2.getValue().c_str(), "r"); // STEP 2: open the file handler
           seq2 = kseq_init(fp2); // STEP 3: initialize seq
 
-          std::vector<std::string> readSeqsLeft;
-          std::vector<std::string> readSeqsRight;
           uint64_t readID{0};
           while ((l1 = kseq_read(seq1)) >= 0 and (l2 = kseq_read(seq2)) >= 0) { // STEP 4: read sequence
               auto it = readNames.find(seq1->name.s);
               //std::cout << "r: " << seq1->name.s << '\n';
               if (it != readNames.end()) {
-                  readSeqsLeft.push_back(seq1->seq.s); 
-                  readSeqsRight.push_back(seq2->seq.s); 
+                  auto& eq = chunkSizes[it->second];
+                  eq.readSeqsLeft.push_back(seq1->seq.s); 
+                  eq.readSeqsRight.push_back(seq2->seq.s); 
               } else if (readNames.find(seq2->name.s) != readNames.end()) {
-                  readSeqsLeft.push_back(seq1->seq.s); 
-                  readSeqsRight.push_back(seq2->seq.s); 
+                  auto& eq = chunkSizes[it->second];
+                  eq.readSeqsLeft.push_back(seq1->seq.s); 
+                  eq.readSeqsRight.push_back(seq2->seq.s); 
               }
               ++readID;
           } 
@@ -368,21 +392,21 @@ int main(int argc, char *argv[])
           gzclose(fp1);
           gzclose(fp2);
 
-          // If the number of reads is too small, just encode them "simply"
-          if (classSize <= 10) {
-              if (classSize != readSeqsLeft.size()) {
-                  std::cout << "classSize = " << classSize << ", but only found " << readSeqsLeft.size() << " reads!\n";
+          for (auto& eq : chunkSizes) {
+              // If the number of reads is too small, just encode them "simply"
+              if (eq.chunkSize <= 10) {
+                  if (eq.chunkSize != eq.readSeqsLeft.size()) {
+                      std::cout << "classSize = " << eq.chunkSize << ", but only found " << eq.readSeqsLeft.size() << " reads!\n";
+                  }
+                  for (size_t i = 0; i < eq.chunkSize; ++i) {
+                      outFileLeft << eq.readSeqsLeft[i] << '\n';
+                      outFileRight << eq.readSeqsRight[i] << '\n';
+                  }
+              } else {
+                  encodeAsPath(eq.readSeqsLeft, eq.readSeqsRight, outFileLeft, outFileRight);
               }
-              for (size_t i = 0; i < classSize; ++i) {
-                  outFileLeft << readSeqsLeft[i] << '\n';
-                  outFileRight << readSeqsRight[i] << '\n';
-              }
-          } else {
-              encodeAsPath(readSeqsLeft, readSeqsRight, outFileLeft, outFileRight);
+              ++eqID;
           }
-
-          std::cout << "equivalence class " << eqID << " had " << classSize << " reads\n";
-          ++eqID;
       }
       //buildEqHeaders(eqClassOrderFile, eqClassSizeFile, req);
       std::cout << "\n equivalence classes gathered\n" ;
