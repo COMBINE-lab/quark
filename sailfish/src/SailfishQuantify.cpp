@@ -229,6 +229,9 @@ void processReadsQuasi(paired_parser* parser,
             // Are the jointHits paired-end quasi-mappings or orphans?
             bool isPaired = jointHits.front().mateStatus == rapmap::utils::MateStatus::PAIRED_END_PAIRED;
             bool bothEndsMap = isPaired;
+            //int32_t start_pos;
+
+
 
             // If we're not allowing orphans and the hits are orphans
             // then simply discard them.
@@ -284,7 +287,15 @@ void processReadsQuasi(paired_parser* parser,
 
 	    //auto sampleIndex = dis(gen) % jointHits.size();
 	    size_t hitIndex{0};
-	    for (auto& h : jointHits) {
+
+        // get the txp name to pass
+        std::vector<rapmap::utils::QuasiAlignment>::iterator it_jointHits = jointHits.begin();
+        auto tid = it_jointHits->transcriptID();
+       uint32_t txpName = transcripts[tid].id;
+        auto relpos = it_jointHits->pos;
+        int32_t start_pos = it_jointHits->fwd ? relpos : relpos + it_jointHits->readLen;
+        // end
+ 	    for (auto& h : jointHits) {
                 auto transcriptID = h.transcriptID();
                 auto& txp = transcripts[transcriptID];
 
@@ -427,7 +438,7 @@ void processReadsQuasi(paired_parser* parser,
                 if (txpIDsCompat.size() > 0) {
                     mappedFrag = true;
                     TranscriptGroup tg(txpIDsCompat);
-                    eqBuilder.addGroup(std::move(tg), auxProbsCompat,readName);
+                    eqBuilder.addGroup(std::move(tg), auxProbsCompat,readName,txpName,start_pos);
                     readExp.addNumFwd(fwCompat);
                     readExp.addNumRC(rcCompat);
                 }
@@ -436,7 +447,7 @@ void processReadsQuasi(paired_parser* parser,
                     // Otherwise, consider all hits.
                     mappedFrag = true;
                     TranscriptGroup tg(txpIDsAll);
-                    eqBuilder.addGroup(std::move(tg), auxProbsAll,readName);
+                    eqBuilder.addGroup(std::move(tg), auxProbsAll,readName,txpName,start_pos);
                     readExp.addNumFwd(fwAll);
                     readExp.addNumRC(rcAll);
                 }
@@ -575,6 +586,14 @@ void processReadsQuasi(single_parser* parser,
 
                 bool needBiasSample = sfOpts.biasCorrect;
 
+        // get the txp name to pass
+        std::vector<rapmap::utils::QuasiAlignment>::iterator it_jointHits = jointHits.begin();
+        auto tid = it_jointHits->transcriptID();
+       uint32_t txpName = transcripts[tid].id;
+        auto relpos = it_jointHits->pos;
+        int32_t start_pos = it_jointHits->fwd ? relpos : relpos + it_jointHits->readLen;
+        // end
+
                 for (auto& h : jointHits) {
                     auto transcriptID = h.transcriptID();
                     auto& txp = transcripts[transcriptID];
@@ -640,7 +659,7 @@ void processReadsQuasi(single_parser* parser,
                     if (txpIDsCompat.size() > 0) {
                         mappedFrag = true;
                         TranscriptGroup tg(txpIDsCompat);
-                        eqBuilder.addGroup(std::move(tg), auxProbsCompat,readName);
+                        eqBuilder.addGroup(std::move(tg), auxProbsCompat,readName,txpName,start_pos);
                         readExp.addNumFwd(fwCompat);
                         readExp.addNumRC(rcCompat);
                     }
@@ -649,7 +668,7 @@ void processReadsQuasi(single_parser* parser,
                         // Otherwise, consider all hits.
                         mappedFrag = true;
                         TranscriptGroup tg(txpIDsAll);
-                        eqBuilder.addGroup(std::move(tg), auxProbsAll,readName);
+                        eqBuilder.addGroup(std::move(tg), auxProbsAll,readName,txpName,start_pos);
                         readExp.addNumFwd(fwAll);
                         readExp.addNumRC(rcAll);
                     }

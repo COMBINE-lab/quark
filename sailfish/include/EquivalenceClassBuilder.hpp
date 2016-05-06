@@ -12,6 +12,7 @@
 
 #include "cuckoohash_map.hh"
 #include "concurrentqueue.h"
+#include "Transcript.hpp"
 #include "TranscriptGroup.hpp"
 #include "SailfishSpinLock.hpp"
 
@@ -21,10 +22,12 @@ struct TGValue {
         weights = o.weights;
         count.store(o.count.load());
         readNames = o.readNames ;
+        txpNames = o.txpNames ;
+        positions = o.positions;
     }
 
-    TGValue(std::vector<double>& weightIn, uint64_t countIn, std::string& readNamesIn) :
-        weights(weightIn), readNames({readNamesIn}) {
+    TGValue(std::vector<double>& weightIn, uint64_t countIn, std::string& readNamesIn, uint32_t txpNameIn, int32_t& pos) :
+        weights(weightIn), readNames({readNamesIn}), txpNames({txpNameIn}), positions({pos}) {
     count.store(countIn);
     }
     // const is a lie
@@ -52,6 +55,8 @@ struct TGValue {
     mutable std::vector<double> weights;
     std::atomic<uint64_t> count{0};
     mutable std::vector<std::string> readNames ;
+    mutable std::vector<uint32_t> txpNames ;
+    mutable std::vector<int32_t> positions ;
     //spin_lock l;
     // only one writer thread at a time
     //
@@ -93,17 +98,22 @@ class EquivalenceClassBuilder {
 
         inline void insertGroup(TranscriptGroup g, uint32_t count) {
             std::string dummy ;
+            uint32_t dummy1;
+            int32_t dummy2;
             std::vector<double> weights(g.txps.size(), 0.0);
             //auto updatefn = [count](TGValue& x) { x.count = count; };
-            TGValue v(weights, count,dummy);
+            TGValue v(weights, count,dummy,dummy1,dummy2);
             countVec_.push_back(std::make_pair(g, v));
             //countMap_.upsert(g, updatefn, v);
         }
 
         inline void addGroup(TranscriptGroup&& g,
-                             std::vector<double>& weights, std::string &readName) {
+                             std::vector<double>& weights,
+                             std::string &readName,
+                             uint32_t &txpName,
+                             int32_t &position) {
 
-            auto upfn = [&weights, &readName](TGValue& x) -> void {
+            auto upfn = [&weights, &readName, &txpName, &position](TGValue& x) -> void {
              // update the count
                 // x.scoped_lock {
 #if defined __APPLE__
@@ -113,6 +123,8 @@ class EquivalenceClassBuilder {
 #endif
                 x.count++;
                 x.readNames.push_back(readName);
+                x.txpNames.push_back(txpName);
+                x.positions.push_back(position);
                 // update the weights
                 for (size_t i = 0; i < x.weights.size(); ++i) {
                     // Possibly atomicized in the future
@@ -123,7 +135,7 @@ class EquivalenceClassBuilder {
                     */
                 }
             };
-            TGValue v(weights, 1,readName);
+            TGValue v(weights, 1,readName,txpName,position);
             countMap_.upsert(g, upfn, v);
         }
 
