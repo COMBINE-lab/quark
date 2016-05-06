@@ -1,8 +1,0 @@
-/home/hirak/quark/sailfish/build/CMakeFiles/libdivsufsort.dir
-/home/hirak/quark/sailfish/build/CMakeFiles/libgff.dir
-/home/hirak/quark/sailfish/build/CMakeFiles/libjellyfish.dir
-/home/hirak/quark/sailfish/build/CMakeFiles/libsparsehash.dir
-/home/hirak/quark/sailfish/build/CMakeFiles/libtbb.dir
-/home/hirak/quark/sailfish/build/src/CMakeFiles/sailfish.dir
-/home/hirak/quark/sailfish/build/src/CMakeFiles/sailfish_core.dir
-/home/hirak/quark/sailfish/build/src/CMakeFiles/unitTests.dir

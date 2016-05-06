@@ -1,1 +1,0 @@
-cmd='/usr/bin/cmake;-DCMAKE_INSTALL_PREFIX:PATH=/home/hirak/quark/sailfish/external/install;-GUnix Makefiles;/home/hirak/quark/sailfish/external/libgff'

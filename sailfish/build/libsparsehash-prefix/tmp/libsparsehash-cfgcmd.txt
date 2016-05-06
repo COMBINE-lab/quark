@@ -1,1 +1,0 @@
-cmd='sh;-c;CC=/usr/bin/cc CXX=/usr/bin/c++ ./configure --prefix=<INSTALL_DIR>'
