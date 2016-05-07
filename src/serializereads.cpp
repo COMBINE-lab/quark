@@ -28,6 +28,7 @@ Output:
 #include <boost/numeric/ublas/matrix_sparse.hpp>
 #include <boost/numeric/ublas/matrix_proxy.hpp>
 #include <boost/numeric/ublas/io.hpp>
+#include <boost/algorithm/string.hpp>
 #include <boost/functional/hash.hpp>
 //#include <Eigen/Dense>
 //#include <hash.hpp>
@@ -201,9 +202,15 @@ void createObj(auto& order,auto& seq, Robj &obj){
         for(int i = 0; i < p.size()-1;++i){
             auto u = p[i];
             auto v = p[i+1];
-            /* edlib module
-           auto query =(const unsigned char *)seq[u].c_str();
-            auto target =(const unsigned char *)seq[v].c_str();
+            // edlib module
+            std::string qu = seq[u];
+            std::string tu = seq[v];
+            boost::to_upper(qu);
+            boost::to_upper(tu);
+            auto query =(const unsigned char *)qu.c_str();
+            auto target =(const unsigned char *)tu.c_str();
+            std::cout<< query << "\n";
+            std::cout<< target << "\n";
             int alphabetLength = 4;
             int queryLength = seq[u].size();
             int targetLength = seq[v].size();
@@ -217,7 +224,8 @@ void createObj(auto& order,auto& seq, Robj &obj){
                                                                                       &alignment, &alignmentLength);
             char* cigar;
             edlibAlignmentToCigar(alignment, alignmentLength, EDLIB_CIGAR_EXTENDED, &cigar);
-            */
+
+            /*
                     std::string reference = seq[u];
                     std::string query = seq[v];
                     std::string cigar;
@@ -226,7 +234,7 @@ void createObj(auto& order,auto& seq, Robj &obj){
                     int32_t edit_distance = GenerateCigar((char *) query.c_str(),
                             query.size(), (char *) reference.c_str(),
                             reference.size(), &cigar, &alignment_l, &alignment);
-            std::cout <<reference.size()<<" "<<query.size()<<" " <<  cigar <<std::endl;
+            std::cout <<reference.size()<<" "<<query.size()<<" " <<  cigar <<std::endl;*/
         }
     }
     /*
