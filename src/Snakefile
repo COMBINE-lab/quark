@@ -1,6 +1,8 @@
-#snakemake --config r1=/mnt/scratch1/hirak/RapCompressData/smalltestbed/reads/testr1.fq r2=/mnt/scratch1/hirak/
-# RapCompressData/smalltestbed/reads/testr2.fq exp=/mnt/scratch1/hirak/RapCompressData/smalltestbed/quarksailfish/ outdir=/mnt/scratch1/hir
-# ak/RapCompressData/snaketest/
+#snakemake --config 
+#r1=/mnt/scratch1/hirak/RapCompressData/smalltestbed/reads/testr1.fq 
+#r2=/mnt/scratch1/hirak/RapCompressData/smalltestbed/reads/testr2.fq 
+#exp=/mnt/scratch1/hirak/RapCompressData/smalltestbed/quarksailfish/ 
+#outdir=/mnt/scratch1/hirak/RapCompressData/snaketest/
 
 import os
 import sys
@@ -77,7 +79,7 @@ rule run_kseqchunk:
             os.path.join(outdir,"r1.l.fq"),
             os.path.join(outdir,"r2.l.fq")
     run:
-        if(pexists(outdir)):
+        if(not(pexists(outdir))):
             shell("mkdir -p {outdir}")
         shell("./kseqchunk {READ_1} {READ_2} {orderfile} {tmpfile} {unmapped} {outdir}")
         
