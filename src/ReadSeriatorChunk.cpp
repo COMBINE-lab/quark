@@ -271,14 +271,14 @@ int main(int argc, char *argv[])
               if (it != readNames.end()) {
                   auto& eq = chunkSizes[it->second];
                   int matepos = 0;
-                  int pos = readNamesPos[seq1->seq.s];
-
+                  int pos = readNamesPos[seq1->name.s];
+                  //std::cout << pos <<"\n";
                   eq.readSeqs.push_back({std::make_pair(seq1->seq.s,seq2->seq.s),pos});
                   //eq.readSeqsRight.push_back(std::make_pair(seq2->seq.s,matepos));
               } else if (readNames.find(seq2->name.s) != readNames.end()) {
                   auto& eq = chunkSizes[it->second];
                   int matepos = 0;
-                  int pos = readNamesPos[seq1->seq.s];
+                  int pos = readNamesPos[seq1->name.s];
 
                   eq.readSeqs.push_back({std::make_pair(seq1->seq.s,seq2->seq.s),pos});
                   //eq.readSeqsLeft.push_back(std::make_pair(seq1->seq.s,pos));
