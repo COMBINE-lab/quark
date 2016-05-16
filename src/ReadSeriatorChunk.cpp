@@ -193,7 +193,7 @@ int main(int argc, char *argv[])
 
         // process the equivalence class
         // read the size of the next equivalence class
-        const size_t chunkSize{2000000};
+        const size_t chunkSize{12000000};
         size_t classSize{0};
         size_t eqID{0};
         bool done{false};
@@ -258,14 +258,14 @@ int main(int argc, char *argv[])
               if (it != readNames.end()) {
                   auto& eq = chunkSizes[it->second];
                   int matepos = 0;
-                  int pos = readNamesPos[seq1->seq.s];
-
+                  int pos = readNamesPos[seq1->name.s];
+                  //std::cout << pos <<"\n";
                   eq.readSeqs.push_back({std::make_pair(seq1->seq.s,seq2->seq.s),pos});
                   //eq.readSeqsRight.push_back(std::make_pair(seq2->seq.s,matepos));
               } else if (readNames.find(seq2->name.s) != readNames.end()) {
                   auto& eq = chunkSizes[it->second];
                   int matepos = 0;
-                  int pos = readNamesPos[seq1->seq.s];
+                  int pos = readNamesPos[seq1->name.s];
 
                   eq.readSeqs.push_back({std::make_pair(seq1->seq.s,seq2->seq.s),pos});
                   //eq.readSeqsLeft.push_back(std::make_pair(seq1->seq.s,pos));
