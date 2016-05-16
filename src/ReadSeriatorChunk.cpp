@@ -100,7 +100,7 @@ void encodeAsShift(std::vector<idpos> &l,
                             if(shift == 0){
                                 ofs_mapped_l<<"M"<<curr.size()<<"\t";
                             }else{
-                                ofs_mapped_l<<"S"<<shift;
+                                ofs_mapped_l<<"S"<<shift<<"\t";
                                 while(prev[shift+match] == curr[match])
                                     match++;
                                 ofs_mapped_l<<"M"<<match<<"\t";
