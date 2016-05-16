@@ -10,6 +10,7 @@ Output:
 ****************************************************************************/
 #include <zlib.h>
 #include <stdio.h>
+#include <chrono>
 #include <set>
 #include <cstring>
 #include <string>
@@ -35,11 +36,18 @@ Output:
 #include "cigargen.h"
 #include "kseq.h"
 #include "edlib.h"
+#include "xxhash.h"
 
 typedef std::unordered_map<int,std::set<std::string> > EqReadID ;
 //using idpos = std::pair<std::string, int> ;
 typedef std::unordered_map<std::string, int> RevReadIDEq ;
 typedef std::unordered_map<std::string, int> RevReadIDPos ;
+
+struct StringHasher {
+    size_t operator()(const std::string& s) const {
+        return XXH64(s.c_str(), s.length(), 0);
+    }
+};
 
 typedef std::pair<std::string,std::string> matepair ;
 struct idpos{
@@ -210,15 +218,16 @@ int main(int argc, char *argv[])
         std::vector<EqClassInfo> chunkSizes;
           while ((sizeFile >> classSize) and (numToProcess < chunkSize)) {
               chunkSizes.push_back({std::vector<idpos>(), classSize});
+              chunkSizes.back().readSeqs.reserve(classSize);
               numToProcess += classSize;
           }
         if (numToProcess < chunkSize) { done = true; }
 
-        std::unordered_map<std::string, size_t> readNames;
-        std::unordered_map<std::string, size_t> readNamesPos;
+        std::unordered_map<std::string, size_t, StringHasher> readNames;
+        std::unordered_map<std::string, size_t, StringHasher> readNamesPos;
 
         size_t classID{0};
-          size_t nextTarget = chunkSizes.front().chunkSize;
+        size_t nextTarget = chunkSizes.front().chunkSize;
 
         // the next eq class has classSize reads, whose names are given by the
           // next classSize lines in the order file.
@@ -241,19 +250,23 @@ int main(int argc, char *argv[])
                 std::string rn = std::string(vec3[0]);
               readNames[rn] = classID;
               readNamesPos[rn] = pos;
-
           }
 
-        fp1 = gzopen(read1.getValue().c_str(), "r"); // STEP 2: open the file handler
+          fp1 = gzopen(read1.getValue().c_str(), "r"); // STEP 2: open the file handler
           seq1 = kseq_init(fp1); // STEP 3: initialize seq
 
           fp2 = gzopen(read2.getValue().c_str(), "r"); // STEP 2: open the file handler
           seq2 = kseq_init(fp2); // STEP 3: initialize seq
 
+          std::chrono::time_point<std::chrono::system_clock> start, end;
+          start = std::chrono::system_clock::now();
+
           uint64_t readID{0};
           while ((l1 = kseq_read(seq1)) >= 0 and (l2 = kseq_read(seq2)) >= 0) { // STEP 4: read sequence
+              if (readID % 10000 == 1) {
+                  std::cout << "\r\rparsed " << readID << " reads";
+              }
               auto it = readNames.find(seq1->name.s);
-
               //std::cout << "r: " << seq1->name.s << '\n';
               if (it != readNames.end()) {
                   auto& eq = chunkSizes[it->second];
@@ -273,12 +286,15 @@ int main(int argc, char *argv[])
               }
               ++readID;
           }
-        gzclose(fp1);
+          gzclose(fp1);
           gzclose(fp2);
 
+          end = std::chrono::system_clock::now();
+          std::chrono::duration<double> elapsed_seconds = end-start;
+          std::cout << "tool " << elapsed_seconds.count() << ", seconds\n";
+          std::cerr << "gathered " << readNames.size() << " reads ... encoding\n";
 
-
-        for (auto& eq : chunkSizes) {
+          for (auto& eq : chunkSizes) {
               // If the number of reads is too small, just encode them "simply"
               if (eq.chunkSize <= 10) {
                   if (eq.chunkSize != eq.readSeqs.size()) {
@@ -293,7 +309,9 @@ int main(int argc, char *argv[])
               }
               ++eqID;
           }
+          std::cerr << "done\n";
         }
+        
 
         std::cout << "\n equivalence classes gathered\n" ;
 
