@@ -89,6 +89,7 @@ bool GZipWriter::writeEquivCounts(
     const std::vector<std::string>& readNames = eq.second.readNames;
     const std::vector<uint32_t>& txpNames = eq.second.txpNames;
     const std::vector<int32_t>& positions = eq.second.positions;
+    const std::vector<int32_t>& matePositions = eq.second.matePositions;
     // for each transcript in this class
     const TranscriptGroup& tgroup = eq.first;
     const std::vector<uint32_t>& txps = tgroup.txps;
@@ -100,7 +101,7 @@ bool GZipWriter::writeEquivCounts(
     equivFile << readNames.size() << '\t';
     // each read name
     for(size_t i=0;i< readNames.size(); ++i){
-        equivFile << readNames.at(i) << " " << txpNames.at(i) << " "<<positions.at(i) << "\t";
+        equivFile << readNames.at(i) << " " << matePositions.at(i) << " "<<positions.at(i) << "\t";
     }
     //for (auto readid : readNames) { equivFile << readid << '\t'; }
     // count for this class
