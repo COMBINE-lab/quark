@@ -103,12 +103,12 @@ int main(int argc,char *argv[]){
 	  return 1;
   	}
 
+  	Vertices vs,seenVertices;
 
   	Path path_t ;
-    {
+
   	AdjList gadj;
   	EdgeList gedg;
-  	Vertices vs,seenVertices;
 
   	std::ifstream is ;
 	is.open(argv[1], std::ifstream::in);
@@ -153,7 +153,7 @@ int main(int argc,char *argv[]){
     int concComp = 0;
 	while(seenVertices.size() < numVertices){
 		int randomNode = RandomSample(vs);
-        std::cout << "\n DFS on component "<<concComp + 1 << " Seed node: "<< randomNode << "\r\n" << std::flush;
+        //std::cout << "\n DFS on component "<<concComp + 1 << " Seed node: "<< randomNode << "\r\n" << std::flush;
         concComp++;
 		//test random sample
 		//std::cout<<"random node "<<randomNode<<"\n";
@@ -167,30 +167,42 @@ int main(int argc,char *argv[]){
 	}
 
     std::cout<<"\n DFS finished \n";
-    } // get rid of things we no longer need
+     // get rid of things we no longer need
 
     std::cout<<"\n Reading read ids with eq Classes \n";
 	EqClasses eqc ;
-	std::ifstream ieq ;
-	ieq.open(argv[2], std::ifstream::in);
-	for(std::string line; std::getline(ieq,line); ){
-		int key,numReads;
-		std::istringstream linestream(line);
-		linestream >> key;
-        std::string line2 ;
-        std::getline(ieq,line2);
-        std::istringstream iss(line2);
-        iss >> numReads;
+	std::ifstream ieq(argv[2]) ;
+
+    int readNumTotal = 0;
+
+	//ieq.open(argv[2], std::ifstream::in);
+
+    int key;
+    int tot{0};
+    while(ieq >> key){
+		int numReads;
+        //line >> key;
+        //std::string line2 ;
+        //std::getline(ieq,line2);
+        //std::istringstream iss(line2);
+        //iss >> numReads;
+        ieq >> numReads;
+        //std::cout << "key = " << key << ", reads = " << numReads << "\n";
+        std::string toss;
+        std::getline(ieq,toss);
+
+        tot += numReads;
 		std::list<std::string> readNames = {};
-		while(numReads){
+        for (int i = 0; i < numReads; ++i) {
             std::string rname;
             std::getline(ieq,rname);
+            //std::cout << rname << "\n";
             readNames.push_back(rname);
-            numReads--;
+            //numReads--;
 		}
 		eqc[key] = readNames ;
 	}
-
+    std::cout << "I think there are " << tot << " reads\n";
     std::cout<<"\n Writing read ids in DFS order \n";
 	std::ofstream ofs;
 	ofs.open(argv[3], std::ofstream::out);
@@ -200,6 +212,9 @@ int main(int argc,char *argv[]){
     std::cout<<"\n Cardinality of eq classes written in "<<tmpFile<<"\n";
     std::ofstream oftmp ;
     oftmp.open(tmpFile, std::ofstream::out) ;
+
+    std::cout<<"\n path_t "<<path_t.size()<< "\t "<<vs.size()<<"\n";
+
 
 	for(auto i: path_t){
 		std::list<std::string> readIds = eqc[i];

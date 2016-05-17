@@ -10,6 +10,7 @@ Output:
 ****************************************************************************/
 #include <zlib.h>
 #include <stdio.h>
+#include <cstdlib>
 #include <chrono>
 #include <set>
 #include <cstring>
@@ -104,18 +105,28 @@ void encodeAsShift(std::vector<idpos> &l,
                         currpos = p.pos ;
                         int match = 0;
                         int shift = currpos - prevpos;
-                        if(shift < curr.size()){
-                            if(shift == 0){
-                                ofs_mapped_l<<"M"<<curr.size()<<"\t";
+                        if(shift < prev.size()){
+                            //ofs_mapped_l<<"S"<<shift<<"\t";
+                            //match = 0;
+                            while(prev[shift+match] == curr[match] && (shift+match <= prev.size()-1))
+                                match++;
+                            //ofs_mapped_l<<"M"<<match<<"\t";
+                            //if(match < curr.size())
+                            //    ofs_mapped_l<<curr.substr(match);
+                            if (match == 0){
+                                ofs_mapped_l<<curr<<"\n";
                             }else{
-                                ofs_mapped_l<<"S"<<shift<<"\t";
-                                while(prev[shift+match] == curr[match])
-                                    match++;
-                                ofs_mapped_l<<"M"<<match<<"\t";
-                                if(match < curr.size())
-                                    ofs_mapped_l<<curr.substr(match);
+                                if (shift != 0) { ofs_mapped_l << "S" << shift << '\t'; }
+                                ofs_mapped_l << "M" << match;
+                                if (match > 76){
+                                    std::cout <<"S"<<shift<<" "<<"M"<<match<<"\n"<< prev.size() << "\n" << curr.size() << "\n";
+                                    exit (EXIT_FAILURE);
+                                }
+                                if (match < curr.size()) {
+                                    ofs_mapped_l << '\t' << curr.substr(match);
+                                }
+                                ofs_mapped_l << '\n';
                             }
-                            ofs_mapped_l<<"\n";
                         }else{
                             ofs_mapped_l<<curr<<"\n";
                         }
@@ -221,6 +232,7 @@ int main(int argc, char *argv[])
               chunkSizes.back().readSeqs.reserve(classSize);
               numToProcess += classSize;
           }
+          std::cout << "\n I think so far" << numToProcess << " processed \n";
         if (numToProcess < chunkSize) { done = true; }
 
         std::unordered_map<std::string, size_t, StringHasher> readNames;
@@ -311,7 +323,7 @@ int main(int argc, char *argv[])
           }
           std::cerr << "done\n";
         }
-        
+
 
         std::cout << "\n equivalence classes gathered\n" ;
 

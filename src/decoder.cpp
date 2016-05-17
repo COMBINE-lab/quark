@@ -6,7 +6,7 @@
 #include <string>
 
 void split(std::string& line, std::vector<std::string>& vec){
-    char *token = std::strtok((char *)line.c_str()," ");
+    char *token = std::strtok((char *)line.c_str(),"\t");
     while(token != NULL){
         vec.push_back(token);
         token = std::strtok(NULL,"\t");
@@ -54,6 +54,7 @@ int main(int argc, char *argv[])
 
         for(std::string line; std::getline(readL,line);){
             if(line.empty()) continue ;
+            //std::cout << line << "\n";
             std::vector<std::string> vec ;
             split(line,vec);
             if(vec.size() == 1){
@@ -64,11 +65,23 @@ int main(int argc, char *argv[])
                     outReadL<<ref<<"\n";
                 }
             }else{
-                int shifts = std::atoi(vec[0].substr(1).c_str());
-                int matches = std::atoi(vec[1].substr(1).c_str());
-                std::string tmp = ref.substr(shifts+matches)+vec[2];
+                char flag = vec[0][0];
+                int shifts,matches;
+                if(flag == 'M'){
+                    shifts = 0;
+                    matches = std::atoi(vec[0].substr(1).c_str());
+                }else{
+                   shifts = std::atoi(vec[0].substr(1).c_str());
+                    matches = std::atoi(vec[1].substr(1).c_str());
+                }
+                std::string tmp;
+                if(vec.size() == 3){
+                    tmp = ref.substr(shifts,matches)+vec[2];
+                }else{
+                    tmp = ref.substr(shifts,matches)+vec[1];
+                }
                 ref = tmp;
-                std::cout << ref << "\n";
+                //std::cout << ref << "\n";
                 outReadL<<ref<<"\n";
 
             }
