@@ -4,6 +4,7 @@
 #include "tclap/CmdLine.h"
 #include <boost/filesystem.hpp>
 #include <string>
+#include <cctype>
 
 void split(std::string& line, std::vector<std::string>& vec){
     char *token = std::strtok((char *)line.c_str(),"\t");
@@ -55,6 +56,46 @@ int main(int argc, char *argv[])
         for(std::string line; std::getline(readL,line);){
             if(line.empty()) continue ;
             //std::cout << line << "\n";
+            if(ref.empty()){
+                ref = line;
+            }else{
+                int shift = 0 ;
+                int i = 0;
+                if (line[0] == 'S'){
+                    i = 1;
+                    while(isdigit(line[i])){
+                        i++;
+                    }
+                    shift = std::atoi(line.substr(1,i-1).c_str());
+                    //i = i-1;
+                }
+                int tmpstart = shift;
+               std::string tmpstr;
+                for(;i < line.size();i++){
+                    if(line[i] == 'M'){
+                        i = i + 1;
+                        int match;
+                        int matchpos = i ;
+                        while(isdigit(line[i]))
+                            i++;
+                        match = std::atoi(line.substr(matchpos,i-matchpos).c_str());
+                        tmpstr.append(ref.substr(tmpstart,match));
+                        i = i -1;
+                        tmpstart += match;
+                    }else{
+                         tmpstr.append(std::string(1,line[i]));
+                         tmpstart++;
+                    }
+                }
+                //std::cout << ref << "\n";
+                //std::cout << line << "\n";
+                //std::cout << tmpstr << "\n";
+
+                ref = tmpstr;
+            }
+            outReadL<<ref<<"\n";
+
+            /*
             std::vector<std::string> vec ;
             split(line,vec);
             if(vec.size() == 1){
@@ -84,7 +125,7 @@ int main(int argc, char *argv[])
                 //std::cout << ref << "\n";
                 outReadL<<ref<<"\n";
 
-            }
+            }*/
         }
     }catch (TCLAP::ArgException& e) {
         std::cerr << "Exception [" << e.error() << "] when parsing argument " << e.argId() << "\n";

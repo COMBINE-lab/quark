@@ -76,6 +76,84 @@ struct read_record{
 };
 
 
+void encodeAsShiftMatch(std::vector<idpos> &l,
+                   auto& ofs_mapped_l,
+                   auto& ofs_mapped_r){
+
+    if (orderId%100 == 0){
+                std::cout << orderId << " equivalence class processed \r" << std::flush ;
+            }
+            ++orderId;
+
+    std::sort(l.begin(), l.end(),
+                    [](const idpos &p1, const idpos &p2) -> bool {
+                    return p1.pos < p2.pos ;
+                    });
+
+    bool refFlag = true ;
+    std::string prev;
+    std::string curr;
+    int prevpos ;
+    int currpos ;
+
+      for(auto& p : l){
+                    if(refFlag){
+                        numReads++;
+                        ofs_mapped_l<<p.seqlr.first<< "\n";
+                        prev = p.seqlr.first;
+                        prevpos = p.pos ;
+                        refFlag = false;
+                    }else{
+                        curr = p.seqlr.first;
+                        currpos = p.pos ;
+                        int shift = currpos - prevpos;
+                        //ofs_mapped_l<<"S"<<shift<<"\t";
+                        //match = 0;
+                        int counter=0;
+                        int match = 0;
+                        if(shift > 0 && shift < prev.size())
+                            ofs_mapped_l<<"S"<<shift;
+                        else
+                            shift=0;
+                        //ofs_mapped_l << "shit theory: "<<shift<< " prev.size(): "<< prev.size() <<"\t"<<curr  <<"\t";
+                        while(shift+counter <= prev.size()-1 && counter < curr.size()){
+                            if(prev[shift+counter] == curr[counter] ){
+                                match++;
+
+                            }else{
+                                if(match < 3 ) {
+                                    ofs_mapped_l << (match == 0 ? (std::string(1,curr[counter])) : curr.substr(counter - match,match+1));
+                                } else {
+                                    ofs_mapped_l << "M" << match;
+                                    ofs_mapped_l << curr[counter];
+                                }
+                                match = 0;
+                            }
+                            counter++;
+                        }
+
+                        if(match > 0)
+                           ofs_mapped_l <<"M"<<match ;
+                        //ofs_mapped_l<<"M"<<match<<"\t";
+                        //if(match < curr.size())
+                        //    ofs_mapped_l<<curr.substr(match);
+
+                        if (prev == "GTTTCAATGCCAGCTTCCTGCTCTGCCCTTCAGATTTTGTTTTTAAGATCAACAAAGCCTGTAG"){
+                            std::cout <<"S"<<shift<<" "<<"M"<<match<<"\n"<< prev.size() << "\n" << curr.size() << "\n";
+                            exit (EXIT_FAILURE);
+                        }
+                        if (counter < curr.size())
+                            ofs_mapped_l<<curr.substr(counter);
+                        numReads++;
+
+                        ofs_mapped_l << "\n";
+                        prev = curr;
+                        prevpos = currpos;
+                    }
+                    ofs_mapped_r<<p.seqlr.second<<"\n";
+        }
+}
+
 void encodeAsShift(std::vector<idpos> &l,
                    auto& ofs_mapped_l,
                    auto& ofs_mapped_r){
@@ -141,10 +219,6 @@ void encodeAsShift(std::vector<idpos> &l,
                     }
                     ofs_mapped_r<<p.seqlr.second<<"\n";
         }
-
-
-
-
 }
 
 int main(int argc, char *argv[])
@@ -233,7 +307,7 @@ int main(int argc, char *argv[])
           };
 
         std::vector<EqClassInfo> chunkSizes;
-          while ((numToProcess < chunkSize) and (sizeFile >> classSize)) {
+          while ((sizeFile >> classSize) and (numToProcess < chunkSize)) {
               chunkSizes.push_back({std::vector<idpos>(), classSize});
               chunkSizes.back().readSeqs.reserve(classSize);
               numToProcess += classSize;
@@ -314,7 +388,7 @@ int main(int argc, char *argv[])
 
           for (auto& eq : chunkSizes) {
               // If the number of reads is too small, just encode them "simply"
-              if (eq.chunkSize <= 10) {
+              if (eq.chunkSize <= 2) {
                   if (eq.chunkSize != eq.readSeqs.size()) {
                       std::cout << "classSize = " << eq.chunkSize << ", but only found " << eq.readSeqs.size() << " reads!\n";
                   }
@@ -324,7 +398,8 @@ int main(int argc, char *argv[])
                       outFileRight << eq.readSeqs[i].seqlr.second << '\n';
                   }
               } else {
-                  encodeAsShift(eq.readSeqs, outFileLeft, outFileRight);
+                  //encodeAsShift(eq.readSeqs, outFileLeft, outFileRight);
+                  encodeAsShiftMatch(eq.readSeqs, outFileLeft, outFileRight);
               }
               ++eqID;
           }
