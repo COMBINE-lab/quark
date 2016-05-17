@@ -39,6 +39,8 @@ Output:
 #include "edlib.h"
 #include "xxhash.h"
 
+
+int numReads = 0;
 typedef std::unordered_map<int,std::set<std::string> > EqReadID ;
 //using idpos = std::pair<std::string, int> ;
 typedef std::unordered_map<std::string, int> RevReadIDEq ;
@@ -96,6 +98,7 @@ void encodeAsShift(std::vector<idpos> &l,
 
       for(auto& p : l){
                     if(refFlag){
+                        numReads++;
                         ofs_mapped_l<<p.seqlr.first<< "\n";
                         prev = p.seqlr.first;
                         prevpos = p.pos ;
@@ -115,6 +118,7 @@ void encodeAsShift(std::vector<idpos> &l,
                             //    ofs_mapped_l<<curr.substr(match);
                             if (match == 0){
                                 ofs_mapped_l<<curr<<"\n";
+                                numReads++;
                             }else{
                                 if (shift != 0) { ofs_mapped_l << "S" << shift << '\t'; }
                                 ofs_mapped_l << "M" << match;
@@ -126,9 +130,11 @@ void encodeAsShift(std::vector<idpos> &l,
                                     ofs_mapped_l << '\t' << curr.substr(match);
                                 }
                                 ofs_mapped_l << '\n';
+                                numReads++;
                             }
                         }else{
                             ofs_mapped_l<<curr<<"\n";
+                            numReads++;
                         }
                         prev = curr;
                         prevpos = currpos;
@@ -313,6 +319,7 @@ int main(int argc, char *argv[])
                       std::cout << "classSize = " << eq.chunkSize << ", but only found " << eq.readSeqs.size() << " reads!\n";
                   }
                   for (size_t i = 0; i < eq.chunkSize; ++i) {
+                      numReads++;
                       outFileLeft << eq.readSeqs[i].seqlr.first << '\n';
                       outFileRight << eq.readSeqs[i].seqlr.second << '\n';
                   }
@@ -371,6 +378,9 @@ int main(int argc, char *argv[])
 
         gzclose(fp1);
         gzclose(fp2);
+
+        std::cout << "Number of Reasds "<< numReads<<"\n";
+
         return 0;
     }catch (TCLAP::ArgException& e) {
         std::cerr << "Exception [" << e.error() << "] when parsing argument " << e.argId() << "\n";

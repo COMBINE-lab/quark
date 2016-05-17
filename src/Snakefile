@@ -53,8 +53,8 @@ rule all:
     input: graphfile,
            eq2read, 
            orderfile, 
-           os.path.join(outdir,"r1.h"), 
-           os.path.join(outdir,"r2.h"),
+           os.path.join(outdir,"r1.enc"), 
+           os.path.join(outdir,"r2.enc"),
            os.path.join(outdir,"r1.l.fq"),
            os.path.join(outdir,"r2.l.fq")
 
@@ -74,8 +74,8 @@ rule graphtrav:
 
 # call kseqchunk
 rule run_kseqchunk:
-    output: os.path.join(outdir,"r1.h"),
-            os.path.join(outdir,"r2.h"),
+    output: os.path.join(outdir,"r1.enc"),
+            os.path.join(outdir,"r2.enc"),
             os.path.join(outdir,"r1.l.fq"),
             os.path.join(outdir,"r2.l.fq")
     run:
