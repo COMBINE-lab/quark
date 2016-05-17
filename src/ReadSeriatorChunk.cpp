@@ -233,7 +233,7 @@ int main(int argc, char *argv[])
           };
 
         std::vector<EqClassInfo> chunkSizes;
-          while ((sizeFile >> classSize) and (numToProcess < chunkSize)) {
+          while ((numToProcess < chunkSize) and (sizeFile >> classSize)) {
               chunkSizes.push_back({std::vector<idpos>(), classSize});
               chunkSizes.back().readSeqs.reserve(classSize);
               numToProcess += classSize;
