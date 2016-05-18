@@ -295,6 +295,8 @@ void processReadsQuasi(paired_parser* parser,
         auto relpos = it_jointHits->pos;
         int32_t start_pos = it_jointHits->fwd ? relpos : relpos + it_jointHits->readLen;
         int32_t end_pos = it_jointHits->mateIsFwd ? it_jointHits->matePos : it_jointHits->matePos + it_jointHits->mateLen;
+        bool fwdPass = it_jointHits->fwd;
+        bool mateFwdPass = it_jointHits->mateIsFwd;
         // end
  	    for (auto& h : jointHits) {
                 auto transcriptID = h.transcriptID();
@@ -439,7 +441,7 @@ void processReadsQuasi(paired_parser* parser,
                 if (txpIDsCompat.size() > 0) {
                     mappedFrag = true;
                     TranscriptGroup tg(txpIDsCompat);
-                    eqBuilder.addGroup(std::move(tg), auxProbsCompat,readName,txpName,start_pos,end_pos);
+                    eqBuilder.addGroup(std::move(tg), auxProbsCompat,readName,txpName,start_pos,end_pos,fwdPass,mateFwdPass);
                     readExp.addNumFwd(fwCompat);
                     readExp.addNumRC(rcCompat);
                 }
@@ -448,7 +450,7 @@ void processReadsQuasi(paired_parser* parser,
                     // Otherwise, consider all hits.
                     mappedFrag = true;
                     TranscriptGroup tg(txpIDsAll);
-                    eqBuilder.addGroup(std::move(tg), auxProbsAll,readName,txpName,start_pos, end_pos);
+                    eqBuilder.addGroup(std::move(tg), auxProbsAll,readName,txpName,start_pos, end_pos,fwdPass,mateFwdPass);
                     readExp.addNumFwd(fwAll);
                     readExp.addNumRC(rcAll);
                 }
@@ -594,6 +596,8 @@ void processReadsQuasi(single_parser* parser,
         auto relpos = it_jointHits->pos;
         int32_t start_pos = it_jointHits->fwd ? relpos : relpos + it_jointHits->readLen;
         int32_t end_pos = it_jointHits->mateIsFwd ? it_jointHits->matePos : it_jointHits->matePos + it_jointHits->mateLen;
+        bool fwdPass = it_jointHits->fwd;
+        bool mateFwdPass = it_jointHits->mateIsFwd;
         // end
 
                 for (auto& h : jointHits) {
@@ -661,7 +665,7 @@ void processReadsQuasi(single_parser* parser,
                     if (txpIDsCompat.size() > 0) {
                         mappedFrag = true;
                         TranscriptGroup tg(txpIDsCompat);
-                        eqBuilder.addGroup(std::move(tg), auxProbsCompat,readName,txpName,start_pos,end_pos);
+                        eqBuilder.addGroup(std::move(tg), auxProbsCompat,readName,txpName,start_pos,end_pos,fwdPass,mateFwdPass);
                         readExp.addNumFwd(fwCompat);
                         readExp.addNumRC(rcCompat);
                     }
@@ -670,7 +674,7 @@ void processReadsQuasi(single_parser* parser,
                         // Otherwise, consider all hits.
                         mappedFrag = true;
                         TranscriptGroup tg(txpIDsAll);
-                        eqBuilder.addGroup(std::move(tg), auxProbsAll,readName,txpName,start_pos,end_pos);
+                        eqBuilder.addGroup(std::move(tg), auxProbsAll,readName,txpName,start_pos,end_pos,fwdPass,mateFwdPass);
                         readExp.addNumFwd(fwAll);
                         readExp.addNumRC(rcAll);
                     }

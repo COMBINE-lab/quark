@@ -25,10 +25,12 @@ struct TGValue {
         txpNames = o.txpNames ;
         positions = o.positions;
         matePositions = o.matePositions;
+        status = o.status;
+        matestatus = o.matestatus;
     }
 
-    TGValue(std::vector<double>& weightIn, uint64_t countIn, std::string& readNamesIn, uint32_t txpNameIn, int32_t& pos, int32_t& matepos) :
-        weights(weightIn), readNames({readNamesIn}), txpNames({txpNameIn}), positions({pos}), matePositions({matepos}) {
+    TGValue(std::vector<double>& weightIn, uint64_t countIn, std::string& readNamesIn, uint32_t txpNameIn, int32_t& pos, int32_t& matepos, bool& stat, bool& matestat) :
+        weights(weightIn), readNames({readNamesIn}), txpNames({txpNameIn}), positions({pos}), matePositions({matepos}), status({stat}), matestatus({matestat}) {
     count.store(countIn);
     }
     // const is a lie
@@ -59,6 +61,8 @@ struct TGValue {
     mutable std::vector<uint32_t> txpNames ;
     mutable std::vector<int32_t> positions ;
     mutable std::vector<int32_t> matePositions ;
+    mutable std::vector<bool> status;
+    mutable std::vector<bool> matestatus;
     //spin_lock l;
     // only one writer thread at a time
     //
@@ -102,9 +106,10 @@ class EquivalenceClassBuilder {
             std::string dummy ;
             uint32_t dummy1;
             int32_t dummy2;
+            bool dummy3;
             std::vector<double> weights(g.txps.size(), 0.0);
             //auto updatefn = [count](TGValue& x) { x.count = count; };
-            TGValue v(weights, count,dummy,dummy1,dummy2,dummy2);
+            TGValue v(weights, count,dummy,dummy1,dummy2,dummy2,dummy3,dummy3);
             countVec_.push_back(std::make_pair(g, v));
             //countMap_.upsert(g, updatefn, v);
         }
@@ -114,9 +119,11 @@ class EquivalenceClassBuilder {
                              std::string &readName,
                              uint32_t &txpName,
                              int32_t &position,
-                             int32_t &matepos) {
+                             int32_t &matepos,
+                             bool &stat,
+                             bool &matestat) {
 
-            auto upfn = [&weights, &readName, &txpName, &position, &matepos](TGValue& x) -> void {
+            auto upfn = [&weights, &readName, &txpName, &position, &matepos, &stat, &matestat](TGValue& x) -> void {
              // update the count
                 // x.scoped_lock {
 #if defined __APPLE__
@@ -129,6 +136,8 @@ class EquivalenceClassBuilder {
                 x.txpNames.push_back(txpName);
                 x.positions.push_back(position);
                 x.matePositions.push_back(matepos);
+                x.status.push_back(stat);
+                x.matestatus.push_back(matestat);
                 // update the weights
                 for (size_t i = 0; i < x.weights.size(); ++i) {
                     // Possibly atomicized in the future
@@ -139,7 +148,7 @@ class EquivalenceClassBuilder {
                     */
                 }
             };
-            TGValue v(weights, 1,readName,txpName,position,matepos);
+            TGValue v(weights, 1,readName,txpName,position,matepos,stat,matestat);
             countMap_.upsert(g, upfn, v);
         }
 
