@@ -298,6 +298,8 @@ int main(int argc, char *argv[])
         bool done{false};
 
         //std::cout << "\n read this far\n" ;
+        int cc = 0;
+        //
         while(!done){
         size_t numToProcess{0};
           struct EqClassInfo {
@@ -307,12 +309,12 @@ int main(int argc, char *argv[])
           };
 
         std::vector<EqClassInfo> chunkSizes;
-          while ((sizeFile >> classSize) and (numToProcess < chunkSize)) {
+        while ((numToProcess < chunkSize) and (sizeFile >> classSize))  {
               chunkSizes.push_back({std::vector<idpos>(), classSize});
               chunkSizes.back().readSeqs.reserve(classSize);
               numToProcess += classSize;
           }
-          std::cout << "\n I think so far" << numToProcess << " processed \n";
+          std::cout << "\n I think so far " << numToProcess << " processed \n";
         if (numToProcess < chunkSize) { done = true; }
 
         std::unordered_map<std::string, size_t, StringHasher> readNames;
@@ -328,6 +330,7 @@ int main(int argc, char *argv[])
                 std::vector<std::string> vec3 ;
                 std::string line ;
                 std::getline(orderFile,line);
+                //std::cout << line << "\t";
                 //orderFile >> line ;
                 char *token = std::strtok((char *)line.c_str()," ");
                 while(token != NULL){
@@ -336,7 +339,10 @@ int main(int argc, char *argv[])
                 }
                 //std::cout << "\nvec size "<<line <<"\n";
                 int pos =  std::atoi(vec3[2].c_str());
-
+                //std::cout <<"pos: "<<vec3[1]<<" "<<vec3[2]<< pos << "\n";
+                //if(pos == 0){
+                  //  exit (EXIT_FAILURE);
+                //}
                 //readPos[std::string(vec3[0])] = std::atoi(vec3[2].c_str());
 
                 std::string rn = std::string(vec3[0]);
