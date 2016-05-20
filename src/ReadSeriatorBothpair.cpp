@@ -131,6 +131,9 @@ void encodeAsShiftMatch(std::vector<idpos> &l,
                    auto& ofs_mapped_r,
                    auto& ofs_perm){
 
+  auto asLetter = [](int i) -> char {
+    return static_cast<char>(i); 
+  };
     if (orderId%100 == 0){
                 std::cout << orderId << " equivalence class processed \r" << std::flush ;
             }
@@ -195,11 +198,15 @@ void encodeAsShiftMatch(std::vector<idpos> &l,
                     //match = 0;
                     int counter=0;
                     int match = 0;
-                    if(shift > 0 && shift < prev.size())
-                        ofs_mapped_r<<"S"<<shift;
-                    else
-                        shift=0;
-                    //ofs_mapped_l << "shit theory: "<<shift<< " prev.size(): "<< prev.size() <<"\t"<<curr  <<"\t";
+		    uint8_t sv = static_cast<uint8_t>(shift);
+                    if(shift > 0 && shift < prev.size()){
+		      ofs_mapped_r<<"S"<<asLetter(shift); 
+		    } else {
+			shift=0;
+		    }
+		    //ofs_shift_r.write(reinterpret_cast<char*>(&sv), sizeof(sv));
+
+		    //ofs_mapped_l << "shit theory: "<<shift<< " prev.size(): "<< prev.size() <<"\t"<<curr  <<"\t";
                     while(shift+counter <= prev.size()-1 && counter < curr.size()){
                         if(prev[shift+counter] == curr[counter] ){
                             match++;
@@ -208,16 +215,17 @@ void encodeAsShiftMatch(std::vector<idpos> &l,
                             if(match < 3 ) {
                                 ofs_mapped_r << (match == 0 ? (std::string(1,curr[counter])) : curr.substr(counter - match,match+1));
                             } else {
-                                ofs_mapped_r << "M" << match;
-                                ofs_mapped_r << curr[counter];
+			      ofs_mapped_r << "M" <<asLetter(match);
+                              ofs_mapped_r << curr[counter];
                             }
                             match = 0;
                         }
                         counter++;
                     }
 
-                    if(match > 0)
-                       ofs_mapped_r <<"M"<<match ;
+                    if(match > 0) {
+		      ofs_mapped_r <<"M"<<asLetter(match);
+		    }
                     //ofs_mapped_l<<"M"<<match<<"\t";
                     //if(match < curr.size())
                     //    ofs_mapped_l<<curr.substr(match);
@@ -230,7 +238,7 @@ void encodeAsShiftMatch(std::vector<idpos> &l,
                         ofs_mapped_r<<curr.substr(counter);
                     numReads++;
 
-                    ofs_mapped_r<<currfwd<<"\n";
+                    ofs_mapped_r << currfwd << '\n';
                 }
 
                 prev = curr;
@@ -279,10 +287,12 @@ void encodeAsShiftMatch(std::vector<idpos> &l,
                             //match = 0;
                             int counter=0;
                             int match = 0;
-                            if(shift > 0 && shift < prev.size())
-                                ofs_mapped_l<<"S"<<shift;
-                            else
+			    uint8_t sv = static_cast<uint8_t>(shift);
+                            if(shift > 0 && shift < prev.size()) {
+			      ofs_mapped_l<<"S"<<asLetter(shift);
+                            } else {
                                 shift=0;
+			    }
                             //ofs_mapped_l << "shit theory: "<<shift<< " prev.size(): "<< prev.size() <<"\t"<<curr  <<"\t";
                             while(shift+counter <= prev.size()-1 && counter < curr.size()){
                                 if(prev[shift+counter] == curr[counter] ){
@@ -292,16 +302,16 @@ void encodeAsShiftMatch(std::vector<idpos> &l,
                                     if(match < 3 ) {
                                         ofs_mapped_l << (match == 0 ? (std::string(1,curr[counter])) : curr.substr(counter - match,match+1));
                                     } else {
-                                        ofs_mapped_l << "M" << match;
-                                        ofs_mapped_l << curr[counter];
+				      ofs_mapped_l << "M" <<asLetter(match); 
                                     }
                                     match = 0;
                                 }
                                 counter++;
                             }
 
-                            if(match > 0)
-                               ofs_mapped_l <<"M"<<match ;
+                            if(match > 0) {
+			      ofs_mapped_l <<"M"<<asLetter(shift);
+			    }
                             //ofs_mapped_l<<"M"<<match<<"\t";
                             //if(match < curr.size())
                             //    ofs_mapped_l<<curr.substr(match);
@@ -314,7 +324,7 @@ void encodeAsShiftMatch(std::vector<idpos> &l,
                                 ofs_mapped_l<<curr.substr(counter);
                             numReads++;
 
-                            ofs_mapped_l <<currfwd<<"\n";
+                            ofs_mapped_l << currfwd << '\n';
                         }
 
                         prev = curr;
@@ -394,9 +404,11 @@ int main(int argc, char *argv[])
         std::string outDir(outname.getValue());
         std::string outFilenameLeft = outDir + "/r1.enc";
         std::string outFilenameRight = outDir + "/r2.enc";
+
         std::string permFileName = outDir + "/perm.list";
 
         std::ofstream permFile(permFileName.c_str());
+
         std::ofstream outFileLeft(outFilenameLeft.c_str());
         std::ofstream outFileRight(outFilenameRight.c_str());
 
@@ -538,7 +550,7 @@ int main(int argc, char *argv[])
                   }
               } else {
                   //encodeAsShift(eq.readSeqs, outFileLeft, outFileRight);
-                  encodeAsShiftMatch(eq.readSeqs, outFileLeft, outFileRight, permFile);
+		encodeAsShiftMatch(eq.readSeqs, outFileLeft, outFileRight, permFile);
               }
               ++eqID;
           }
@@ -592,8 +604,10 @@ int main(int argc, char *argv[])
 
         gzclose(fp1);
         gzclose(fp2);
+	outFileLeft.close();
+	outFileRight.close();
 
-        std::cout << "Number of Reasds "<< numReads<<"\n";
+	std::cout << "Number of Reasds "<< numReads<<"\n";
 
         return 0;
     }catch (TCLAP::ArgException& e) {

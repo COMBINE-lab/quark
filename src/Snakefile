@@ -81,6 +81,7 @@ rule run_kseqchunk:
     run:
         if(not(pexists(outdir))):
             shell("mkdir -p {outdir}")
+        print("./ReadSeriatorBothpair -1 {} -2 {} -p {} -s {} -u {} -t 2 -o {}".format(READ_1, READ_2, orderfile, tmpfile, unmapped, outdir))
         shell("./ReadSeriatorBothpair -1 {READ_1} -2 {READ_2} -p {orderfile} -s {tmpfile} -u {unmapped} -t 2 -o {outdir}")
         
 rule clean:
