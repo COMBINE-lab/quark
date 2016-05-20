@@ -56,6 +56,8 @@ typedef std::pair<std::string,std::string> matepair ;
 struct idpos{
     matepair seqlr;
      int pos;
+     //bool matestatus;
+     bool status;
 };
 
 //typedef std::unordered_map<int,std::vector<matepairPos> > EqSeq ;
@@ -75,6 +77,41 @@ struct read_record{
     }
 };
 
+char complement(char& c){
+    switch(c){
+        case 'A': c = 'T';
+                  return c;
+        case 'T': c = 'A';
+                  return c;
+        case 'C': c = 'G';
+                  return c;
+        case 'G': c = 'C';
+                  return c;
+        case 'a': c = 't';
+                  return c;
+        case 't': c = 'a';
+                  return c;
+        case 'c': c = 'g';
+                  return c;
+        case 'g': c = 'c';
+                  return c;
+        default : c = 'N';
+                  return c;
+
+    }
+}
+
+std::string revComp(std::string &s){
+    int n = s.size();
+    int halfLength = s.size() / 2;
+    for (int i=0; i<halfLength; i++)
+    {
+        char temp = complement(s[i]);
+        s[i] = complement(s[n-1-i]);
+        s[n-1-i] = temp;
+    }
+    return s;
+}
 
 void encodeAsShiftMatch(std::vector<idpos> &l,
                    auto& ofs_mapped_l,
@@ -95,17 +132,21 @@ void encodeAsShiftMatch(std::vector<idpos> &l,
     std::string curr;
     int prevpos ;
     int currpos ;
+    bool currfwd ;
+    bool prevfwd ;
 
       for(auto& p : l){
                     if(refFlag){
                         numReads++;
-                        ofs_mapped_l<<p.seqlr.first<< "\n";
-                        prev = p.seqlr.first;
+                        prev = (p.status) ? p.seqlr.first : revComp(p.seqlr.first);
+                        ofs_mapped_l<<prev<<p.status<< "\n";
                         prevpos = p.pos ;
-                        refFlag = false;
+                        prevfwd = p.status ;
+                        refFlag = false ;
                     }else{
-                        curr = p.seqlr.first;
+                        curr = p.status ? p.seqlr.first : revComp(p.seqlr.first);
                         currpos = p.pos ;
+                        currfwd = p.status;
                         int shift = currpos - prevpos;
                         //ofs_mapped_l<<"S"<<shift<<"\t";
                         //match = 0;
@@ -146,9 +187,10 @@ void encodeAsShiftMatch(std::vector<idpos> &l,
                             ofs_mapped_l<<curr.substr(counter);
                         numReads++;
 
-                        ofs_mapped_l << "\n";
+                        ofs_mapped_l <<currfwd<<"\n";
                         prev = curr;
                         prevpos = currpos;
+                        prevfwd = currfwd;
                     }
                     ofs_mapped_r<<p.seqlr.second<<"\n";
         }
@@ -319,6 +361,7 @@ int main(int argc, char *argv[])
 
         std::unordered_map<std::string, size_t, StringHasher> readNames;
         std::unordered_map<std::string, size_t, StringHasher> readNamesPos;
+        std::unordered_map<std::string, size_t, StringHasher> readNameStatus;
 
         size_t classID{0};
         size_t nextTarget = chunkSizes.front().chunkSize;
@@ -338,7 +381,11 @@ int main(int argc, char *argv[])
                     token = std::strtok(NULL," ");
                 }
                 //std::cout << "\nvec size "<<line <<"\n";
+
                 int pos =  std::atoi(vec3[2].c_str());
+                bool status ;
+                if(vec3.size() == 6)
+                    status = (vec3[5] == std::string(1,'1')) ? true : false ;
                 //std::cout <<"pos: "<<vec3[1]<<" "<<vec3[2]<< pos << "\n";
                 //if(pos == 0){
                   //  exit (EXIT_FAILURE);
@@ -348,6 +395,7 @@ int main(int argc, char *argv[])
                 std::string rn = std::string(vec3[0]);
               readNames[rn] = classID;
               readNamesPos[rn] = pos;
+              readNameStatus[rn] = status;
           }
 
           fp1 = gzopen(read1.getValue().c_str(), "r"); // STEP 2: open the file handler
@@ -370,15 +418,17 @@ int main(int argc, char *argv[])
                   auto& eq = chunkSizes[it->second];
                   int matepos = 0;
                   int pos = readNamesPos[seq1->name.s];
+                  bool status = readNameStatus[seq1->name.s];
                   //std::cout << pos <<"\n";
-                  eq.readSeqs.push_back({std::make_pair(seq1->seq.s,seq2->seq.s),pos});
+                  eq.readSeqs.push_back({std::make_pair(seq1->seq.s,seq2->seq.s),pos,status});
                   //eq.readSeqsRight.push_back(std::make_pair(seq2->seq.s,matepos));
               } else if (readNames.find(seq2->name.s) != readNames.end()) {
                   auto& eq = chunkSizes[it->second];
                   int matepos = 0;
                   int pos = readNamesPos[seq1->name.s];
 
-                  eq.readSeqs.push_back({std::make_pair(seq1->seq.s,seq2->seq.s),pos});
+                  bool status = readNameStatus[seq1->name.s];
+                  eq.readSeqs.push_back({std::make_pair(seq1->seq.s,seq2->seq.s),pos,status});
                   //eq.readSeqsLeft.push_back(std::make_pair(seq1->seq.s,pos));
                   //eq.readSeqsRight.push_back(std::make_pair(seq2->seq.s,matepos));
               }
