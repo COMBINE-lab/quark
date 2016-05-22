@@ -14,11 +14,13 @@ import cPickle as pickle
 from pyfaidx import Fasta
 import operator
 from Bio import SeqIO
+import linecache
 
 def revcomp(s):
     comp = {'A':'T','T':'A','G':'C','C':'G','a':'t','t':'a','g':'c','c':'g','N':'N'}
     r = ''.join(comp[e] for e in s[::-1])
     return r
+
 
 def readEqClass(eqfile, fastaFile,fastqFile,oFile):
     with open(eqfile) as ifile:
@@ -52,19 +54,25 @@ def encode(readnames,fastaFile,fastqFile,oFile,tname):
     for rid in readnames:
         headerno=int(rid.split(" ")[0].split("_")[1])
         seq = linecache.getline(fastqFile,headerno*2).rstrip()
-        leftreads.append((seq,int(rid.split(" ")[5]),int(rid.split(" ")[2])))
+        leftreads.append((rid.split(" ")[0],seq,int(rid.split(" ")[5]),int(rid.split(" ")[2])))
         #print rid.split(" ")[0],int(rid.split(" ")[2])
 
     import operator
     sortedl = sorted(leftreads,key=operator.itemgetter(2))
-
     with open(oFile,'w') as wFile:
         wFile.write("{}\n".format(tseq))
-        for seq,fwd,pos in sortedl:
-            i = 0
+        for header,seq,fwd,pos in sortedl:
+            wFile.write("{}".format(abs(pos)))
             seqr = revcomp(seq) if(not(fwd)) else seq
             overhang = ''
-            wFile.write("{}".format(pos))
+            #print abs(pos)
+            #if it is unmapped only hope is to encode like previous
+            if (pos == 0):
+                if(noRef):
+                    ref = seq
+                else:
+                    i = 0
+                    while()
             if(pos < 0):
                 overhang = seqr[0:abs(pos)]
                 i = 0
@@ -85,7 +93,6 @@ def encode(readnames,fastaFile,fastqFile,oFile,tname):
                     wFile.write("M{}{}\n".format(matches,seqr[i:]))
                 else:
                     wFile.write("M{}\n".format(matches))
-
 
 
 
