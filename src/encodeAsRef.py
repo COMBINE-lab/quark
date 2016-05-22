@@ -58,21 +58,33 @@ def encode(readnames,fastaFile,fastqFile,oFile,tname):
         #print rid.split(" ")[0],int(rid.split(" ")[2])
 
     import operator
-    sortedl = sorted(leftreads,key=operator.itemgetter(2))
+    sortedl = sorted(leftreads,key=operator.itemgetter(3))
+    noRef = True
+    ref = ''
     with open(oFile,'w') as wFile:
         wFile.write("{}\n".format(tseq))
         for header,seq,fwd,pos in sortedl:
-            wFile.write("{}".format(abs(pos)))
+            wFile.write("{} {}\t".format(header,pos))
             seqr = revcomp(seq) if(not(fwd)) else seq
             overhang = ''
             #print abs(pos)
             #if it is unmapped only hope is to encode like previous
-            if (pos == 0):
+            if(pos == 0):
                 if(noRef):
-                    ref = seq
+                    ref = seqr
+                    wFile.write("{}\n".format(seqr))
+                    noRef = False
                 else:
                     i = 0
-                    while()
+                    while((i<len(seqr))and(ref[i] == seqr[i])):
+                        i = i+1
+                    if(i > len(seqr)-2):
+                        wFile.write("M{}\n".format(len(seqr)))
+                    else:
+                        wFile.write("{}\n".format(seqr))
+                        ref=seqr
+                continue
+
             if(pos < 0):
                 overhang = seqr[0:abs(pos)]
                 i = 0
