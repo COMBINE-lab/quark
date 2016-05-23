@@ -16,6 +16,7 @@ import operator
 from Bio import SeqIO
 import linecache
 import sys
+import time
 
 def revcomp(s):
     comp = {'A':'T','T':'A','G':'C','C':'G','a':'t','t':'a','g':'c','c':'g','N':'N'}
@@ -37,12 +38,15 @@ def readEqClass(eqfile, fastaFile,fastqFile,oFile):
             pass
 
         eqclassnum = 0
+        starttime = time.time()
         for i in xrange(numEq):
             if(eqclassnum%100 == 0):
                 percent = float(eqclassnum)/numEq
                 hashes = '#'* int(round(percent * 50))
                 dashes = ' '* (50 - len(hashes))
-                sys.stdout.write("\rProgress [{0}] {1}%".format(hashes+dashes, int(round(percent * 100))))
+                elapsedtime = float(time.time() - starttime)
+                #print type(elapsedtime)
+                sys.stdout.write("\rProgress [{}] {}% {} seconds elapsed".format(hashes+dashes, int(round(percent * 100)),elapsedtime))
                 sys.stdout.flush()
             eqclassnum += 1
             toks = map(str, ifile.readline().rstrip().split('\t'))
@@ -61,6 +65,8 @@ def readEqClass(eqfile, fastaFile,fastqFile,oFile):
                         import linecache
                         seq = linecache.getline(fastqFile,headerno*2).rstrip()
                         wFile.write("{}\n".format(seq))
+
+    print "\n"
 
 
 
