@@ -23,8 +23,24 @@ def revcomp(s):
     r = ''.join(comp[e] for e in s[::-1])
     return r
 
+class island:
+    start = 0
+    end = 0
+    def create(self,s,e):
+        self.start = s
+        self.end = e
+    def updateboth(self,s,e):
+        self.start = s
+        self.end = e
+    def updatestart(self,s):
+        self.start = s
+    def updateend(self,e):
+        self.end = e
+    def get(self):
+        return (self.start,self.end)
 
-def readEqClass(eqfile, fastaFile,fastqFile,oFile):
+
+def readEqClass(eqfile, fastaFile,fastqFile,oFile,threshold):
     with open(eqfile) as ifile:
         numTran = int(ifile.readline().rstrip())
         numEq = int(ifile.readline().rstrip())
@@ -54,9 +70,9 @@ def readEqClass(eqfile, fastaFile,fastqFile,oFile):
             tids = tuple(toks[1:int(nt)+1])
             count = toks[-1]
             readnames = tuple(toks[int(nt)+2:-1])
-            if len(readnames) > 1000:
+            if len(readnames) > threshold:
                 encode(readnames,fastaFile,fastqFile,oFile,tnames)
-            elif len(readnames) <= 1000 and len(readnames)>2:
+            elif len(readnames) <= threshold and len(readnames)>2:
                 encodeAsShift(readnames,fastqFile,oFile)
             else:
                 with open(oFile,'a') as wFile:
@@ -67,6 +83,50 @@ def readEqClass(eqfile, fastaFile,fastqFile,oFile):
                         wFile.write("{}\n".format(seq))
 
     print "\n"
+
+def discoverIsland(tseq,boundaries):
+    islands = []
+    islandDict = {}
+    for (h,b,e) in boundaries:
+        #print b,e
+        if len(islands) == 0:
+            i = island()
+            #print "create new island with ",b,e
+            if b >= 0:
+                i.create(b,e)
+            else:
+                i.create(0,e)
+            islands.append(i)
+            islandDict[h] = 0
+            #modified.append((h,b,e,0))
+        else:
+            cs,ce = islands[-1].get()
+            #print cs,ce
+            iid = len(islands)
+            #no need to create new
+            if(b < 0):
+                #modified.append((h,b,e,0))
+                islandDict[h] = 0
+            elif(b >= cs and e <= ce):
+                #modified.append((h,b,e,iid-1))
+                islandDict[h] = iid-1
+            #update existing
+            elif(b <= ce and e > ce):
+                islands[-1].updateend(e)
+                #modified.append((h,b,e,iid-1))
+                islandDict[h] = iid-1
+            #create new
+            elif(b > ce):
+                i = island()
+                i.create(b,e)
+                islands.append(i)
+                #modified.append((h,b,e,iid))
+                islandDict[h] = iid
+        cs,ce = islands[-1].get()
+        if ce > len(tseq):
+            islands[-1].updateend(len(tseq)-1)
+
+    return (islands,islandDict)
 
 
 
@@ -130,7 +190,6 @@ def encodeAsShift(readnames,fastqFile,oFile):
 
 def encode(readnames,fastaFile,fastqFile,oFile,tname):
     tid = int(readnames[0].split(" ")[3])
-    #print tid
     import linecache
     tseq = linecache.getline(fastaFile,tid*2+2).rstrip()
 
@@ -145,6 +204,10 @@ def encode(readnames,fastaFile,fastqFile,oFile,tname):
 
     import operator
     sortedl = sorted(leftreads,key=operator.itemgetter(3))
+    #discover islands
+    boundaries =[(h,p,p+len(s)) for h,s,_,p in sortedl]
+    islands, islandDict  = discoverIsland(tseq,boundaries)
+
     minpos = min(leftreads,key=operator.itemgetter(3))[3]
     maxpos = max(leftreads,key=operator.itemgetter(3))[3]
     if(minpos < 0):
@@ -161,10 +224,35 @@ def encode(readnames,fastaFile,fastqFile,oFile,tname):
     currpos = 0
     prevseq = ''
     currseq = ''
+    lastId = -1
+    currId = -1
+
+
     with open(oFile,'a') as wFile:
-        wFile.write("{}\t{}\t{}\n".format(tseq[minpos:(maxpos-minpos)+54],minpos,maxpos))
+        for i in islands:
+            #sys.stdout.write(tseq[i.start:(i.end-i.start+1)])
+            wFile.write("{}\t".format(tseq[i.start:i.end+1]))
+        wFile.write("\n")
+
+
+    with open(oFile,'a') as wFile:
+        #wFile.write("{}\t{}\t{}\n".format(tseq[minpos:(maxpos-minpos)+54],minpos,maxpos))
         for header,seq,fwd,pos in sortedl:
-            wFile.write("{}\t".format(pos))
+            #print header
+            s,e = islands[islandDict[header]].get()
+            relpos=0
+            if pos >= 0:
+                relpos = pos-s
+            else:
+                relpos = pos
+
+            currId = islandDict[header]
+            if lastId == -1:
+                wFile.write("{}\t{}\t".format(relpos,islandDict[header]))
+            elif lastId == currId:
+                wFile.write("{}\t".format(relpos))
+
+            lastId = currId
             seqr = revcomp(seq) if(not(fwd)) else seq
             overhang = ''
             currseq = seqr
@@ -278,7 +366,7 @@ def encode(readnames,fastaFile,fastqFile,oFile,tname):
                     wFile.write("{}{}\n".format(wstr,fwd))
                 else:
                     if wstr == prev:
-                        wFile.write("L\n")
+                        wFile.write("L{}\n".format(fwd))
                     else:
                         wFile.write("{}{}\n".format(wstr,fwd))
                         prev = wstr
@@ -294,13 +382,15 @@ def main():
     parser.add_argument('-i',type=str,help="eq class file")
     parser.add_argument('-tr',type=str,help="transcript file")
     parser.add_argument('-fq',type=str,help="fastq file")
+    parser.add_argument('-t',type=int,help="threshold value")
     parser.add_argument('-o',type=str,help="output file")
     args = parser.parse_args()
     eqfile = args.i
     fastaFile = args.tr
     fastqFile = args.fq
     oFile = args.o
-    readEqClass(eqfile,fastaFile,fastqFile,oFile)
+    threshold = args.t
+    readEqClass(eqfile,fastaFile,fastqFile,oFile,threshold)
 
 
 if __name__ == "__main__":
