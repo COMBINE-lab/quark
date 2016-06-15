@@ -273,6 +273,14 @@ void processReadsQuasi(paired_parser* parser,
                         [](const QuasiAlignment& a, const QuasiAlignment& b) -> bool {
                         return a.transcriptID() < b.transcriptID();
                         });
+                if (jointHits.front().mateStatus == rapmap::utils::MateStatus::PAIRED_END_RIGHT) {
+                    jointHits.front().matePos = jointHits.front().pos ;
+                    jointHits.front().mateIsFwd = jointHits.front().fwd ;
+                    jointHits.front().pos = 0;
+                    jointHits.front().fwd = true;
+                }
+
+
             }
 
             int32_t fwAll = 0;
@@ -293,8 +301,10 @@ void processReadsQuasi(paired_parser* parser,
         auto tid = it_jointHits->transcriptID();
        uint32_t txpName = transcripts[tid].id;
         auto relpos = it_jointHits->pos;
-        int32_t start_pos = it_jointHits->fwd ? relpos : relpos + it_jointHits->readLen;
-        int32_t end_pos = it_jointHits->mateIsFwd ? it_jointHits->matePos : it_jointHits->matePos + it_jointHits->mateLen;
+        //int32_t start_pos = it_jointHits->fwd ? relpos : relpos + it_jointHits->readLen;
+        //int32_t end_pos = it_jointHits->mateIsFwd ? it_jointHits->matePos : it_jointHits->matePos + it_jointHits->mateLen;
+        int32_t start_pos = relpos;
+        int32_t end_pos = it_jointHits->matePos;
         bool fwdPass = it_jointHits->fwd;
         bool mateFwdPass = it_jointHits->mateIsFwd;
         // end
@@ -594,8 +604,10 @@ void processReadsQuasi(single_parser* parser,
         auto tid = it_jointHits->transcriptID();
        uint32_t txpName = transcripts[tid].id;
         auto relpos = it_jointHits->pos;
-        int32_t start_pos = it_jointHits->fwd ? relpos : relpos + it_jointHits->readLen;
-        int32_t end_pos = it_jointHits->mateIsFwd ? it_jointHits->matePos : it_jointHits->matePos + it_jointHits->mateLen;
+        //int32_t start_pos = it_jointHits->fwd ? relpos : relpos + it_jointHits->readLen;
+        //int32_t end_pos = it_jointHits->mateIsFwd ? it_jointHits->matePos : it_jointHits->matePos + it_jointHits->mateLen;
+        int32_t start_pos = relpos;
+        int32_t end_pos = it_jointHits->matePos;
         bool fwdPass = it_jointHits->fwd;
         bool mateFwdPass = it_jointHits->mateIsFwd;
         // end
