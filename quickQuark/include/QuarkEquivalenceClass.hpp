@@ -31,54 +31,15 @@ struct QStrings {
 
 	}
 
-	QStrings(std::string qcode,std::pair<int32_t,int32_t> interval,uint64_t countIn) :
-		qcodes({qcode}),intervals({interval}){
+	QStrings(std::string qcode,std::pair<int32_t,int32_t> lint, std::pair<int32_t,int32_t> rint,uint64_t countIn) :
+		qcodes({qcode}),intervals({lint,rint}){
 		count.store(countIn);
 	}
 
-	std::vector<std::pair<int32_t,int32_t>> makeIslands() const{
-		std::sort(intervals.begin(),intervals.end(),
-					[](const std::pair<int32_t,int32_t>& p1, const std::pair<int32_t,int32_t>& p2) -> bool {
-						return p1.first < p2.first ;
-					});
-
-		//do a linear search on index
-		std::vector<std::pair<int32_t,int32_t>> correctedIslands;
-		int currentindex;
-		//std::cout << "du du";
-		for(int i = 0; i < intervals.size(); i++){
-			if(i == 0){
-				auto temp = intervals[0];
-				correctedIslands.push_back(temp);
-				currentindex = 0;
-			}else{
-				//they are disjoint
-				//time to create new island
-				if(intervals[i].first > correctedIslands[currentindex].second){
-					auto temp = intervals[i];
-					correctedIslands.push_back(temp);
-					currentindex++ ;
-				}else{
-					//Now we have a tricky situation
-					//where current island has an intersection with
-					//the corrected current island so we extend our
-					// old island to include this
-					if(intervals[i].second > correctedIslands[currentindex].second){
-						correctedIslands[currentindex].second = intervals[i].second;
-					}
-					//otherwise we can swallow this small island
-				}
-			}
-
-		}
-		//intervals = correctedIslands ;
-		//intervals = {{0,0}};
-		return correctedIslands ;
-	}
 
 	mutable std::vector<std::string> qcodes ;
 	std::atomic<uint64_t> count{0};
-	mutable std::vector<std::pair<int32_t,int32_t>> intervals;
+	std::vector<std::pair<int32_t,int32_t>> intervals;
 
 #if defined __APPLE__
         spin_lock writeMutex_;
@@ -110,7 +71,7 @@ class QuarkEquivalenceClassBuilder{
 		                //code to merge intervals and create a map
 		                // that can also be done while writing
 		                // whatever
-		                kv.second.intervals = kv.second.makeIslands();
+		                //kv.second.intervals = kv.second.makeIslands();
 		            }
 
 		    	    logger_->info("Computed {} rich equivalence classes "
@@ -123,9 +84,10 @@ class QuarkEquivalenceClassBuilder{
 
 		        inline void addGroup(TranscriptGroup&& g,
 		                                     std::string qcode,
-											 std::pair<int32_t,int32_t> interval) {
+											 std::pair<int32_t,int32_t> lint,
+											 std::pair<int32_t,int32_t> rint) {
 
-		                    auto upfn = [&qcode,&interval](QStrings& x) -> void {
+		                    auto upfn = [&qcode,&lint,&rint](QStrings& x) -> void {
 		                     // update the count
 		                        // x.scoped_lock {
 #if defined __APPLE__
@@ -135,9 +97,10 @@ class QuarkEquivalenceClassBuilder{
 #endif
 		                        x.count++;
 		                        x.qcodes.push_back(qcode);
-		                        x.intervals.push_back(interval);
+		                        x.intervals.push_back(lint);
+		                        x.intervals.push_back(rint);
 		                    };
-		                    QStrings v(qcode,interval,1);
+		                    QStrings v(qcode,lint,rint,1);
 		                    countMap_.upsert(g, upfn, v);
 		                }
 

@@ -531,10 +531,14 @@ void processReadsQuasi(paired_parser* parser,
 	    // iv. Strandedness (reverse complemented or not)
 	    // I will do a linear scan to find out where
 	    // the exact match ends
-
+        // Find out if a read is orphan or not
+	    // For
 	    //code to re-check where the exact match ended
 
 	    //take the first tid
+		using interval = std::pair<int32_t,int32_t> ;
+		interval lint;
+		interval rint;
 	    if(haveCompat){
 	    	 if (txpIDsCompat.size() > 0) {
 	    	 auto jointHitsIt = jointHits.begin() ;
@@ -545,10 +549,20 @@ void processReadsQuasi(paired_parser* parser,
 	    	 std::string temp_r = quarkCode(txpSeqStart,txpLen,j->data[i].second.seq, jointHitsIt->matePos, jointHitsIt->mateIsFwd);
 	    	 temp_l.append("|");
 	    	 temp_l.append(temp_r);
+	    	 if(jointHitsIt->mateStatus == rapmap::utils::MateStatus::PAIRED_END_PAIRED){
 	    	 //std::pair<int32_t,int32_t> interval = std::make_pair(jointHitsIt->pos,jointHitsIt->matePos);
-             std::pair<int32_t,int32_t> interval = std::make_pair(std::min(jointHitsIt->pos,jointHitsIt->matePos),
-                												std::max(jointHitsIt->pos,jointHitsIt->matePos)+jointHitsIt->readLen);
-	    	 qEqBuilder.addGroup(std::move(tg),temp_l,interval);
+	    		 lint = std::make_pair(jointHitsIt->pos,jointHitsIt->pos+jointHitsIt->readLen);
+	    		 rint = std::make_pair(jointHitsIt->matePos,jointHitsIt->matePos+jointHitsIt->readLen);
+	    	 }else if(jointHitsIt->mateStatus == rapmap::utils::MateStatus::PAIRED_END_LEFT){
+	    		 //left is unmapped
+	    		 lint = {-1,-1};
+	    		 rint = std::make_pair(jointHitsIt->matePos,jointHitsIt->matePos+jointHitsIt->readLen);
+	    	 }else{
+	    		 lint = std::make_pair(jointHitsIt->pos,jointHitsIt->pos+jointHitsIt->readLen);
+	    		 rint = {-1,-1};
+	    	 }
+
+	    	 qEqBuilder.addGroup(std::move(tg),temp_l,lint,rint);
 	    	 }
 	    }else{
 	    	if (txpIDsAll.size() > 0) {
@@ -561,15 +575,24 @@ void processReadsQuasi(paired_parser* parser,
                 temp_l.append("|");
                 temp_l.append(temp_r);
                 //std::pair<int32_t,int32_t> interval = std::make_pair(jointHitsIt->pos,jointHitsIt->matePos) ;
-                std::pair<int32_t,int32_t> interval = std::make_pair(std::min(jointHitsIt->pos,jointHitsIt->matePos),
-                												std::max(jointHitsIt->pos,jointHitsIt->matePos)+jointHitsIt->readLen);
-                qEqBuilder.addGroup(std::move(tg),temp_l,interval);
+                //std::pair<int32_t,int32_t> interval = std::make_pair(std::min(jointHitsIt->pos,jointHitsIt->matePos),
+               // 												std::max(jointHitsIt->pos,jointHitsIt->matePos)+jointHitsIt->readLen);
+
+                if(jointHitsIt->mateStatus == rapmap::utils::MateStatus::PAIRED_END_PAIRED){
+	    	 //std::pair<int32_t,int32_t> interval = std::make_pair(jointHitsIt->pos,jointHitsIt->matePos);
+					 lint = std::make_pair(jointHitsIt->pos,jointHitsIt->pos+jointHitsIt->readLen);
+					 rint = std::make_pair(jointHitsIt->matePos,jointHitsIt->pos+jointHitsIt->readLen);
+				 }else if(jointHitsIt->mateStatus == rapmap::utils::MateStatus::PAIRED_END_LEFT){
+					 //left is unmapped
+					 lint = {-1,-1};
+					 rint = std::make_pair(jointHitsIt->matePos,jointHitsIt->pos+jointHitsIt->readLen);
+				 }else{
+					 lint = std::make_pair(jointHitsIt->pos,jointHitsIt->pos+jointHitsIt->readLen);
+					 rint = {-1,-1};
+				 }
+                qEqBuilder.addGroup(std::move(tg),temp_l,lint,rint);
 	    	}
 	    }
-
-
-
-
 
 	    //make something similar to equivalenceClassBuilder.hpp
 	    //it is called QuarkEquivalenceClass.hpp

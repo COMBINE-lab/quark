@@ -48,6 +48,48 @@ bool writeVectorToFile(boost::filesystem::path path,
  * a fixed order, then each equivalence class will consist
  * of a line / row.
  */
+
+
+void makeIslands(std::vector<std::pair<int32_t,int32_t>>& intervals){
+	std::sort(intervals.begin(),intervals.end(),
+				[](const std::pair<int32_t,int32_t>& p1, const std::pair<int32_t,int32_t>& p2) -> bool {
+					return p1.first < p2.first ;
+				});
+
+	//do a linear search on index
+	std::vector<std::pair<int32_t,int32_t>> correctedIslands;
+
+	int currentindex;
+	//std::cout << "du du";
+	for(int i = 0; i < intervals.size(); i++){
+		if(i == 0){
+			auto temp = intervals[0];
+			correctedIslands.push_back(temp);
+			currentindex = 0;
+		}else{
+			//they are disjoint
+			//time to create new island
+			if(intervals[i].first > correctedIslands[currentindex].second){
+				auto temp = intervals[i];
+				correctedIslands.push_back(temp);
+				currentindex++ ;
+			}else{
+				//Now we have a tricky situation
+				//where current island has an intersection with
+				//the corrected current island so we extend our
+				// old island to include this
+				if(intervals[i].second > correctedIslands[currentindex].second){
+					correctedIslands[currentindex].second = intervals[i].second;
+				}
+				//otherwise we can swallow this small island
+			}
+		}
+
+	}
+	intervals = correctedIslands ;
+	//intervals = {{0,0}};
+	// correctedIslands ;
+}
 bool GZipWriter::writeEquivCounts(
     const SailfishOpts& opts,
     ReadExperiment& experiment,
@@ -95,7 +137,7 @@ bool GZipWriter::writeEquivCounts(
     // each group member
     for (auto tid : txps) { equivFile << tid << '\t'; }
     // count for this class
-    equivFile << count << '\n';
+    equivFile << count << '\n' ;
   }
 
 
@@ -104,7 +146,9 @@ bool GZipWriter::writeEquivCounts(
 	  const std::vector<uint32_t>& txps = tgroup.txps;
 	  uint64_t count= q.second.count;
 	  auto& qcodes = q.second.qcodes;
-	  auto& intervals = q.second.intervals;
+	  auto intervals = q.second.intervals;
+	  makeIslands(intervals);
+
 	  qFile<< count << "\n";
 	  for(auto qcode : qcodes) {qFile << qcode << "\n"; }
 	  iFile << intervals.size() << "\n";
