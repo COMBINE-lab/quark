@@ -50,22 +50,54 @@ bool writeVectorToFile(boost::filesystem::path path,
  */
 
 
-void makeIslands(std::vector<std::pair<int32_t,int32_t>>& intervals){
-	std::sort(intervals.begin(),intervals.end(),
-				[](const std::pair<int32_t,int32_t>& p1, const std::pair<int32_t,int32_t>& p2) -> bool {
-					return p1.first < p2.first ;
-				});
+void makeIslands(std::vector<std::pair<int32_t,int32_t>>& intervals, std::vector<int>& mapid, std::vector<int32_t>& relpos){
 
 	//do a linear search on index
+	typedef struct{
+		std::pair<int32_t,int32_t> content ;
+		int index ;
+	}island;
+
+	std::vector<island> fIslands ;
+	int i = 0;
+	for(auto c : intervals){
+		island ci = {c,i} ;
+		fIslands.push_back(ci) ;
+		i++;
+	}
+
+	std::sort(fIslands.begin(),fIslands.end(),
+				[](const island& p1, const island& p2) -> bool {
+					return p1.content.first < p2.content.first ;
+				});
+
+
+	//std::vector<int> mapid ;
+	std::vector<int> remapid ;
+	//std::vector<int32_t> relpos ;
+
+	mapid.resize(intervals.size());
+	remapid.resize(intervals.size());
+	relpos.resize(intervals.size());
+
+	i = 0;
+	for(auto ci :fIslands){
+		intervals[i] = ci.content;
+		mapid[i] = ci.index ;
+		remapid[i] = i ;
+		i++;
+	}
+
 	std::vector<std::pair<int32_t,int32_t>> correctedIslands;
 
 	int currentindex;
 	//std::cout << "du du";
-	for(int i = 0; i < intervals.size(); i++){
+	for(i = 0; i < intervals.size() ; i++){
 		if(i == 0){
 			auto temp = intervals[0];
 			correctedIslands.push_back(temp);
 			currentindex = 0;
+			relpos[0] = 0;
 		}else{
 			//they are disjoint
 			//time to create new island
@@ -73,6 +105,8 @@ void makeIslands(std::vector<std::pair<int32_t,int32_t>>& intervals){
 				auto temp = intervals[i];
 				correctedIslands.push_back(temp);
 				currentindex++ ;
+				remapid[i] = currentindex ;
+				relpos[i] = 0;
 			}else{
 				//Now we have a tricky situation
 				//where current island has an intersection with
@@ -80,13 +114,23 @@ void makeIslands(std::vector<std::pair<int32_t,int32_t>>& intervals){
 				// old island to include this
 				if(intervals[i].second > correctedIslands[currentindex].second){
 					correctedIslands[currentindex].second = intervals[i].second;
+
 				}
+				//so we can rearrange whatever we have and see the relative positions
+				remapid[i] = currentindex ;
+				relpos[i] = intervals[i].first - correctedIslands[currentindex].first ;
 				//otherwise we can swallow this small island
+
 			}
 		}
 
 	}
 	intervals = correctedIslands ;
+	//get the remapped value
+	for(i = 0; i < mapid.size(); i++){
+		mapid[i] = remapid[mapid[i]];
+	}
+	//done
 	//intervals = {{0,0}};
 	// correctedIslands ;
 }
@@ -147,10 +191,17 @@ bool GZipWriter::writeEquivCounts(
 	  uint64_t count= q.second.count;
 	  auto& qcodes = q.second.qcodes;
 	  auto intervals = q.second.intervals;
-	  makeIslands(intervals);
+
+	  std::vector<int> mapid;
+	  std::vector<int32_t> relpos;
+	  makeIslands(intervals,mapid,relpos);
 
 	  qFile<< count << "\n";
-	  for(auto qcode : qcodes) {qFile << qcode << "\n"; }
+	  int i=0;
+	  for(auto qcode : qcodes) {
+		  qFile << qcode << "\t" << mapid[i] << ","<< relpos[i] << "," << mapid[i+1] << ","<< relpos[i+1]  << "\n";
+		  i = i + 2;
+	  }
 	  iFile << intervals.size() << "\n";
 	  for(auto interval : intervals) {iFile << interval.first << "\t" << interval.second << "\n";}
 
