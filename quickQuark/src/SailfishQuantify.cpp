@@ -136,19 +136,44 @@ std::string revComp(std::string &s){
     return s;
 }
 
-std::string quarkCode(const char * txpSeq,
-            double refLen,
+std::string quarkCode(
+		    Transcript& txp,
             std::string& read,
-            int32_t& pos,
-            bool& ore){
+            auto& jointHitsIt,
+			int lor){
     // Encode the left end
     // cases
 
+	const char* txpSeq = txp.Sequence();
+	double refLen = txp.RefLength ;
+	auto& txpid = txp.id;
+
+	std::string res = "";
+	auto& pos = jointHitsIt->pos;
+	auto& ore = jointHitsIt->fwd;
+
+	if(lor == 1){
+		pos = jointHitsIt->pos;
+		ore = jointHitsIt->fwd;
+	}else{
+		pos = jointHitsIt->matePos;
+		ore = jointHitsIt->mateIsFwd;
+	}
+	bool leftOrphan = false;
+	bool rightOrphan = false;
+
+
+	if(lor == 1 && jointHitsIt->mateStatus == rapmap::utils::MateStatus::PAIRED_END_LEFT){
+		leftOrphan = true ;
+	}else if(lor == 2 && jointHitsIt->mateStatus == rapmap::utils::MateStatus::PAIRED_END_RIGHT){
+		rightOrphan = true ;
+	}
+
 
 	std::string readSeq = (ore) ? read : revComp(read);
-	std::string res = "";
 	int counter = 0;
 	int match = 0;
+	std::string orestr = (ore) ? "1" : "0" ;
 	if (pos > 0){
 		while(counter < readSeq.size() && (pos+counter) < refLen){
 			if(readSeq[counter] == txpSeq[pos+counter] ){
@@ -164,8 +189,19 @@ std::string quarkCode(const char * txpSeq,
 			res.append(readSeq.substr(match));
 			res.append(std::to_string(ore));
 		}else{
-			res.append(std::to_string(pos));
-			res.append(readSeq);
+			if(lor == 1 && leftOrphan){
+				//it is expected to become orphan
+				res.append(read);
+
+			}else if(lor == 2 && rightOrphan){
+				res.append(read);
+			}else{
+				res.append(std::to_string(txpid));
+				res.append(",");
+				res.append(std::to_string(pos));
+				res.append(readSeq);
+				res.append(orestr);
+			}
 		}
 
 	}else if(pos == 0){
@@ -186,8 +222,19 @@ std::string quarkCode(const char * txpSeq,
 			res.append(readSeq.substr(match));
 			res.append(std::to_string(ore));
 		}else{
-			res.append(std::to_string(pos));
-			res.append(readSeq);
+			if(lor == 1 && leftOrphan){
+				//it is expected to become orphan
+				res.append(read);
+
+			}else if(lor == 2 && rightOrphan){
+				res.append(read);
+			}else{
+				res.append(std::to_string(txpid));
+				res.append(",");
+				res.append(std::to_string(pos));
+				res.append(readSeq);
+				res.append(orestr);
+			}
 		}
 	}
 	return res;
@@ -543,10 +590,10 @@ void processReadsQuasi(paired_parser* parser,
 	    	 if (txpIDsCompat.size() > 0) {
 	    	 auto jointHitsIt = jointHits.begin() ;
 	    	 TranscriptGroup tg(txpIDsCompat);
-	    	 const char* txpSeqStart = transcripts[txpIDsCompat[0]].Sequence();
-	    	 double txpLen = transcripts[txpIDsCompat[0]].RefLength ;
-	    	 std::string temp_l = quarkCode(txpSeqStart,txpLen,j->data[i].first.seq, jointHitsIt->pos, jointHitsIt->fwd);
-	    	 std::string temp_r = quarkCode(txpSeqStart,txpLen,j->data[i].second.seq, jointHitsIt->matePos, jointHitsIt->mateIsFwd);
+	    	 //const char* txpSeqStart = transcripts[txpIDsCompat[0]].Sequence();
+	    	 //double txpLen = transcripts[txpIDsCompat[0]].RefLength ;
+	    	 std::string temp_l = quarkCode(transcripts[txpIDsCompat[0]],j->data[i].first.seq, jointHitsIt,1);
+	    	 std::string temp_r = quarkCode(transcripts[txpIDsCompat[0]],j->data[i].second.seq, jointHitsIt,2);
 	    	 temp_l.append("|");
 	    	 temp_l.append(temp_r);
 	    	 if(jointHitsIt->mateStatus == rapmap::utils::MateStatus::PAIRED_END_PAIRED){
@@ -568,10 +615,10 @@ void processReadsQuasi(paired_parser* parser,
 	    	if (txpIDsAll.size() > 0) {
                 auto jointHitsIt = jointHits.begin() ;
                 TranscriptGroup tg(txpIDsAll);
-                const char* txpSeqStart = transcripts[txpIDsAll[0]].Sequence();
-                double txpLen = transcripts[txpIDsCompat[0]].RefLength ;
-                std::string temp_l = quarkCode(txpSeqStart,txpLen,j->data[i].first.seq, jointHitsIt->pos, jointHitsIt->fwd);
-                std::string temp_r = quarkCode(txpSeqStart,txpLen,j->data[i].second.seq, jointHitsIt->matePos, jointHitsIt->mateIsFwd);
+                //const char* txpSeqStart = transcripts[txpIDsAll[0]].Sequence();
+                //double txpLen = transcripts[txpIDsAll[0]].RefLength ;
+                std::string temp_l = quarkCode(transcripts[txpIDsAll[0]],j->data[i].first.seq, jointHitsIt,1);
+                std::string temp_r = quarkCode(transcripts[txpIDsAll[0]],j->data[i].second.seq, jointHitsIt,2);
                 temp_l.append("|");
                 temp_l.append(temp_r);
                 //std::pair<int32_t,int32_t> interval = std::make_pair(jointHitsIt->pos,jointHitsIt->matePos) ;
