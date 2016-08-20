@@ -5,6 +5,7 @@
 
 #include "GZipWriter.hpp"
 #include "SailfishOpts.hpp"
+#include "Transcript.hpp"
 
 GZipWriter::GZipWriter(const boost::filesystem::path path, std::shared_ptr<spdlog::logger> logger) :
   path_(path), logger_(logger) {
@@ -145,13 +146,18 @@ bool GZipWriter::writeEquivCounts(
   bool auxSuccess = boost::filesystem::create_directories(auxDir);
   bfs::path eqFilePath = auxDir / "eq_classes.txt";
   bfs::path quarkFilePath  = auxDir/ "reads.quark";
-  bfs::path unMappedFile = auxDir/"unmapped.seq";
+  bfs::path unMappedFile_l = auxDir/"unmapped.1.seq";
+  bfs::path unMappedFile_r = auxDir/"unmapped.2.seq";
   bfs::path islandFile = auxDir/"islands.quark";
 
 
   std::ofstream equivFile(eqFilePath.string());
   std::ofstream qFile(quarkFilePath.string());
-  std::ofstream uFile(unMappedFile.string());
+
+  std::ofstream uFile_l(unMappedFile_l.string());
+  std::ofstream uFile_r(unMappedFile_r.string());
+
+
   std::ofstream iFile(islandFile.string());
 
   auto& transcripts = experiment.transcripts();
@@ -210,15 +216,29 @@ bool GZipWriter::writeEquivCounts(
 	  }
 	  */
 	  iFile << intervals.size() << "\n";
-	  for(auto interval : intervals) {iFile << interval.first << "\t" << interval.second << "\n";}
+	  for(auto interval : intervals) {
+		  const char *txpSeq = transcripts[txps[0]].Sequence();
+		  for(int ind = interval.first; ind <= interval.second;ind++)
+			  iFile << txpSeq[ind];
+		  //iFile << interval.first << "\t" << interval.second << "\n";
+		  iFile << "\n";
+	  }
 
   }
 
   //write unmapped sequences
   if(unmapped.size() > 0){
 	  for(auto seqvec : unmapped)
-		  for(auto seq : seqvec)
-			  uFile << seq << "\n";
+		  for(auto seq : seqvec){
+			  int il = 0;
+			  for(il = 0; il < 54 ; il++)
+				  uFile_l << seq[il];
+			  uFile_l << "\n";
+			  for(il = 55; il < seq.size() ; il++)
+				  uFile_r << seq[il] ;
+			  uFile_r << "\n";
+
+		  }
   }
 
   equivFile.close();
