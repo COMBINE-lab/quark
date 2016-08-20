@@ -97,6 +97,16 @@ int32_t getMeanFragLen(const FragLengthCountMap& flMap) {
     return static_cast<uint32_t>(ret);
 }
 
+// split string
+std::vector<std::string> split(const std::string &s,const char &delim) {
+  std::stringstream ss(s);
+  std::string item;
+  std::vector<std::string> elems;
+  while (std::getline(ss, item, delim)) {
+    elems.push_back(item);
+  }
+  return elems;
+}
 /*
  * Encode both read pairs on the go
  */
@@ -140,11 +150,13 @@ std::string quarkCode(
 		    Transcript& txp,
             std::string& read,
             auto& jointHitsIt,
-			int lor){
+			int lor,
+			std::string readHeader){
     // Encode the left end
     // cases
 
 	const char* txpSeq = txp.Sequence();
+	//std::string txpSeq = txpSeqChar ;
 	double refLen = txp.RefLength ;
 	auto& txpid = txp.id;
 
@@ -152,21 +164,19 @@ std::string quarkCode(
 	auto& pos = jointHitsIt->pos;
 	auto& ore = jointHitsIt->fwd;
 
-	if(lor == 1){
-		pos = jointHitsIt->pos;
-		ore = jointHitsIt->fwd;
-	}else{
-		pos = jointHitsIt->matePos;
-		ore = jointHitsIt->mateIsFwd;
-	}
 	bool leftOrphan = false;
 	bool rightOrphan = false;
 
 
-	if(lor == 1 && jointHitsIt->mateStatus == rapmap::utils::MateStatus::PAIRED_END_LEFT){
-		leftOrphan = true ;
-	}else if(lor == 2 && jointHitsIt->mateStatus == rapmap::utils::MateStatus::PAIRED_END_RIGHT){
+	if(jointHitsIt->mateStatus == rapmap::utils::MateStatus::PAIRED_END_LEFT){
 		rightOrphan = true ;
+	}else if(jointHitsIt->mateStatus == rapmap::utils::MateStatus::PAIRED_END_RIGHT){
+		leftOrphan = true ;
+	}
+
+	if(!rightOrphan && !leftOrphan && lor==2){
+		pos = jointHitsIt->matePos;
+		ore = jointHitsIt->mateIsFwd;
 	}
 
 
@@ -183,7 +193,7 @@ std::string quarkCode(
 				break;
 			}
 		}
-		if(match > 0){
+		if(match >= 31){
 			res.append("M");
 			res.append(std::to_string(match));
 			res.append(readSeq.substr(match));
@@ -194,18 +204,77 @@ std::string quarkCode(
 				res.append(read);
 
 			}else if(lor == 2 && rightOrphan){
+				//it is expected to become orphan
 				res.append(read);
 			}else{
-				res.append(std::to_string(txpid));
-				res.append(",");
-				res.append(std::to_string(pos));
-				res.append(readSeq);
+				// some k-mer down the line
+				// check all the k-mers
+				//A match less than 31 is accepted accepted
+				//It has to align some where
+				//so just keep align
+				int ind = 0;
+				match = 0;
+				counter = 0;
+				while((ind+pos) < refLen && ind < readSeq.size()){
+					if(txpSeq[pos+ind]==readSeq[ind]){
+						match++;
+					}else{
+						if(match < 3){
+							res.append((match==0?(std::string(1,readSeq[ind])):(readSeq.substr(ind-match,match+1))));
+						}else{
+							res.append("M");
+							res.append(std::to_string(match));
+							res.append(std::string(1,readSeq[ind]));
+						}
+						match = 0;
+					}
+					ind++;
+				}
+				if(match > 0){
+					res.append("M");
+					res.append(std::to_string(match));
+				}
 				res.append(orestr);
+				/*
+				 *
+
+				int32_t realPos = 0;
+				int32_t start;
+				int32_t newPos;
+				while((txpSeq.substr(pos+realPos,31) != readSeq.substr(realPos,31)) && realPos < readSeq.size()-31 && (pos+realPos) < refLen-31){
+					realPos++;
+				}
+				counter = 0;
+				match = 0;
+
+				res.append(readSeq.substr(0,realPos));
+				if(txpSeq.substr(pos+realPos,31) == readSeq.substr(realPos,31)){
+					newPos = pos+realPos;
+					start = realPos;
+					while((start + counter) < readSeq.size() && (newPos+counter) < refLen){
+						if(readSeq[start+counter] == txpSeq[newPos+counter] ){
+							counter++;
+							match++;
+						}else{
+							break;
+						}
+					}
+				}
+
+				res.append("M");
+				res.append(std::to_string(match));
+				res.append(readSeq.substr(start+match));
+				*/
+				//res.append(std::to_string(txpid));
+				//res.append(",");
+				//res.append(std::to_string(pos));
+				//res.append(readSeq);
+				//res.append(orestr);
 			}
 		}
 
 	}else if(pos == 0){
-		res.append(readSeq);
+		res.append(read);
 	}if(pos < 0){
 		res.append(readSeq.substr(0,abs(pos)));
 		while(abs(pos)+counter < readSeq.size() && (abs(pos)+counter) < refLen){
@@ -216,7 +285,7 @@ std::string quarkCode(
 					break;
 				}
 		}
-		if(match > 0){
+		if(match >= 31){
 			res.append("M");
 			res.append(std::to_string(match));
 			res.append(readSeq.substr(match));
@@ -229,11 +298,67 @@ std::string quarkCode(
 			}else if(lor == 2 && rightOrphan){
 				res.append(read);
 			}else{
-				res.append(std::to_string(txpid));
-				res.append(",");
-				res.append(std::to_string(pos));
-				res.append(readSeq);
+
+				// some k-mer down the line
+				// check all the k-mers
+
+
+				int ind = 0;
+				match = 0;
+				counter = 0;
+				while(ind < refLen && (ind+abs(pos)) < readSeq.size()){
+					if(txpSeq[ind]==readSeq[abs(pos)+ind]){
+						match++;
+					}else{
+						if(match < 3){
+							res.append((match==0?(std::string(1,readSeq[abs(pos)+ind])):(readSeq.substr(abs(pos)+ind-match,match+1))));
+						}else{
+							res.append("M");
+							res.append(std::to_string(match));
+							res.append(std::string(1,readSeq[abs(pos)+ind]));
+						}
+						match = 0;
+					}
+					ind++;
+				}
+				if(match > 0){
+					res.append("M");
+					res.append(std::to_string(match));
+				}
 				res.append(orestr);
+				/*
+				int32_t realPos = 0;
+				int32_t newPos;
+				int32_t start;
+				while((txpSeq.substr(realPos,31) != readSeq.substr(abs(pos)+realPos,31)) && (abs(pos)+realPos) < readSeq.size()-31 && (realPos) < refLen-31){
+					realPos++;
+				}
+				counter = 0;
+				match = 0;
+				res.append(readSeq.substr(abs(pos),realPos));
+				if(txpSeq.substr(realPos,31) == readSeq.substr(realPos,31)){
+					newPos = realPos;
+					start = abs(pos)+realPos;
+					while((start + counter) < readSeq.size() && (newPos+counter) < refLen){
+						if(readSeq[start+counter] == txpSeq[newPos+counter] ){
+							counter++;
+							match++;
+						}else{
+							break;
+						}
+					}
+				}
+
+				res.append("M");
+				res.append(std::to_string(match));
+				res.append(readSeq.substr(start+match));
+				//res.append(std::to_string(txpid));
+				//res.append(",");
+				//res.append(std::to_string(pos));
+				//res.append(readSeq);
+				//res.append(orestr);
+				 *
+				 */
 			}
 		}
 	}
@@ -535,6 +660,7 @@ void processReadsQuasi(paired_parser* parser,
                 }
 
 
+
 		// Gather GC samples if we need them
 		bool isPaired = h.mateStatus == rapmap::utils::MateStatus::PAIRED_END_PAIRED;
 		bool failedSample{false};
@@ -583,6 +709,23 @@ void processReadsQuasi(paired_parser* parser,
 	    //code to re-check where the exact match ended
 
 	    //take the first tid
+	    //test the bug for mapped reads
+	    /*
+	    if(j->data[i].first.header == "SRR635193.20483368 20483368 length=54"){
+	    	std::cout << "\n" <<  jointHits.begin()->pos << "\n" ;
+	    	std::cout << jointHits.begin()->matePos << "\n";
+			if(jointHits.begin()->mateStatus == rapmap::utils::MateStatus::PAIRED_END_LEFT){
+	    	    std::cout << "rapmap::utils::MateStatus::PAIRED_END_LEFT" << "\n" ;
+			}else if(jointHits.begin()->mateStatus == rapmap::utils::MateStatus::PAIRED_END_RIGHT){
+	    	    std::cout << "rapmap::utils::MateStatus::PAIRED_END_RIGHT" << "\n" ;
+			}else{
+	    	    std::cout << "rapmap::utils::MateStatus::PAIRED_END_PAIRED" << "\n" ;
+			}
+			exit(0);
+	    }
+	    */
+
+	    //test ends
 		using interval = std::pair<int32_t,int32_t> ;
 		interval lint;
 		interval rint;
@@ -592,21 +735,26 @@ void processReadsQuasi(paired_parser* parser,
 	    	 TranscriptGroup tg(txpIDsCompat);
 	    	 //const char* txpSeqStart = transcripts[txpIDsCompat[0]].Sequence();
 	    	 //double txpLen = transcripts[txpIDsCompat[0]].RefLength ;
-	    	 std::string temp_l = quarkCode(transcripts[txpIDsCompat[0]],j->data[i].first.seq, jointHitsIt,1);
-	    	 std::string temp_r = quarkCode(transcripts[txpIDsCompat[0]],j->data[i].second.seq, jointHitsIt,2);
+             std::string left_name = j->data[i].first.header ;
+             std::string right_name = j->data[i].second.header ;
+             //std::string left_name = split(j->data[i].first.header," ")[0] ;
+	    	 std::string temp_l = quarkCode(transcripts[txpIDsCompat[0]],j->data[i].first.seq, jointHitsIt,1,left_name);
+	    	 std::string temp_r = quarkCode(transcripts[txpIDsCompat[0]],j->data[i].second.seq, jointHitsIt,2,right_name);
+             //temp_l.append(left_name);
 	    	 temp_l.append("|");
 	    	 temp_l.append(temp_r);
+	    	 //temp_l.append(right_name);
 	    	 if(jointHitsIt->mateStatus == rapmap::utils::MateStatus::PAIRED_END_PAIRED){
 	    	 //std::pair<int32_t,int32_t> interval = std::make_pair(jointHitsIt->pos,jointHitsIt->matePos);
 	    		 lint = std::make_pair(jointHitsIt->pos,jointHitsIt->pos+jointHitsIt->readLen);
 	    		 rint = std::make_pair(jointHitsIt->matePos,jointHitsIt->matePos+jointHitsIt->readLen);
 	    	 }else if(jointHitsIt->mateStatus == rapmap::utils::MateStatus::PAIRED_END_LEFT){
-	    		 //left is unmapped
-	    		 lint = {-1,-1};
-	    		 rint = std::make_pair(jointHitsIt->matePos,jointHitsIt->matePos+jointHitsIt->readLen);
+	    		 //right is unmapped
+					 lint = std::make_pair(jointHitsIt->pos,jointHitsIt->pos+jointHitsIt->readLen);
+					 rint = {-1,-1};
 	    	 }else{
-	    		 lint = std::make_pair(jointHitsIt->pos,jointHitsIt->pos+jointHitsIt->readLen);
-	    		 rint = {-1,-1};
+					 lint = {-1,-1};
+					 rint = std::make_pair(jointHitsIt->pos,jointHitsIt->pos+jointHitsIt->readLen);
 	    	 }
 
 	    	 qEqBuilder.addGroup(std::move(tg),temp_l,lint,rint);
@@ -617,10 +765,15 @@ void processReadsQuasi(paired_parser* parser,
                 TranscriptGroup tg(txpIDsAll);
                 //const char* txpSeqStart = transcripts[txpIDsAll[0]].Sequence();
                 //double txpLen = transcripts[txpIDsAll[0]].RefLength ;
-                std::string temp_l = quarkCode(transcripts[txpIDsAll[0]],j->data[i].first.seq, jointHitsIt,1);
-                std::string temp_r = quarkCode(transcripts[txpIDsAll[0]],j->data[i].second.seq, jointHitsIt,2);
+                std::string left_name = j->data[i].first.header ;
+                std::string right_name = j->data[i].second.header ;
+                //std::string left_name = split(j->data[i].first.header," ")[0] ;
+                std::string temp_l = quarkCode(transcripts[txpIDsAll[0]],j->data[i].first.seq, jointHitsIt,1,left_name);
+                std::string temp_r = quarkCode(transcripts[txpIDsAll[0]],j->data[i].second.seq, jointHitsIt,2,right_name);
+                //temp_l.append(left_name);
                 temp_l.append("|");
                 temp_l.append(temp_r);
+      	    	//temp_l.append(right_name);
                 //std::pair<int32_t,int32_t> interval = std::make_pair(jointHitsIt->pos,jointHitsIt->matePos) ;
                 //std::pair<int32_t,int32_t> interval = std::make_pair(std::min(jointHitsIt->pos,jointHitsIt->matePos),
                // 												std::max(jointHitsIt->pos,jointHitsIt->matePos)+jointHitsIt->readLen);
@@ -628,14 +781,14 @@ void processReadsQuasi(paired_parser* parser,
                 if(jointHitsIt->mateStatus == rapmap::utils::MateStatus::PAIRED_END_PAIRED){
 	    	 //std::pair<int32_t,int32_t> interval = std::make_pair(jointHitsIt->pos,jointHitsIt->matePos);
 					 lint = std::make_pair(jointHitsIt->pos,jointHitsIt->pos+jointHitsIt->readLen);
-					 rint = std::make_pair(jointHitsIt->matePos,jointHitsIt->pos+jointHitsIt->readLen);
+					 rint = std::make_pair(jointHitsIt->matePos,jointHitsIt->matePos+jointHitsIt->readLen);
 				 }else if(jointHitsIt->mateStatus == rapmap::utils::MateStatus::PAIRED_END_LEFT){
-					 //left is unmapped
-					 lint = {-1,-1};
-					 rint = std::make_pair(jointHitsIt->matePos,jointHitsIt->pos+jointHitsIt->readLen);
-				 }else{
+					 //right is unmapped
 					 lint = std::make_pair(jointHitsIt->pos,jointHitsIt->pos+jointHitsIt->readLen);
 					 rint = {-1,-1};
+				 }else{
+					 lint = {-1,-1};
+					 rint = std::make_pair(jointHitsIt->pos,jointHitsIt->pos+jointHitsIt->readLen);
 				 }
                 qEqBuilder.addGroup(std::move(tg),temp_l,lint,rint);
 	    	}
@@ -1090,15 +1243,6 @@ void computeSmoothedEffectiveLengths(
                 });
 }
 
-std::vector<std::string> split(const std::string &s, char delim) {
-  std::stringstream ss(s);
-  std::string item;
-  std::vector<std::string> elems;
-  while (std::getline(ss, item, delim)) {
-    elems.push_back(item);
-  }
-  return elems;
-}
 
 
 void quasiMapReads(

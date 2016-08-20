@@ -83,7 +83,7 @@ void makeIslands(std::vector<std::pair<int32_t,int32_t>>& intervals, std::vector
 	i = 0;
 	for(auto ci :fIslands){
 		intervals[i] = ci.content;
-		mapid[i] = ci.index ;
+		mapid[ci.index] = i ;
 		remapid[i] = i ;
 		i++;
 	}
@@ -198,10 +198,17 @@ bool GZipWriter::writeEquivCounts(
 
 	  qFile<< count << "\n";
 	  int i=0;
+
 	  for(auto qcode : qcodes) {
 		  qFile << qcode << "\t" << mapid[i] << ","<< relpos[i] << "," << mapid[i+1] << ","<< relpos[i+1]  << "\n";
 		  i = i + 2;
 	  }
+
+	  /*
+	  for(auto qcode : qcodes){
+		  qFile << qcode << "\n";
+	  }
+	  */
 	  iFile << intervals.size() << "\n";
 	  for(auto interval : intervals) {iFile << interval.first << "\t" << interval.second << "\n";}
 
