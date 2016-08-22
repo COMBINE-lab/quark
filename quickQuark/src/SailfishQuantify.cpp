@@ -731,7 +731,16 @@ void processReadsQuasi(paired_parser* parser,
 		interval rint;
 	    if(haveCompat){
 	    	 if (txpIDsCompat.size() > 0) {
-	    	 auto jointHitsIt = jointHits.begin() ;
+
+	         std::vector<rapmap::utils::QuasiAlignment>::iterator jointHitsIt = jointHits.begin() ;
+	    	 //auto tid = txpIDsCompat[0] ;
+	    	 for(std::vector<rapmap::utils::QuasiAlignment>::iterator h = jointHits.begin(); h != jointHits.end(); ++h){
+	    		 if (h->transcriptID() == txpIDsCompat[0]){
+	    			 jointHitsIt = h;
+	    			 break;
+	    		 }
+	    	 }
+
 	    	 TranscriptGroup tg(txpIDsCompat);
 	    	 //const char* txpSeqStart = transcripts[txpIDsCompat[0]].Sequence();
 	    	 //double txpLen = transcripts[txpIDsCompat[0]].RefLength ;
@@ -740,28 +749,84 @@ void processReadsQuasi(paired_parser* parser,
              //std::string left_name = split(j->data[i].first.header," ")[0] ;
 	    	 std::string temp_l = quarkCode(transcripts[txpIDsCompat[0]],j->data[i].first.seq, jointHitsIt,1,left_name);
 	    	 std::string temp_r = quarkCode(transcripts[txpIDsCompat[0]],j->data[i].second.seq, jointHitsIt,2,right_name);
+
+	    	 int32_t txl = transcripts[txpIDsCompat[0]].RefLength ; // transcript length
+	    	 int rl = jointHitsIt->readLen ; // read length
              //temp_l.append(left_name);
 	    	 temp_l.append("|");
 	    	 temp_l.append(temp_r);
 	    	 //temp_l.append(right_name);
+
+
+	    	 //start and end
+	    	 int32_t corr_lpos;
+	    	 int32_t corr_rpos;
+
+	    	 int32_t corr_lpos_end;
+	    	 int32_t corr_rpos_end;
+	    	 if(jointHitsIt->pos < 0){
+	    		 corr_lpos = 0;
+	    	 }else{
+	    		 corr_lpos = jointHitsIt->pos;
+	    	 }
+	    	 if(jointHitsIt->matePos < 0){
+	    		 corr_rpos = 0;
+	    	 }else{
+	    		 corr_rpos = jointHitsIt->matePos;
+	    	 }
+
+	    	 if(jointHitsIt->matePos > txl){
+	    		 //std::cout << j->data[i].first.header << "," << transcripts[txpIDsCompat[0]].RefName << "," << transcripts[jointHitsIt->transcriptID()].RefName  << "\n";
+	    	 }
+
+
+	    	 if(jointHitsIt->pos + rl >= txl){
+	    		 corr_lpos_end = txl - 1;
+	    	 }else{
+	    		 corr_lpos_end = jointHitsIt->pos + rl;
+	    	 }
+	    	 if(jointHitsIt->matePos + rl >= txl){
+	    		 corr_rpos_end = txl - 1;
+	    	 }else{
+	    		 corr_rpos_end = jointHitsIt->matePos + rl;
+	    	 }
+
+	    	 //sanity check
+	    	 if(corr_lpos_end - corr_lpos < 0 || corr_rpos_end - corr_rpos < 0){
+	    		 //std::cout << "\n" << corr_lpos_end << "," << corr_lpos << "," << corr_rpos_end << "," << corr_rpos << "," << txl <<"\n";
+	    		 //exit(0);
+	    	 }
+
+
 	    	 if(jointHitsIt->mateStatus == rapmap::utils::MateStatus::PAIRED_END_PAIRED){
 	    	 //std::pair<int32_t,int32_t> interval = std::make_pair(jointHitsIt->pos,jointHitsIt->matePos);
-	    		 lint = std::make_pair(jointHitsIt->pos,jointHitsIt->pos+jointHitsIt->readLen);
-	    		 rint = std::make_pair(jointHitsIt->matePos,jointHitsIt->matePos+jointHitsIt->readLen);
+	    		 lint = std::make_pair(corr_lpos,corr_lpos_end);
+	    		 rint = std::make_pair(corr_rpos,corr_rpos_end);
 	    	 }else if(jointHitsIt->mateStatus == rapmap::utils::MateStatus::PAIRED_END_LEFT){
 	    		 //right is unmapped
-					 lint = std::make_pair(jointHitsIt->pos,jointHitsIt->pos+jointHitsIt->readLen);
+					 lint = std::make_pair(corr_lpos,corr_lpos_end);
 					 rint = {-1,-1};
 	    	 }else{
 					 lint = {-1,-1};
-					 rint = std::make_pair(jointHitsIt->pos,jointHitsIt->pos+jointHitsIt->readLen);
+					 rint = std::make_pair(corr_lpos,corr_lpos_end);
 	    	 }
 
 	    	 qEqBuilder.addGroup(std::move(tg),temp_l,lint,rint);
 	    	 }
 	    }else{
 	    	if (txpIDsAll.size() > 0) {
-                auto jointHitsIt = jointHits.begin() ;
+                //auto jointHitsIt = jointHits.begin() ;
+
+                std::vector<rapmap::utils::QuasiAlignment>::iterator jointHitsIt = jointHits.begin() ;
+                	    	 //auto tid = txpIDsCompat[0] ;
+                	    	 for(std::vector<rapmap::utils::QuasiAlignment>::iterator h = jointHits.begin(); h != jointHits.end(); ++h){
+                	    		 if (h->transcriptID() == txpIDsAll[0]){
+                	    			 jointHitsIt = h;
+                	    			 break ;
+                	    		 }
+                	    	 }
+
+
                 TranscriptGroup tg(txpIDsAll);
                 //const char* txpSeqStart = transcripts[txpIDsAll[0]].Sequence();
                 //double txpLen = transcripts[txpIDsAll[0]].RefLength ;
@@ -771,6 +836,9 @@ void processReadsQuasi(paired_parser* parser,
                 std::string temp_l = quarkCode(transcripts[txpIDsAll[0]],j->data[i].first.seq, jointHitsIt,1,left_name);
                 std::string temp_r = quarkCode(transcripts[txpIDsAll[0]],j->data[i].second.seq, jointHitsIt,2,right_name);
                 //temp_l.append(left_name);
+	    	    int32_t txl = transcripts[txpIDsAll[0]].RefLength ; // transcript length
+	    	    int rl = jointHitsIt->readLen ; // read length
+
                 temp_l.append("|");
                 temp_l.append(temp_r);
       	    	//temp_l.append(right_name);
@@ -778,17 +846,60 @@ void processReadsQuasi(paired_parser* parser,
                 //std::pair<int32_t,int32_t> interval = std::make_pair(std::min(jointHitsIt->pos,jointHitsIt->matePos),
                // 												std::max(jointHitsIt->pos,jointHitsIt->matePos)+jointHitsIt->readLen);
 
+
+                 // start and end
+                 int32_t corr_lpos;
+				 int32_t corr_rpos;
+
+				 int32_t corr_lpos_end;
+				 int32_t corr_rpos_end;
+				 if(jointHitsIt->pos < 0){
+					 corr_lpos = 0;
+				 }else{
+					 corr_lpos = jointHitsIt->pos;
+				 }
+				 if(jointHitsIt->matePos < 0){
+					 corr_rpos = 0;
+				 }else{
+					 corr_rpos = jointHitsIt->matePos;
+				 }
+
+				 if(jointHitsIt->pos + rl >= txl){
+					 corr_lpos_end = txl - 1;
+				 }else{
+					 corr_lpos_end = jointHitsIt->pos + rl;
+				 }
+				 if(jointHitsIt->matePos + rl >= txl){
+					 corr_rpos_end = txl - 1;
+				 }else{
+					 corr_rpos_end = jointHitsIt->matePos + rl;
+				 }
+
+
+
+
+	    	 if(jointHitsIt->matePos > txl){
+	    		 //std::cout << j->data[i].first.header << "," << transcripts[txpIDsAll[0]].RefName << "\n";
+	    	 }
+
+
+				 if(corr_lpos_end - corr_lpos < 0 || corr_rpos_end - corr_rpos < 0){
+
+					 //std::cout << "\n" << corr_lpos_end << "," << corr_lpos << "," << corr_rpos_end << "," << corr_rpos << "," << txl <<"\n";
+					 //exit(0);
+				 }
+
                 if(jointHitsIt->mateStatus == rapmap::utils::MateStatus::PAIRED_END_PAIRED){
 	    	 //std::pair<int32_t,int32_t> interval = std::make_pair(jointHitsIt->pos,jointHitsIt->matePos);
-					 lint = std::make_pair(jointHitsIt->pos,jointHitsIt->pos+jointHitsIt->readLen);
-					 rint = std::make_pair(jointHitsIt->matePos,jointHitsIt->matePos+jointHitsIt->readLen);
+					 lint = std::make_pair(corr_lpos,corr_lpos_end);
+					 rint = std::make_pair(corr_rpos,corr_rpos_end);
 				 }else if(jointHitsIt->mateStatus == rapmap::utils::MateStatus::PAIRED_END_LEFT){
 					 //right is unmapped
-					 lint = std::make_pair(jointHitsIt->pos,jointHitsIt->pos+jointHitsIt->readLen);
+					 lint = std::make_pair(corr_lpos,corr_lpos_end);
 					 rint = {-1,-1};
 				 }else{
 					 lint = {-1,-1};
-					 rint = std::make_pair(jointHitsIt->pos,jointHitsIt->pos+jointHitsIt->readLen);
+					 rint = std::make_pair(corr_lpos,corr_lpos_end);
 				 }
                 qEqBuilder.addGroup(std::move(tg),temp_l,lint,rint);
 	    	}

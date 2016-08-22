@@ -146,8 +146,8 @@ bool GZipWriter::writeEquivCounts(
   bool auxSuccess = boost::filesystem::create_directories(auxDir);
   bfs::path eqFilePath = auxDir / "eq_classes.txt";
   bfs::path quarkFilePath  = auxDir/ "reads.quark";
-  bfs::path unMappedFile_l = auxDir/"unmapped.1.seq";
-  bfs::path unMappedFile_r = auxDir/"unmapped.2.seq";
+  bfs::path unMappedFile_l = auxDir/"unmapped.1.fa";
+  bfs::path unMappedFile_r = auxDir/"unmapped.2.fa";
   bfs::path islandFile = auxDir/"islands.quark";
 
 
@@ -190,6 +190,8 @@ bool GZipWriter::writeEquivCounts(
     equivFile << count << '\n' ;
   }
 
+  // Number of equivalence classes
+  iFile << eqVec.size() << '\n';
 
   for (auto& q : qVec){
 	  const TranscriptGroup& tgroup = q.first;
@@ -213,9 +215,11 @@ bool GZipWriter::writeEquivCounts(
 	  /*
 	  for(auto qcode : qcodes){
 		  qFile << qcode << "\n";
+
 	  }
 	  */
-	  iFile << intervals.size() << "\n";
+	  iFile << intervals.size()  << "\n";
+	  //iFile << intervals.size() << "," << transcripts[txps[0]].id << ","<< transcripts[txps[0]].RefLength << "\n";
 	  for(auto interval : intervals) {
 		  const char *txpSeq = transcripts[txps[0]].Sequence();
 		  for(int ind = interval.first; ind <= interval.second;ind++)
@@ -228,15 +232,22 @@ bool GZipWriter::writeEquivCounts(
 
   //write unmapped sequences
   if(unmapped.size() > 0){
+	  int uid = 0;
 	  for(auto seqvec : unmapped)
 		  for(auto seq : seqvec){
 			  int il = 0;
-			  for(il = 0; il < 54 ; il++)
+			  int len = (seq.size()-1)/2;
+			  uFile_l << ">"<<uid<< "\n";
+			  for(il = 0; il < len ; il++){
 				  uFile_l << seq[il];
+			  }
 			  uFile_l << "\n";
-			  for(il = 55; il < seq.size() ; il++)
+
+			  uFile_r << ">"<<uid<< "\n";
+			  for(il = len+1; il < seq.size() ; il++)
 				  uFile_r << seq[il] ;
 			  uFile_r << "\n";
+	          uid++;
 
 		  }
   }

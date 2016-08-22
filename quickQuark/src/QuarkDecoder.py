@@ -101,8 +101,8 @@ def decode(islandFile, quarkFile, outFile):
                         ore = left[-1]
                         orebool = False if (ore == "0") else True
                         lDecoded = decodeQuark(islands[lIsland],left[:-1],lPos)
-                        if(orebool):
-                            lDecoded = revcomp(lDecoded)
+                        #if(orebool):
+                            #lDecoded = revcomp(lDecoded)
 
                     if(islands[rIsland] == "$"):
                         rDecoded = right
@@ -111,8 +111,16 @@ def decode(islandFile, quarkFile, outFile):
                         ore = right[-1]
                         orebool = False if (ore == "0") else True
                         rDecoded = decodeQuark(islands[rIsland],right[:-1],rPos)
-                        if(orebool):
-                            rDecoded = revcomp(rDecoded)
+                        #if(orebool):
+                            #rDecoded = revcomp(rDecoded)
+                    if(len(lDecoded) != 54):
+                        print "\n---------"
+                        print left
+                        print islands[lIsland]
+                        print lIsland
+                        print lPos
+                        print "---------"
+                        break
                     wlFile.write("{}\n".format(lDecoded))
                     wrFile.write("{}\n".format(rDecoded))
     wlFile.close()
