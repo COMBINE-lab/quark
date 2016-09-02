@@ -6,6 +6,7 @@
 #include "GZipWriter.hpp"
 #include "SailfishOpts.hpp"
 #include "Transcript.hpp"
+#include "LibraryFormat.hpp"
 
 GZipWriter::GZipWriter(const boost::filesystem::path path, std::shared_ptr<spdlog::logger> logger) :
   path_(path), logger_(logger) {
@@ -75,11 +76,15 @@ void makeIslands(std::vector<std::pair<int32_t,int32_t>>& intervals, std::vector
 
 	//std::vector<int> mapid ;
 	std::vector<int> remapid ;
+	std::vector<int> retmapid ;
+	std::vector<int> retrelpos ;
 	//std::vector<int32_t> relpos ;
 
 	mapid.resize(intervals.size());
+	retmapid.resize(intervals.size());
 	remapid.resize(intervals.size());
 	relpos.resize(intervals.size());
+	retrelpos.resize(intervals.size());
 
 	i = 0;
 	for(auto ci :fIslands){
@@ -92,7 +97,33 @@ void makeIslands(std::vector<std::pair<int32_t,int32_t>>& intervals, std::vector
 	std::vector<std::pair<int32_t,int32_t>> correctedIslands;
 
 	int currentindex;
+	for(i = 0; i < intervals.size(); i++){
+		if(i == 0){
+			auto temp = intervals[i];
+			correctedIslands.push_back(temp);
+			remapid[i] = i;
+			relpos[i] = 0 ;
+		}else{
+			auto temp = intervals[i];
+			if(temp.first <= correctedIslands[correctedIslands.size()-1].second){
+				// not new island relative position is offset
+				relpos[i] = temp.first - correctedIslands[correctedIslands.size()-1].first ;
+				//case 2
+				if(temp.second > correctedIslands[correctedIslands.size()-1].second){
+					correctedIslands[correctedIslands.size()-1].second = temp.second ;
+				}
+				remapid[i] = correctedIslands.size()-1;
+			}else{
+				correctedIslands.push_back(temp);
+				remapid[i] = correctedIslands.size()-1;
+				//new island
+				relpos[i] = 0;
+			}
+		}
+	}
+
 	//std::cout << "du du";
+	/*
 	for(i = 0; i < intervals.size() ; i++){
 		if(i == 0){
 			auto temp = intervals[0];
@@ -125,12 +156,17 @@ void makeIslands(std::vector<std::pair<int32_t,int32_t>>& intervals, std::vector
 			}
 		}
 
-	}
+	}*/
+
 	intervals = correctedIslands ;
 	//get the remapped value
 	for(i = 0; i < mapid.size(); i++){
-		mapid[i] = remapid[mapid[i]];
+		retmapid[i] = remapid[mapid[i]];
+		retrelpos[i] = relpos[mapid[i]];
 	}
+
+	mapid = retmapid;
+	relpos = retrelpos;
 	//done
 	//intervals = {{0,0}};
 	// correctedIslands ;
@@ -146,16 +182,12 @@ bool GZipWriter::writeEquivCounts(
   bool auxSuccess = boost::filesystem::create_directories(auxDir);
   bfs::path eqFilePath = auxDir / "eq_classes.txt";
   bfs::path quarkFilePath  = auxDir/ "reads.quark";
-  bfs::path unMappedFile_l = auxDir/"unmapped.1.fa";
-  bfs::path unMappedFile_r = auxDir/"unmapped.2.fa";
   bfs::path islandFile = auxDir/"islands.quark";
 
 
   std::ofstream equivFile(eqFilePath.string());
   std::ofstream qFile(quarkFilePath.string());
 
-  std::ofstream uFile_l(unMappedFile_l.string());
-  std::ofstream uFile_r(unMappedFile_r.string());
 
 
   std::ofstream iFile(islandFile.string());
@@ -207,25 +239,27 @@ bool GZipWriter::writeEquivCounts(
 	  qFile<< count << "\n";
 	  int i=0;
 
+
 	  for(auto qcode : qcodes) {
 		  qFile << qcode << "\t" << mapid[i] << ","<< relpos[i] << "," << mapid[i+1] << ","<< relpos[i+1]  << "\n";
 		  i = i + 2;
 	  }
 
+
 	  /*
 	  for(auto qcode : qcodes){
 		  qFile << qcode << "\n";
 
-	  }
-	  */
+	  }*/
+
 	  iFile << intervals.size()  << "\n";
 	  //iFile << intervals.size() << "," << transcripts[txps[0]].id << ","<< transcripts[txps[0]].RefLength << "\n";
 	  for(auto interval : intervals) {
 		  const char *txpSeq = transcripts[txps[0]].Sequence();
 		  for(int ind = interval.first; ind <= interval.second;ind++)
 			  iFile << txpSeq[ind];
-		  //iFile << interval.first << "\t" << interval.second << "\n";
 		  iFile << "\n";
+		  //iFile << interval.first << "\t" << interval.second << "\n";
 	  }
 
   }
@@ -233,23 +267,44 @@ bool GZipWriter::writeEquivCounts(
   //write unmapped sequences
   if(unmapped.size() > 0){
 	  int uid = 0;
-	  for(auto seqvec : unmapped)
-		  for(auto seq : seqvec){
-			  int il = 0;
-			  int len = (seq.size()-1)/2;
-			  uFile_l << ">"<<uid<< "\n";
-			  for(il = 0; il < len ; il++){
-				  uFile_l << seq[il];
-			  }
-			  uFile_l << "\n";
 
-			  uFile_r << ">"<<uid<< "\n";
-			  for(il = len+1; il < seq.size() ; il++)
-				  uFile_r << seq[il] ;
-			  uFile_r << "\n";
-	          uid++;
+	  if(experiment.readLibraries().front().format().type != ReadType::SINGLE_END){
+		  bfs::path unMappedFile_l = auxDir/"unmapped.1.fa";
+		  bfs::path unMappedFile_r = auxDir/"unmapped.2.fa";
+		  std::ofstream uFile_l(unMappedFile_l.string());
+		  std::ofstream uFile_r(unMappedFile_r.string());
+		  for(auto seqvec : unmapped)
+			  for(auto seq : seqvec){
+				  int il = 0;
+				  int len = (seq.size()-1)/2;
+				  uFile_l << ">"<<uid<< "\n";
+				  for(il = 0; il < len ; il++){
+					  uFile_l << seq[il];
+				  }
+				  uFile_l << "\n";
+
+				  uFile_r << ">"<<uid<< "\n";
+				  for(il = len+1; il < seq.size() ; il++)
+					  uFile_r << seq[il] ;
+				  uFile_r << "\n";
+				  uid++;
 
 		  }
+	  }else{
+		  bfs::path unMappedFile_l = auxDir/"unmapped.fa";
+		  std::ofstream uFile_l(unMappedFile_l.string());
+		  for(auto seqvec : unmapped){
+			  for(auto seq : seqvec){
+				  uFile_l << ">"<<uid<< "\n";
+				  for(int il = 0; il < seq.size() ; il++){
+					  uFile_l << seq[il];
+				  }
+				  uFile_l << "\n";
+				  uid++;
+			  }
+		  }
+
+	  }
   }
 
   equivFile.close();

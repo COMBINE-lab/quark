@@ -1,0 +1,29 @@
+import sys
+
+pwd = os.getcwd()
+
+#binaries
+rapmap_binary = "/mnt/scratch3/avi/RapMap/build/src/rapmap" 
+max_alignment = 200
+index_file = "/mnt/scratch1/avi/rapmapAnalysis/data/quasi/quasiIndex/k_31/"
+first_mate_path = "./dummy_reads/1.fq"
+second_mate_path = "./dummy_reads/2.fq"
+threads = ['1', '2', '4', '8', '10']
+
+rule run_quasi_load_index:
+    output:
+        "./dummy_reads/timeMapIndex.txt"
+    run:
+
+        shell("echo quasi_48M_10>>{}".format(output))                                                                                                                    
+        shell('/usr/bin/time -f "%E, %M" -a -o {} {} quasimap -m {} -t 10 -1 {} -2 {} -i {}/ -n '.format(output, rapmap_binary, max_alignment, first_mate_path, second_mate_path, index_file))
+        shell("echo quasi_48M_8>>{}".format(output))
+        shell('/usr/bin/time -f "%E, %M" -a -o {} {} quasimap -m {} -t 8 -1 {} -2 {} -i {}/ -n '.format(output, rapmap_binary, max_alignment, first_mate_path, second_mate_path, index_file))
+        shell("echo quasi_48M_4>>{}".format(output))
+        shell('/usr/bin/time -f "%E, %M" -a -o {} {} quasimap -m {} -t 4 -1 {} -2 {} -i {}/ -n '.format(output, rapmap_binary, max_alignment, first_mate_path, second_mate_path, index_file))
+
+        shell("echo quasi_48M_2>>{}".format(output))
+        shell('/usr/bin/time -f "%E, %M" -a -o {} {} quasimap -m {} -t 2 -1 {} -2 {} -i {}/ -n '.format(output, rapmap_binary, max_alignment, first_mate_path, second_mate_path, index_file))
+
+        shell("echo quasi_48M_1>>{}".format(output))
+        shell('/usr/bin/time -f "%E, %M" -a -o {} {} quasimap -m {} -t 1 -1 {} -2 {} -i {}/ -n '.format(output, rapmap_binary, max_alignment, first_mate_path, second_mate_path, index_file))

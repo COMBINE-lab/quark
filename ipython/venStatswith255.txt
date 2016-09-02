@@ -1,0 +1,68 @@
+.............
+we have 4 sam files 
+That are
+realQuasi.sam
+starAligned.out.sam
+realkallisto.sam
+realBowtie_filtered255.sam
+reads mapped21844321
+reads mapped20716827
+reads mapped20723426
+reads mapped21770438
+66.5207366943
+Gigs resource used, process can use 7 times this memory, quit now if you don't have that
+intersection of realQuasi.sam and starAligned.out.sam
+total intersected reads20203550
+10000000 reads seen 
+20000000 reads seen 
+(18231592, 131282, 1840676)
+intersection of realQuasi.sam and realkallisto.sam
+total intersected reads20692928
+10000000 reads seen 
+20000000 reads seen 
+(20309568, 1261, 382099)
+intersection of realQuasi.sam and realBowtie_filtered255.sam
+total intersected reads21277147
+10000000 reads seen 
+20000000 reads seen 
+(12362473, 1132489, 7782185)
+intersection of starAligned.out.sam and realkallisto.sam
+total intersected reads19652248
+10000000 reads seen 
+(18160395, 87213, 1404640)
+intersection of starAligned.out.sam and realBowtie_filtered255.sam
+total intersected reads20225234
+10000000 reads seen 
+20000000 reads seen 
+(12206372, 578713, 7440149)
+intersection of realkallisto.sam and realBowtie_filtered255.sam
+total intersected reads20221983
+10000000 reads seen 
+20000000 reads seen 
+(12172504, 735315, 7314164)
+intersection of realkallisto.sam and 
+realQuasi.sam starAligned.out.sam :
+total intersected reads 19638619
+10000000 reads seen 
+(18020062, 452733, 1165824)
+intersection of realBowtie_filtered255.sam and 
+realQuasi.sam starAligned.out.sam :
+total intersected reads 19988045
+10000000 reads seen 
+(11556108, 7103749, 1328188)
+intersection of realBowtie_filtered255.sam and 
+realQuasi.sam realkallisto.sam :
+total intersected reads 20204803
+10000000 reads seen 
+20000000 reads seen 
+(12085120, 6991605, 1128078)
+intersection of realBowtie_filtered255.sam and 
+starAligned.out.sam realkallisto.sam :
+total intersected reads 19436741
+10000000 reads seen 
+(11540890, 6690075, 1205776)
+intersection of realBowtie_filtered255.sam and 
+realQuasi.sam starAligned.out.sam realkallisto.sam :
+total intersected reads 19426492
+10000000 reads seen 
+(11470716, 6955130, 1000646)

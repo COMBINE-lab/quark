@@ -1,0 +1,64 @@
+.............
+we have 4 sam files 
+That are
+realQuasi.sam
+starAligned.out.sam
+realkallisto.sam
+realBowtie_filtered.sam
+reads mapped21844321
+reads mapped20716827
+reads mapped20723426
+reads mapped20030282
+65.9343070984
+Gigs resource used, process can use 7 times this memory, quit now if you don't have that
+intersection of realQuasi.sam and starAligned.out.sam
+total intersected reads20203550
+10000000 reads seen 
+20000000 reads seen 
+(18231592, 131282, 1840676)
+intersection of realQuasi.sam and realkallisto.sam
+total intersected reads20692928
+10000000 reads seen 
+20000000 reads seen 
+(20309568, 1261, 382099)
+intersection of realQuasi.sam and realBowtie_filtered.sam
+total intersected reads19564832
+10000000 reads seen 
+(10723170, 1129429, 7712233)
+intersection of starAligned.out.sam and realkallisto.sam
+total intersected reads19652248
+10000000 reads seen 
+(18160395, 87213, 1404640)
+intersection of starAligned.out.sam and realBowtie_filtered.sam
+total intersected reads18529636
+10000000 reads seen 
+(10530262, 575896, 7423478)
+intersection of realkallisto.sam and realBowtie_filtered.sam
+total intersected reads18552643
+10000000 reads seen 
+(10554277, 731675, 7266691)
+intersection of realkallisto.sam and 
+realQuasi.sam starAligned.out.sam :
+total intersected reads 19638619
+10000000 reads seen 
+(18020062, 452733, 1165824)
+intersection of realBowtie_filtered.sam and 
+realQuasi.sam starAligned.out.sam :
+total intersected reads 18312557
+10000000 reads seen 
+(9948811, 7049497, 1314249)
+intersection of realBowtie_filtered.sam and 
+realQuasi.sam realkallisto.sam :
+total intersected reads 18536386
+10000000 reads seen 
+(10474317, 6979036, 1083033)
+intersection of realBowtie_filtered.sam and 
+starAligned.out.sam realkallisto.sam :
+total intersected reads 17791901
+10000000 reads seen 
+(9942960, 6654333, 1194608)
+intersection of realBowtie_filtered.sam and 
+realQuasi.sam starAligned.out.sam realkallisto.sam :
+total intersected reads 17782432
+10000000 reads seen 
+(9879407, 6913528, 989497)

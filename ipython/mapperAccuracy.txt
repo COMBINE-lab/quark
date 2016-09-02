@@ -1,0 +1,48 @@
+quasi
+Saw 47000000 reads --- thp = 98.36%Total Reads = 48821345
+Reads Aligned  = 47677356
+True Pos = 46891512
+False Pos = 785845
+False Neg = 1143989
+Precision = 98.35%
+Recall = 97.62%
+TPH = 98.35%
+FDR = 1.65%
+F1 Score = 97.98%
+Average hits-per-read = 4.3
+kallisto
+Saw 44000000 reads --- thp = 97.67%Total Reads = 48821345
+Reads Aligned  = 44774502
+True Pos = 43732336
+False Pos = 1042167
+False Neg = 4046843
+Precision = 97.67%
+Recall = 91.53%
+TPH = 97.67%
+FDR = 2.33%
+F1 Score = 94.50%
+Average hits-per-read = 5.3
+star
+Saw 44000000 reads --- thp = 97.02%Total Reads = 48821345
+Reads Aligned  = 44711604
+True Pos = 43381424
+False Pos = 1330181
+False Neg = 4109741
+Precision = 97.02%
+Recall = 91.35%
+TPH = 97.02%
+FDR = 2.98%
+F1 Score = 94.10%
+Average hits-per-read = 3.8
+data/bowtie2/bowtieOut/bow.sam
+Total Reads = 48821345
+Reads Aligned  = 47579567
+True Pos = 46773603
+False Pos = 805965
+False Neg = 1241778
+Precision = 98.31%
+Recall = 97.41%
+TPH = 98.31%
+FDR = 1.69%
+F1 Score = 97.86%
+Average hits-per-read = 0

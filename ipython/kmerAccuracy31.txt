@@ -1,0 +1,24 @@
+data/quasi/quasiOut/quasik_31.sam data/kallisto/kallistoOut/kallistok_31.sam
+Total Reads = 48821345
+Reads Aligned  = 47677356
+True Pos = 46891512
+False Pos = 785845
+False Neg = 1143989
+Precision = 98.35%
+Recall = 97.62%
+TPH = 98.35%
+FDR = 1.65%
+F1 Score = 97.98%
+Average hits-per-read = 4.3
+data/quasi/quasiOut/quasik_31.sam data/kallisto/kallistoOut/kallistok_31.sam
+Total Reads = 48821345
+Reads Aligned  = 44774502
+True Pos = 43732336
+False Pos = 1042167
+False Neg = 4046843
+Precision = 97.67%
+Recall = 91.53%
+TPH = 97.67%
+FDR = 2.33%
+F1 Score = 94.50%
+Average hits-per-read = 5.3
