@@ -134,7 +134,7 @@ char complement(char& c){
     }
 }
 
-std::string revComp(std::string &s){
+std::string revComp(std::string s){
     int n = s.size();
     int halfLength = s.size() / 2;
     for (int i=0; i<halfLength; i++)
@@ -164,8 +164,7 @@ std::string quarkCodeSingle(
 	int counter = 0;
 	int match = 0;
 	std::string orestr = (ore) ? "1" : "0" ;
-
-	if (pos > 0){
+	if (pos >= 0){
 		while(counter < readSeq.size() && (pos+counter) < refLen){
 			if(readSeq[counter] == txpSeq[pos+counter] ){
 			counter++;
@@ -180,6 +179,7 @@ std::string quarkCodeSingle(
 			res.append(readSeq.substr(match));
 			res.append(std::to_string(ore));
 		}else{
+
 				// some k-mer down the line
 				// check all the k-mers
 				//A match less than 31 is accepted accepted
@@ -207,11 +207,55 @@ std::string quarkCodeSingle(
 					res.append("M");
 					res.append(std::to_string(match));
 				}
+				if(ind < readSeq.size()){
+					res.append(readSeq.substr(ind,readSeq.size()-1));
+				}
 				res.append(orestr);
+				/*
+				 *
+
+				int32_t realPos = 0;
+				int32_t start;
+				int32_t newPos;
+				while((txpSeq.substr(pos+realPos,31) != readSeq.substr(realPos,31)) && realPos < readSeq.size()-31 && (pos+realPos) < refLen-31){
+					realPos++;
+				}
+				counter = 0;
+				match = 0;
+
+				res.append(readSeq.substr(0,realPos));
+				if(txpSeq.substr(pos+realPos,31) == readSeq.substr(realPos,31)){
+					newPos = pos+realPos;
+					start = realPos;
+					while((start + counter) < readSeq.size() && (newPos+counter) < refLen){
+						if(readSeq[start+counter] == txpSeq[newPos+counter] ){
+							counter++;
+							match++;
+						}else{
+							break;
+						}
+					}
+				}
+
+				res.append("M");
+				res.append(std::to_string(match));
+				res.append(readSeq.substr(start+match));
+				*/
+				//res.append(std::to_string(txpid));
+				//res.append(",");
+				//res.append(std::to_string(pos));
+				//res.append(readSeq);
+				//res.append(orestr);
+
 		}
+
 	}else if(pos == 0){
-		res.append(read);
-	}if(pos < 0){
+		//res.append(read);
+		//return res;
+	}else if(pos < 0){
+		res = "";
+		res.append(std::to_string(pos));
+		res.append(":");
 		res.append(readSeq.substr(0,abs(pos)));
 		while(abs(pos)+counter < readSeq.size() && (abs(pos)+counter) < refLen){
 				if(readSeq[counter+abs(pos)] == txpSeq[counter]){
@@ -224,14 +268,12 @@ std::string quarkCodeSingle(
 		if(match >= 31){
 			res.append("M");
 			res.append(std::to_string(match));
-			res.append(readSeq.substr(match));
+			res.append(readSeq.substr(match+abs(pos)));
 			res.append(std::to_string(ore));
 		}else{
 
 				// some k-mer down the line
 				// check all the k-mers
-
-
 				int ind = 0;
 				match = 0;
 				counter = 0;
@@ -254,9 +296,45 @@ std::string quarkCodeSingle(
 					res.append("M");
 					res.append(std::to_string(match));
 				}
+				if(ind+abs(pos) < readSeq.size()){
+					res.append(readSeq.substr(ind + abs(pos),readSeq.size()-1));
+				}
 				res.append(orestr);
-		}
+				/*
+				int32_t realPos = 0;
+				int32_t newPos;
+				int32_t start;
+				while((txpSeq.substr(realPos,31) != readSeq.substr(abs(pos)+realPos,31)) && (abs(pos)+realPos) < readSeq.size()-31 && (realPos) < refLen-31){
+					realPos++;
+				}
+				counter = 0;
+				match = 0;
+				res.append(readSeq.substr(abs(pos),realPos));
+				if(txpSeq.substr(realPos,31) == readSeq.substr(realPos,31)){
+					newPos = realPos;
+					start = abs(pos)+realPos;
+					while((start + counter) < readSeq.size() && (newPos+counter) < refLen){
+						if(readSeq[start+counter] == txpSeq[newPos+counter] ){
+							counter++;
+							match++;
+						}else{
+							break;
+						}
+					}
+				}
 
+				res.append("M");
+				res.append(std::to_string(match));
+				res.append(readSeq.substr(start+match));
+				//res.append(std::to_string(txpid));
+				//res.append(",");
+				//res.append(std::to_string(pos));
+				//res.append(readSeq);
+				//res.append(orestr);
+				 *
+				 */
+
+		}
 	}
 
 	return res;
@@ -318,10 +396,20 @@ std::string quarkCode(
 		//exit(0);
 	}*/
 
+	/*
 	if (readHeader == "SRR635193.13754983 13754983 length=54"){
 		std::cout << "\n before coding\n";
 		std::cout << lor<<","<<leftOrphan << "," << rightOrphan << "\n";
 		//if (lor==2)
+			//exit(0);
+	}*/
+
+	 if(readHeader == "SRR635193.8592481 8592481 length=54"){
+		std::cout << "\n before coding\n";
+		std::cout << read << "\n";
+		std::cout << readSeq << "\n";
+		std::cout << lor<<","<<leftOrphan << "," << rightOrphan << "," << orestr << "\n";
+		//if(lor == 2)
 			//exit(0);
 	}
 
@@ -426,7 +514,8 @@ std::string quarkCode(
 		//return res;
 	}else if(pos < 0){
 		res = "";
-		res.append("-");
+		res.append(std::to_string(pos));
+		res.append(":");
 		res.append(readSeq.substr(0,abs(pos)));
 		while(abs(pos)+counter < readSeq.size() && (abs(pos)+counter) < refLen){
 				if(readSeq[counter+abs(pos)] == txpSeq[counter]){
@@ -509,7 +598,7 @@ std::string quarkCode(
 	}
 
 
-	if (readHeader == "SRR635193.13754983 13754983 length=54"){
+	if (readHeader == "SRR635193.8592481 8592481 length=54"){
 		std::cout << "\n" << read.size()<<"\n";
 		std::cout << readSeq << "\n";
 		std::cout << read << "\n";
@@ -520,6 +609,17 @@ std::string quarkCode(
 		//if(lor == 2)
 			//exit(0);
 	}
+
+	/*
+	 if(readHeader == "SRR635193.8592481 8592481 length=54"){
+		std::cout << "\n After coding\n";
+		std::cout << read << "\n";
+		std::cout << res << "\n";
+		std::cout << lor<<","<<leftOrphan << "," << rightOrphan << "," << orestr << "\n";
+		if(lor == 2)
+			exit(0);
+	}*/
+
 	return res;
 
 }
@@ -662,7 +762,15 @@ void processReadsQuasi(paired_parser* parser,
         	un.append("|");
         	un.append(j->data[i].second.seq);
         	unmapped_i.push_back(un);
+        	if(j->data[i].first.header == "SRR635193.2542356 2542356 length=54"){
+        		std::cout << "\n unmapped ...." ;
+        		std::cout << "\n" << j->data[i].first.seq << "\n";
+        		std::cout << "\n" << j->data[i].second.seq << "\n";
+        		exit(0);
+        	}
+
         }
+
 
 
         if (jointHits.size() > 0) {

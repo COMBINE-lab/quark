@@ -182,6 +182,9 @@ bool GZipWriter::writeEquivCounts(
   bool auxSuccess = boost::filesystem::create_directories(auxDir);
   bfs::path eqFilePath = auxDir / "eq_classes.txt";
   bfs::path quarkFilePath  = auxDir/ "reads.quark";
+
+  //bfs::path quarkFilePath  = auxDir/ "read_names.quark";
+
   bfs::path islandFile = auxDir/"islands.quark";
 
 
@@ -204,6 +207,7 @@ bool GZipWriter::writeEquivCounts(
 
   // Number of equivalence classes
   equivFile << eqVec.size() << '\n';
+
 
   for (auto& t : transcripts) {
     equivFile << t.RefName << '\n';
@@ -262,6 +266,7 @@ bool GZipWriter::writeEquivCounts(
 		  //iFile << interval.first << "\t" << interval.second << "\n";
 	  }
 
+
   }
 
   //write unmapped sequences
@@ -271,6 +276,17 @@ bool GZipWriter::writeEquivCounts(
 	  if(experiment.readLibraries().front().format().type != ReadType::SINGLE_END){
 		  bfs::path unMappedFile_l = auxDir/"unmapped.1.fa";
 		  bfs::path unMappedFile_r = auxDir/"unmapped.2.fa";
+
+		  /*
+		  bfs::path unMappedFile = auxDir/"unmapped.fa";
+		  std::ofstream uFile(unMappedFile.string());
+		  for(auto& seqvec : unmapped){
+			  for(auto& seq : seqvec){
+				  uFile << seq << "\n";
+			  }
+		  }
+		  */
+
 		  std::ofstream uFile_l(unMappedFile_l.string());
 		  std::ofstream uFile_r(unMappedFile_r.string());
 		  for(auto seqvec : unmapped)
