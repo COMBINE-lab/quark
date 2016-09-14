@@ -61,7 +61,7 @@ std::string revComp(std::string s){
     }
     return s;
 }
-
+/*
 void split(const string &s, char delim, vector<string> &elems) {
     stringstream ss;
     ss.str(s);
@@ -77,7 +77,17 @@ vector<string> split(const string &s, char delim) {
     split(s, delim, elems);
     return elems;
 }
-
+*/
+std::vector<std::string> split(const std::string &text, char sep) {
+    std::vector<std::string> tokens;
+    std::size_t start = 0, end = 0;
+    while ((end = text.find(sep, start)) != std::string::npos) {
+        tokens.push_back(text.substr(start, end - start));
+        start = end + 1;
+    }
+    tokens.push_back(text.substr(start));
+    return tokens;
+}
 
 std::string decode(std::string& island, std::string& encread,int pos){
 	int ind = 0;
