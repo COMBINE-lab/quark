@@ -277,7 +277,8 @@ int main(int argc, char* argv[]){
 	std::cout << "\n Starting Quark Decoder Module ...\n";
 	std::cout << "\n Island file : " << args[0];
 	std::cout << "\n Quark read file : " << args[1];
-	std::cout << "\n Output directory : " << args[2] << "\n\n";
+	std::cout << "\n Output directory : " << args[2];
+	std::cout << "\n Number of theads : " << args[3] << "\n\n";
 
         // must be a power-of-two
     /*
@@ -306,7 +307,8 @@ int main(int argc, char* argv[]){
         owriter.rMap.open(outDir+"/mapped.2");
 
         std::vector<std::thread> decoders;
-        size_t nthread = 8;
+        //size_t nthread = 8;
+        size_t nthread = std::stoi(args[3]);
         for (size_t i = 0; i < nthread; ++i) {
             decoders.emplace_back(decodeWorker, &structQueue, &workQueue, &owriter, std::ref(done));
         }
