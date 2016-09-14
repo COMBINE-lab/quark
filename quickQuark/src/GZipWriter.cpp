@@ -274,8 +274,8 @@ bool GZipWriter::writeEquivCounts(
 	  int uid = 0;
 
 	  if(experiment.readLibraries().front().format().type != ReadType::SINGLE_END){
-		  bfs::path unMappedFile_l = auxDir/"unmapped.1.fa";
-		  bfs::path unMappedFile_r = auxDir/"unmapped.2.fa";
+		  bfs::path unMappedFile_l = auxDir/"unmapped_1.fastq";
+		  bfs::path unMappedFile_r = auxDir/"unmapped_2.fastq";
 
 		  /*
 		  bfs::path unMappedFile = auxDir/"unmapped.fa";
@@ -293,15 +293,28 @@ bool GZipWriter::writeEquivCounts(
 			  for(auto seq : seqvec){
 				  int il = 0;
 				  int len = (seq.size()-1)/2;
-				  uFile_l << ">"<<uid<< "\n";
+				  uFile_l << "@"<<uid<< "\n";
 				  for(il = 0; il < len ; il++){
 					  uFile_l << seq[il];
 				  }
 				  uFile_l << "\n";
+				  uFile_l << "+"<< "\n";
+				  for(il = 0; il < len ; il++){
+					  uFile_l << "I";
+				  }
+				  uFile_l << "\n";
 
-				  uFile_r << ">"<<uid<< "\n";
-				  for(il = len+1; il < seq.size() ; il++)
+
+
+				  uFile_r << "@"<<uid<< "\n";
+				  for(il = len+1; il < seq.size() ; il++){
 					  uFile_r << seq[il] ;
+				  }
+				  uFile_r << "\n";
+				  uFile_r << "+"<< "\n";
+				  for(il = len+1; il < seq.size() ; il++){
+					  uFile_r << "I" ;
+				  }
 				  uFile_r << "\n";
 				  uid++;
 
