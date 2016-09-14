@@ -6,6 +6,10 @@
 #include <cstdlib>
 #include <climits>
 #include <cctype>
+#include <thread>
+#include <mutex>
+
+#include "concurrentqueue.h"
 //#include <boost/filesystem.hpp>
 
 using namespace std;
@@ -123,103 +127,139 @@ std::string decode(std::string& island, std::string& encread,int pos){
 	return real;
 }
 
-int readCompressed(std::string islandFile,std::string quarkFile,std::string outDir){
+struct ReadPair {
+    std::string left;
+    std::string right;
+};
+
+struct EncodedChunk {
+    std::vector<std::string> islands;
+    std::vector<ReadPair> encodedReads;
+};
+    
+struct OutputWriter{
+    std::mutex iomutex;
+    std::ofstream lMap;
+    std::ofstream rMap;
+};
+
+void decodeWorker(moodycamel::ConcurrentQueue<EncodedChunk*>* structQueuePtr, 
+                  moodycamel::ConcurrentQueue<EncodedChunk*>* workQueuePtr, 
+                  OutputWriter* owriterPtr, 
+                  std::atomic<bool>& done) {
+    auto& workQueue = *workQueuePtr;
+    auto& structQueue = *structQueuePtr;
+    auto& owriter = *owriterPtr;
+    
+    EncodedChunk* ec{nullptr};
+    while (workQueue.try_dequeue(ec) or !done) {
+        if (ec != nullptr) {
+            auto& islands = ec->islands;
+            auto nreads = ec->encodedReads.size();
+            std::vector<std::string> lDecodedVec(nreads);
+            std::vector<std::string> rDecodedVec(nreads);
+            for (size_t i = 0; i < nreads; ++i) {
+                auto& ep = ec->encodedReads[i];
+                std::string& lDecoded = lDecodedVec[i]; 
+                std::string& rDecoded = rDecodedVec[i];
+
+                std::vector<std::string> meta ;
+                std::vector<std::string> parts ;
+			
+                std::string left = "";
+                std::string right = "";
+                std::string leftSeq = "" ;
+                std::string rightSeq = "" ;
+
+                std::string oreleft ;
+                std::string oreright ;
+                int lIsland,lPos,rIsland,rPos;
+                auto& code_0 = ep.left;
+                auto& code_1 = ep.right;
+                parts = split(code_0,'|');
+
+                oreleft = parts[0][parts[0].size()-1];
+                left = parts[0].substr(0,parts[0].size()-1);
+
+                oreright = parts[1][parts[1].size()-1];
+                right = parts[1].substr(0,parts[1].size()-1);
+
+                meta = split(code_1,',');
+                lIsland = std::stoi(meta[0]);
+                lPos = std::stoi(meta[1]);
+                rIsland = std::stoi(meta[2]);
+                rPos = std::stoi(meta[3]);
+
+                if(islands[lIsland] == "$"){
+                    lDecoded = parts[0] ;
+                }else{
+                    lDecoded = decode(islands[lIsland],left,lPos);
+                    lDecoded = (oreleft == "0") ? revComp(lDecoded) : lDecoded ;
+                }
+                if(islands[rIsland] == "$"){
+                    rDecoded = parts[1] ;
+                }else{
+                    rDecoded = decode(islands[rIsland],right,rPos);
+                    rDecoded = (oreright == "0") ? revComp(rDecoded) : rDecoded ;
+                }
+                //exit(0);
+
+                if (lDecoded == "GCGCCTCTCACG"){
+                    cout << "\n" << code_0 << "\n";
+                    exit(0);
+                }
+            }
+
+			owriter.iomutex.lock();
+            for (size_t i = 0; i < nreads; ++i) {
+                owriter.lMap << lDecodedVec[i] << '\n';
+                owriter.rMap << rDecodedVec[i] << '\n';
+            }
+			owriter.iomutex.unlock();
+            structQueue.enqueue(ec);
+            ec = nullptr;
+        }
+    }
+}
+
+
+
+int readCompressed(moodycamel::ConcurrentQueue<EncodedChunk*>& structQueue, 
+                   moodycamel::ConcurrentQueue<EncodedChunk*>& workQueue, 
+                   std::string islandFile,
+                   std::string quarkFile, 
+                   std::atomic<bool>& done){
 	std::ifstream iFile(islandFile);
 	std::ifstream qFile(quarkFile);
-	std::ofstream lMap(outDir+"/mapped.1");
-	std::ofstream rMap(outDir+"/mapped.2");
 
 	int numEqClasses ;
 	iFile >> numEqClasses ;
 	int eqClass ;
 	for(eqClass = 0; eqClass < numEqClasses; eqClass++){
 		printProgress(double(eqClass)/double(numEqClasses));
+        EncodedChunk* encChunk{nullptr};
+        while(!structQueue.try_dequeue(encChunk)) {
+        }
 		//read the new class
 		//make an vector of islands
-		std::vector<std::string> islands ;
 		int numOfIslands = 0;
 		iFile >> numOfIslands ;
+		encChunk->islands.resize(numOfIslands);
 		for(int i = 0;i < numOfIslands;i++){
-			std::string s;
-			iFile>>s;
-			islands.push_back(s);
+			iFile >> encChunk->islands[i];
 		}
 		//now read the encoded reads
 		//and use the islands to decode them
 		int numReads = 0;
 		qFile>>numReads ;
+        encChunk->encodedReads.resize(numReads);
 		for(int i = 0; i < numReads; i++){
-
-			//print for debugging purpose
-			//std::cout <<"\n Number of reads " << numReads << "\n";
-
-
-
-			std::string lDecoded = "";
-			std::string rDecoded = "";
-			std::string encodedLine ;
-
-			//std::vector<std::string> code ;
-			std::string code_0;
-			std::string code_1;
-			std::vector<std::string> meta ;
-			std::vector<std::string> parts ;
-
-
-			std::string left = "";
-			std::string right = "";
-			std::string leftSeq = "" ;
-			std::string rightSeq = "" ;
-
-			std::string oreleft ;
-			std::string oreright ;
-			int lIsland,lPos,rIsland,rPos;
-
-			//qFile>>encodedLine ;
-			//std::getline(qFile,encodedLine);
-			qFile>>code_0>>code_1;
-			//std::cout << code_0 << code_1 << "\n";
-
-			//code = split(encodedLine, '\t');
-			parts = split(code_0,'|');
-
-			oreleft = parts[0][parts[0].size()-1];
-			left = parts[0].substr(0,parts[0].size()-1);
-
-			oreright = parts[1][parts[1].size()-1];
-			right = parts[1].substr(0,parts[1].size()-1);
-
-			meta = split(code_1,',');
-			lIsland = std::stoi(meta[0]);
-			lPos = std::stoi(meta[1]);
-			rIsland = std::stoi(meta[2]);
-			rPos = std::stoi(meta[3]);
-
-			if(islands[lIsland] == "$"){
-				lDecoded = parts[0] ;
-			}else{
-				lDecoded = decode(islands[lIsland],left,lPos);
-				lDecoded = (oreleft == "0") ? revComp(lDecoded) : lDecoded ;
-			}
-			if(islands[rIsland] == "$"){
-				rDecoded = parts[1] ;
-			}else{
-				rDecoded = decode(islands[rIsland],right,rPos);
-				rDecoded = (oreright == "0") ? revComp(rDecoded) : rDecoded ;
-			}
-			//exit(0);
-
-			if (lDecoded == "GCGCCTCTCACG"){
-				cout << "\n" << code_0 << "\n";
-			    exit(0);
-			}
-
-			lMap << lDecoded << '\n';
-			rMap << rDecoded << '\n';
-
-
-		}
+            qFile >> encChunk->encodedReads[i].left >> encChunk->encodedReads[i].right;
+        }
+        workQueue.enqueue(encChunk);
+        encChunk = nullptr;
 	}
+    done = true;
 }
 
 int main(int argc, char* argv[]){
@@ -229,9 +269,42 @@ int main(int argc, char* argv[]){
 	std::cout << "\n Quark read file : " << args[1];
 	std::cout << "\n Output directory : " << args[2] << "\n\n";
 
+        // must be a power-of-two
+    /*
+        size_t max_q_size = 2097152;
+        spdlog::set_async_mode(max_q_size);
 
-	readCompressed(args[0],args[1],args[2]);
-	std::cout << "\n";
-	return 0;
+	auto fileSink = std::make_shared<spdlog::sinks::ostream_sink_mt>(logFile);
+        auto consoleSink = std::make_shared<spdlog::sinks::stderr_sink_mt>();
+        auto consoleLog = spdlog::create("stderrLog", {consoleSink});
+        auto fileLog = spdlog::create("fileLog", {fileSink});
+        auto jointLog = spdlog::create("jointLog", {fileSink, consoleSink});
+    */
+        
+    std::atomic<bool> done{false};
+        size_t nstruct{10000};
+        moodycamel::ConcurrentQueue<EncodedChunk*> structQueue(nstruct);
+        moodycamel::ConcurrentQueue<EncodedChunk*> workQueue(nstruct);
+        for (size_t i = 0; i < nstruct; ++i) {
+            structQueue.enqueue(new EncodedChunk);
+        }
+        std::thread producer(readCompressed, std::ref(structQueue), std::ref(workQueue), args[0],args[1], std::ref(done));
 
+        std::string outDir(args[2]);
+        OutputWriter owriter;
+        owriter.lMap.open(outDir+"/mapped.1");
+        owriter.rMap.open(outDir+"/mapped.2");
+
+        std::vector<std::thread> decoders;
+        size_t nthread = 8;
+        for (size_t i = 0; i < nthread; ++i) {
+            decoders.emplace_back(decodeWorker, &structQueue, &workQueue, &owriter, std::ref(done));
+        }
+
+        producer.join();
+        for(auto& d : decoders) { d.join(); }
+        owriter.lMap.close();
+        owriter.rMap.close();
+        std::cout << "\n";
+        return 0;
 }
