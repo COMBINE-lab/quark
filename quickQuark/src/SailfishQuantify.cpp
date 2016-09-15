@@ -164,6 +164,7 @@ std::string quarkCodeSingle(
 	int counter = 0;
 	int match = 0;
 	std::string orestr = (ore) ? "1" : "0" ;
+
 	if (pos >= 0){
 		while(counter < readSeq.size() && (pos+counter) < refLen){
 			if(readSeq[counter] == txpSeq[pos+counter] ){
@@ -211,47 +212,9 @@ std::string quarkCodeSingle(
 					res.append(readSeq.substr(ind,readSeq.size()-1));
 				}
 				res.append(orestr);
-				/*
-				 *
-
-				int32_t realPos = 0;
-				int32_t start;
-				int32_t newPos;
-				while((txpSeq.substr(pos+realPos,31) != readSeq.substr(realPos,31)) && realPos < readSeq.size()-31 && (pos+realPos) < refLen-31){
-					realPos++;
-				}
-				counter = 0;
-				match = 0;
-
-				res.append(readSeq.substr(0,realPos));
-				if(txpSeq.substr(pos+realPos,31) == readSeq.substr(realPos,31)){
-					newPos = pos+realPos;
-					start = realPos;
-					while((start + counter) < readSeq.size() && (newPos+counter) < refLen){
-						if(readSeq[start+counter] == txpSeq[newPos+counter] ){
-							counter++;
-							match++;
-						}else{
-							break;
-						}
-					}
-				}
-
-				res.append("M");
-				res.append(std::to_string(match));
-				res.append(readSeq.substr(start+match));
-				*/
-				//res.append(std::to_string(txpid));
-				//res.append(",");
-				//res.append(std::to_string(pos));
-				//res.append(readSeq);
-				//res.append(orestr);
 
 		}
 
-	}else if(pos == 0){
-		//res.append(read);
-		//return res;
 	}else if(pos < 0){
 		res = "";
 		res.append(std::to_string(pos));
@@ -300,43 +263,9 @@ std::string quarkCodeSingle(
 					res.append(readSeq.substr(ind + abs(pos),readSeq.size()-1));
 				}
 				res.append(orestr);
-				/*
-				int32_t realPos = 0;
-				int32_t newPos;
-				int32_t start;
-				while((txpSeq.substr(realPos,31) != readSeq.substr(abs(pos)+realPos,31)) && (abs(pos)+realPos) < readSeq.size()-31 && (realPos) < refLen-31){
-					realPos++;
-				}
-				counter = 0;
-				match = 0;
-				res.append(readSeq.substr(abs(pos),realPos));
-				if(txpSeq.substr(realPos,31) == readSeq.substr(realPos,31)){
-					newPos = realPos;
-					start = abs(pos)+realPos;
-					while((start + counter) < readSeq.size() && (newPos+counter) < refLen){
-						if(readSeq[start+counter] == txpSeq[newPos+counter] ){
-							counter++;
-							match++;
-						}else{
-							break;
-						}
-					}
-				}
-
-				res.append("M");
-				res.append(std::to_string(match));
-				res.append(readSeq.substr(start+match));
-				//res.append(std::to_string(txpid));
-				//res.append(",");
-				//res.append(std::to_string(pos));
-				//res.append(readSeq);
-				//res.append(orestr);
-				 *
-				 */
 
 		}
 	}
-
 	return res;
 }
 
@@ -471,47 +400,9 @@ std::string quarkCode(
 					res.append(readSeq.substr(ind,readSeq.size()-1));
 				}
 				res.append(orestr);
-				/*
-				 *
-
-				int32_t realPos = 0;
-				int32_t start;
-				int32_t newPos;
-				while((txpSeq.substr(pos+realPos,31) != readSeq.substr(realPos,31)) && realPos < readSeq.size()-31 && (pos+realPos) < refLen-31){
-					realPos++;
-				}
-				counter = 0;
-				match = 0;
-
-				res.append(readSeq.substr(0,realPos));
-				if(txpSeq.substr(pos+realPos,31) == readSeq.substr(realPos,31)){
-					newPos = pos+realPos;
-					start = realPos;
-					while((start + counter) < readSeq.size() && (newPos+counter) < refLen){
-						if(readSeq[start+counter] == txpSeq[newPos+counter] ){
-							counter++;
-							match++;
-						}else{
-							break;
-						}
-					}
-				}
-
-				res.append("M");
-				res.append(std::to_string(match));
-				res.append(readSeq.substr(start+match));
-				*/
-				//res.append(std::to_string(txpid));
-				//res.append(",");
-				//res.append(std::to_string(pos));
-				//res.append(readSeq);
-				//res.append(orestr);
 
 		}
 
-	}else if(pos == 0){
-		//res.append(read);
-		//return res;
 	}else if(pos < 0){
 		res = "";
 		res.append(std::to_string(pos));
@@ -560,39 +451,6 @@ std::string quarkCode(
 					res.append(readSeq.substr(ind + abs(pos),readSeq.size()-1));
 				}
 				res.append(orestr);
-				/*
-				int32_t realPos = 0;
-				int32_t newPos;
-				int32_t start;
-				while((txpSeq.substr(realPos,31) != readSeq.substr(abs(pos)+realPos,31)) && (abs(pos)+realPos) < readSeq.size()-31 && (realPos) < refLen-31){
-					realPos++;
-				}
-				counter = 0;
-				match = 0;
-				res.append(readSeq.substr(abs(pos),realPos));
-				if(txpSeq.substr(realPos,31) == readSeq.substr(realPos,31)){
-					newPos = realPos;
-					start = abs(pos)+realPos;
-					while((start + counter) < readSeq.size() && (newPos+counter) < refLen){
-						if(readSeq[start+counter] == txpSeq[newPos+counter] ){
-							counter++;
-							match++;
-						}else{
-							break;
-						}
-					}
-				}
-
-				res.append("M");
-				res.append(std::to_string(match));
-				res.append(readSeq.substr(start+match));
-				//res.append(std::to_string(txpid));
-				//res.append(",");
-				//res.append(std::to_string(pos));
-				//res.append(readSeq);
-				//res.append(orestr);
-				 *
-				 */
 
 		}
 	}
@@ -1341,14 +1199,15 @@ void processReadsQuasi(single_parser* parser,
 
             upperBoundHits += (jointHits.size() > 0);
 
+
+            if (jointHits.size() > sfOpts.maxReadOccs ) { jointHits.clear(); }
+
             // If the read mapped to > maxReadOccs places, discard it
             if(jointHits.size() == 0) {
             	std::string ss = "";
             	ss.append(j->data[i].seq);
             	unmapped_i.push_back(ss);
             }
-
-            if (jointHits.size() > sfOpts.maxReadOccs ) { jointHits.clear(); }
 
             if (jointHits.size() > 0) {
 

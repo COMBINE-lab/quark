@@ -244,9 +244,16 @@ bool GZipWriter::writeEquivCounts(
 	  int i=0;
 
 
-	  for(auto qcode : qcodes) {
-		  qFile << qcode << "\t" << mapid[i] << ","<< relpos[i] << "," << mapid[i+1] << ","<< relpos[i+1]  << "\n";
-		  i = i + 2;
+	  if(experiment.readLibraries().front().format().type != ReadType::SINGLE_END){
+		  for(auto qcode : qcodes) {
+			  qFile << qcode << "\t" << mapid[i] << ","<< relpos[i] << "," << mapid[i+1] << ","<< relpos[i+1]  << "\n";
+			  i = i + 2;
+		  }
+	  }else{
+		  for(auto qcode : qcodes) {
+			  qFile << qcode << "\t" << mapid[i] << ","<< relpos[i] << "\n";
+			  i = i + 2;
+		  }
 	  }
 
 

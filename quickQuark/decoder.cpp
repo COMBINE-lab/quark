@@ -146,12 +146,85 @@ struct EncodedChunk {
     std::vector<std::string> islands;
     std::vector<ReadPair> encodedReads;
 };
+
+
     
 struct OutputWriter{
     std::mutex iomutex;
     std::ofstream lMap;
     std::ofstream rMap;
 };
+
+struct OutputWriterSingle{
+    std::mutex iomutex;
+    std::ofstream lMap;
+};
+
+void decodeWorkerSingle(moodycamel::ConcurrentQueue<EncodedChunk*>* structQueuePtr,
+                  moodycamel::ConcurrentQueue<EncodedChunk*>* workQueuePtr,
+                  OutputWriterSingle* owriterPtr,
+                  std::atomic<bool>& done) {
+    auto& workQueue = *workQueuePtr;
+    auto& structQueue = *structQueuePtr;
+    auto& owriter = *owriterPtr;
+
+    EncodedChunk* ec{nullptr};
+    while (workQueue.try_dequeue(ec) or !done) {
+        if (ec != nullptr) {
+            auto& islands = ec->islands;
+            auto nreads = ec->encodedReads.size();
+            std::vector<std::string> lDecodedVec(nreads);
+            //std::vector<std::string> rDecodedVec(nreads);
+            for (size_t i = 0; i < nreads; ++i) {
+                auto& ep = ec->encodedReads[i];
+                std::string& lDecoded = lDecodedVec[i];
+                //std::string& rDecoded = rDecodedVec[i];
+
+                std::vector<std::string> meta ;
+                std::vector<std::string> parts ;
+
+                std::string left = "";
+                //std::string right = "";
+                std::string leftSeq = "" ;
+                //std::string rightSeq = "" ;
+
+                std::string oreleft ;
+                //std::string oreright ;
+                int lIsland,lPos;
+                auto& code_0 = ep.left;
+                auto& code_1 = ep.right;
+
+                oreleft = code_0[code_0.size()-1];
+                left = code_0.substr(0,code_0.size()-1);
+
+                meta = split(code_1,',');
+                lIsland = std::stoi(meta[0]);
+                lPos = std::stoi(meta[1]);
+
+                if(islands[lIsland] == "$"){
+                    lDecoded = parts[0] ;
+                }else{
+                    lDecoded = decode(islands[lIsland],left,lPos);
+                    lDecoded = (oreleft == "0") ? revComp(lDecoded) : lDecoded ;
+                }
+                //exit(0);
+
+                if (lDecoded == "GCGCCTCTCACG"){
+                    cout << "\n" << code_0 << "\n";
+                    exit(0);
+                }
+            }
+
+			owriter.iomutex.lock();
+            for (size_t i = 0; i < nreads; ++i) {
+                owriter.lMap << lDecodedVec[i] << '\n';
+            }
+			owriter.iomutex.unlock();
+            structQueue.enqueue(ec);
+            ec = nullptr;
+        }
+    }
+}
 
 void decodeWorker(moodycamel::ConcurrentQueue<EncodedChunk*>* structQueuePtr, 
                   moodycamel::ConcurrentQueue<EncodedChunk*>* workQueuePtr, 
@@ -278,7 +351,12 @@ int main(int argc, char* argv[]){
 	std::cout << "\n Island file : " << args[0];
 	std::cout << "\n Quark read file : " << args[1];
 	std::cout << "\n Output directory : " << args[2];
-	std::cout << "\n Number of theads : " << args[3] << "\n\n";
+	if(args[3] == "S"){
+		std::cout << "\n Library type : SINGLE END" ;
+	}else{
+		std::cout << "\n Library type : PAIRED END" ;
+	}
+	std::cout << "\n Number of theads : " << args[4] << "\n\n";
 
         // must be a power-of-two
     /*
@@ -292,7 +370,8 @@ int main(int argc, char* argv[]){
         auto jointLog = spdlog::create("jointLog", {fileSink, consoleSink});
     */
         
-    std::atomic<bool> done{false};
+	if(args[3] != "S"){
+    	std::atomic<bool> done{false};
         size_t nstruct{10000};
         moodycamel::ConcurrentQueue<EncodedChunk*> structQueue(nstruct);
         moodycamel::ConcurrentQueue<EncodedChunk*> workQueue(nstruct);
@@ -308,7 +387,7 @@ int main(int argc, char* argv[]){
 
         std::vector<std::thread> decoders;
         //size_t nthread = 8;
-        size_t nthread = std::stoi(args[3]);
+        size_t nthread = std::stoi(args[4]);
         for (size_t i = 0; i < nthread; ++i) {
             decoders.emplace_back(decodeWorker, &structQueue, &workQueue, &owriter, std::ref(done));
         }
@@ -317,6 +396,33 @@ int main(int argc, char* argv[]){
         for(auto& d : decoders) { d.join(); }
         owriter.lMap.close();
         owriter.rMap.close();
+	}else{
+    	std::atomic<bool> done{false};
+        size_t nstruct{10000};
+        moodycamel::ConcurrentQueue<EncodedChunk*> structQueue(nstruct);
+        moodycamel::ConcurrentQueue<EncodedChunk*> workQueue(nstruct);
+        for (size_t i = 0; i < nstruct; ++i) {
+            structQueue.enqueue(new EncodedChunk);
+        }
+        std::thread producer(readCompressed, std::ref(structQueue), std::ref(workQueue), args[0],args[1], std::ref(done));
+
+        std::string outDir(args[2]);
+        OutputWriterSingle owriter;
+        owriter.lMap.open(outDir+"/mapped");
+
+        std::vector<std::thread> decoders;
+
+        size_t nthread = std::stoi(args[4]);
+        for (size_t i = 0; i < nthread; ++i) {
+            decoders.emplace_back(decodeWorkerSingle, &structQueue, &workQueue, &owriter, std::ref(done));
+        }
+
+        producer.join();
+        for(auto& d : decoders) { d.join(); }
+        owriter.lMap.close();
+
+	}
+
         std::cout << "\n";
         return 0;
 }
