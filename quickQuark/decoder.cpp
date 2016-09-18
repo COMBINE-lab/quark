@@ -412,6 +412,8 @@ int main(int argc, char* argv[]){
 
         std::vector<std::thread> decoders;
 
+        std::cout << "\n in decoder module \n" ;
+
         size_t nthread = std::stoi(args[4]);
         for (size_t i = 0; i < nthread; ++i) {
             decoders.emplace_back(decodeWorkerSingle, &structQueue, &workQueue, &owriter, std::ref(done));

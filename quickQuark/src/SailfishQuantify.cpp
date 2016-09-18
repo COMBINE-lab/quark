@@ -146,6 +146,7 @@ std::string revComp(std::string s){
     return s;
 }
 
+//template <typename JointHitsIt>
 std::string quarkCodeSingle(
 			Transcript& txp,
 			std::string& read,

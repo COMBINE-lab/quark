@@ -327,13 +327,18 @@ bool GZipWriter::writeEquivCounts(
 
 		  }
 	  }else{
-		  bfs::path unMappedFile_l = auxDir/"unmapped.fa";
+		  bfs::path unMappedFile_l = auxDir/"unmapped.fastq";
 		  std::ofstream uFile_l(unMappedFile_l.string());
 		  for(auto seqvec : unmapped){
 			  for(auto seq : seqvec){
-				  uFile_l << ">"<<uid<< "\n";
+				  uFile_l << "@"<<uid<< "\n";
 				  for(int il = 0; il < seq.size() ; il++){
 					  uFile_l << seq[il];
+				  }
+				  uFile_l << "\n";
+				  uFile_l << "+"<< "\n";
+				  for(int il = 0; il < seq.size() ; il++){
+					  uFile_l << "I";
 				  }
 				  uFile_l << "\n";
 				  uid++;
