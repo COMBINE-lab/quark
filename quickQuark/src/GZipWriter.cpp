@@ -1,7 +1,12 @@
 #include <ctime>
 #include <fstream>
+#include <memory>
 
 #include "cereal/archives/json.hpp"
+#include "spdlog/details/format.h"
+
+#include <boost/dynamic_bitset.hpp>
+#include "pstream.h"
 
 #include "GZipWriter.hpp"
 #include "SailfishOpts.hpp"
@@ -51,6 +56,16 @@ bool writeVectorToFile(boost::filesystem::path path,
  * of a line / row.
  */
 
+std::vector<std::string> split(const std::string &text, char sep) {
+    std::vector<std::string> tokens;
+    std::size_t start = 0, end = 0;
+    while ((end = text.find(sep, start)) != std::string::npos) {
+        tokens.push_back(text.substr(start, end - start));
+        start = end + 1;
+    }
+    tokens.push_back(text.substr(start));
+    return tokens;
+}
 
 void makeIslands(std::vector<std::pair<int32_t,int32_t>>& intervals, std::vector<int>& mapid, std::vector<int32_t>& relpos){
 
@@ -171,6 +186,108 @@ void makeIslands(std::vector<std::pair<int32_t,int32_t>>& intervals, std::vector
 	//intervals = {{0,0}};
 	// correctedIslands ;
 }
+
+std::vector<uint8_t> fourBitEncode(const std::string& str) {
+	boost::dynamic_bitset<uint8_t> bitmap;
+	for (auto c : str) {
+		switch(c) {
+			case 'A':
+				bitmap.push_back(0);
+				bitmap.push_back(0);
+				bitmap.push_back(0);
+				bitmap.push_back(1);
+				break;
+			case 'C':
+				bitmap.push_back(0);
+				bitmap.push_back(0);
+				bitmap.push_back(1);
+				bitmap.push_back(0);
+				break;
+			case 'G':
+				bitmap.push_back(0);
+				bitmap.push_back(0);
+				bitmap.push_back(1);
+				bitmap.push_back(1);
+				break;
+			case 'T':
+				bitmap.push_back(0);
+				bitmap.push_back(1);
+				bitmap.push_back(0);
+				bitmap.push_back(0);
+				break;
+			case 'N':
+				bitmap.push_back(0);
+				bitmap.push_back(1);
+				bitmap.push_back(0);
+				bitmap.push_back(1);
+				break;
+			case '0':
+				bitmap.push_back(0);
+				bitmap.push_back(1);
+				bitmap.push_back(1);
+				bitmap.push_back(0);
+				break;
+			case '1':
+				bitmap.push_back(0);
+				bitmap.push_back(1);
+				bitmap.push_back(1);
+				bitmap.push_back(1);
+				break;
+			case '2':
+				bitmap.push_back(1);
+				bitmap.push_back(0);
+				bitmap.push_back(0);
+				bitmap.push_back(0);
+				break;
+			case '3':
+				bitmap.push_back(1);
+				bitmap.push_back(0);
+				bitmap.push_back(0);
+				bitmap.push_back(1);
+				break;
+			case '4':
+				bitmap.push_back(1);
+				bitmap.push_back(0);
+				bitmap.push_back(1);
+				bitmap.push_back(0);
+				break;
+			case '5':
+				bitmap.push_back(1);
+				bitmap.push_back(0);
+				bitmap.push_back(1);
+				bitmap.push_back(1);
+				break;
+			case '6':
+				bitmap.push_back(1);
+				bitmap.push_back(1);
+				bitmap.push_back(0);
+				bitmap.push_back(0);
+				break;
+			case '7':
+				bitmap.push_back(1);
+				bitmap.push_back(1);
+				bitmap.push_back(0);
+				bitmap.push_back(1);
+				break;
+			case '8':
+				bitmap.push_back(1);
+				bitmap.push_back(1);
+				bitmap.push_back(1);
+				bitmap.push_back(0);
+				break;
+			case '9':
+				bitmap.push_back(1);
+				bitmap.push_back(1);
+				bitmap.push_back(1);
+				bitmap.push_back(1);
+				break;
+		}
+	}
+	std::vector<uint8_t> bytes;
+	boost::to_block_range(bitmap, std::back_inserter(bytes));
+	return bytes;
+}
+
 bool GZipWriter::writeEquivCounts(
     const SailfishOpts& opts,
     ReadExperiment& experiment,
@@ -181,19 +298,74 @@ bool GZipWriter::writeEquivCounts(
   bfs::path auxDir = path_ / opts.auxDir;
   bool auxSuccess = boost::filesystem::create_directories(auxDir);
   bfs::path eqFilePath = auxDir / "eq_classes.txt";
-  bfs::path quarkFilePath  = auxDir/ "reads.quark";
 
-  //bfs::path quarkFilePath  = auxDir/ "read_names.quark";
+  //for paired end
+  bfs::path quarkFilePath_1  = auxDir/ "reads_1.quark";
+  bfs::path quarkFilePath_2  = auxDir/ "reads_2.quark";
+  bfs::path offsetFilePath_1  = auxDir/ "offset_1.quark";
+  bfs::path offsetFilePath_2  = auxDir/ "offset_2.quark";
+
+  std::unique_ptr<redi::opstream> leftSeqPtr(nullptr);
+  std::unique_ptr<redi::opstream> rightSeqPtr(nullptr);
+  std::unique_ptr<redi::opstream> leftOffsetPtr(nullptr);
+  std::unique_ptr<redi::opstream> rightOffsetPtr(nullptr);
+
+  //for single end
+  bfs::path quarkFilePath = auxDir/ "reads.quark";
+  bfs::path offsetFilePath = auxDir/ "offset.quark";
+
+
+  std::unique_ptr<redi::opstream> seqPtr(nullptr);
+  std::unique_ptr<redi::opstream> offsetPtr(nullptr);
 
   bfs::path islandFile = auxDir/"islands.quark";
 
+  if(experiment.readLibraries().front().format().type != ReadType::SINGLE_END){
+	fmt::MemoryWriter w1;
+	w1.write("plzip -o {} -f -n {} -", quarkFilePath_1.string(), opts.numThreads - 3);
+	leftSeqPtr.reset(new redi::opstream(w1.str()));
+	w1.clear();
+
+	fmt::MemoryWriter w2;
+	w2.write("plzip -o {} -f -n {} -", quarkFilePath_2.string(), opts.numThreads - 3);
+	rightSeqPtr.reset(new redi::opstream(w2.str()));
+	w2.clear();
+
+	fmt::MemoryWriter w3;
+	w3.write("plzip -o {} -f -n {} -", offsetFilePath_1.string(), opts.numThreads - 3);
+	leftOffsetPtr.reset(new redi::opstream(w3.str()));
+	w3.clear();
+
+	fmt::MemoryWriter w4;
+	w4.write("plzip -o {} -f -n {} -", offsetFilePath_2.string(), opts.numThreads - 3);
+	rightOffsetPtr.reset(new redi::opstream(w4.str()));
+	w4.clear();
+  }else{
+
+
+	fmt::MemoryWriter w2;
+	w2.write("plzip -o {} -f -n {} -", quarkFilePath.string(), opts.numThreads - 3);
+	seqPtr.reset(new redi::opstream(w2.str()));
+	w2.clear();
+
+	fmt::MemoryWriter w3;
+	w3.write("plzip -o {} -f -n {} -", offsetFilePath.string(), opts.numThreads - 3);
+	offsetPtr.reset(new redi::opstream(w3.str()));
+	w3.clear();
+
+  }
+
+  //bfs::path quarkFilePath  = auxDir/ "read_names.quark";
+
+
 
   std::ofstream equivFile(eqFilePath.string());
-  std::ofstream qFile(quarkFilePath.string());
 
-
-
+  //**************previous way of writing*********
+  //std::ofstream qFile(quarkFilePath.string());
   std::ofstream iFile(islandFile.string());
+  //**********************************************
+
 
   auto& transcripts = experiment.transcripts();
   std::vector<std::pair<const TranscriptGroup, TGValue>>& eqVec =
@@ -240,10 +412,62 @@ bool GZipWriter::writeEquivCounts(
 	  std::vector<int32_t> relpos;
 	  makeIslands(intervals,mapid,relpos);
 
-	  qFile<< count << "\n";
-	  int i=0;
 
 
+	  if(experiment.readLibraries().front().format().type != ReadType::SINGLE_END){
+		  leftSeqPtr->write(reinterpret_cast<char*>(&count), sizeof(count));
+		  rightSeqPtr->write(reinterpret_cast<char*>(&count), sizeof(count));
+		  int i=0;
+
+
+		  for(auto qcode : qcodes) {
+			  std::vector<std::string> seqs;
+			  seqs = split(qcode,'|');
+			  //std::string leftSeq = seqs[0];
+			  //std::string rightSeq = seqs[1];
+			  //encode left sequence
+			  auto leftBytes = fourBitEncode(seqs[0]);
+			  auto rightBytes = fourBitEncode(seqs[1]);
+
+			  leftSeqPtr->write(reinterpret_cast<char*>(&leftBytes[0]), sizeof(leftBytes[0])* leftBytes.size());
+			  rightSeqPtr->write(reinterpret_cast<char*>(&rightBytes[0]), sizeof(rightBytes[0])* rightBytes.size());
+
+			  //qFile << qcode << "\t" << mapid[i] << ","<< relpos[i] << "," << mapid[i+1] << ","<< relpos[i+1]  << "\n";
+			  uint8_t leftIsland = mapid[i];
+			  uint32_t leftPos = relpos[i];
+			  uint8_t rightIsland = mapid[i+1];
+			  uint32_t rightPos = relpos[i+1];
+
+			  leftOffsetPtr->write(reinterpret_cast<char*>(&leftIsland), sizeof(leftIsland));
+			  leftOffsetPtr->write(reinterpret_cast<char*>(&leftPos), sizeof(leftPos));
+			  rightOffsetPtr->write(reinterpret_cast<char*>(&rightIsland), sizeof(rightIsland));
+			  rightOffsetPtr->write(reinterpret_cast<char*>(&rightPos), sizeof(rightPos));
+
+			  i = i + 2;
+		  }
+	  }else{
+		  seqPtr->write(reinterpret_cast<char*>(&count), sizeof(count));
+		  int i = 0;
+		  for(auto qcode : qcodes) {
+			  auto bytes = fourBitEncode(qcode);
+
+			  seqPtr->write(reinterpret_cast<char*>(&bytes[0]), sizeof(bytes[0])* bytes.size());
+			  //qFile << qcode << "\t" << mapid[i] << ","<< relpos[i] << "\n";
+			  uint8_t leftIsland = mapid[i];
+			  uint32_t leftPos = relpos[i];
+
+			  offsetPtr->write(reinterpret_cast<char*>(&leftIsland), sizeof(leftIsland));
+			  offsetPtr->write(reinterpret_cast<char*>(&leftPos), sizeof(leftPos));
+
+			  i = i + 2;
+		  }
+	  }
+
+
+
+
+	  /*
+	   * Old style encoding
 	  if(experiment.readLibraries().front().format().type != ReadType::SINGLE_END){
 		  for(auto qcode : qcodes) {
 			  qFile << qcode << "\t" << mapid[i] << ","<< relpos[i] << "," << mapid[i+1] << ","<< relpos[i+1]  << "\n";
@@ -255,6 +479,7 @@ bool GZipWriter::writeEquivCounts(
 			  i = i + 2;
 		  }
 	  }
+	  */
 
 
 	  /*
@@ -340,6 +565,7 @@ bool GZipWriter::writeEquivCounts(
 				  for(int il = 0; il < seq.size() ; il++){
 					  uFile_l << "I";
 				  }
+
 				  uFile_l << "\n";
 				  uid++;
 			  }
