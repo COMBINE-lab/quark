@@ -243,7 +243,54 @@ bool GZipWriter::writeEquivCounts(
 	  qFile<< count << "\n";
 	  int i=0;
 
+	  struct quarkStruct{
+		  std::string qcode;
+		  int lIslandId;
+		  int32_t lpos;
+		  int rIslandId;
+		  int32_t rpos;
+	  };
+	  std::vector<quarkStruct> quarkStructVec;
+	  for(auto qcode : qcodes) {
+		  quarkStructVec.push_back({qcode,mapid[i],relpos[i],mapid[i+1],relpos[i+1]});
+		  //qFile << qcode << "\t" << mapid[i] << ","<< relpos[i] << "," << mapid[i+1] << ","<< relpos[i+1]  << "\n";
+		  i = i + 2;
+	  }
 
+	  std::sort(quarkStructVec.begin(),quarkStructVec.end(),
+			  [](const quarkStruct& q1, const quarkStruct& q2) -> bool {
+		  	  	  if(q1.lIslandId != q2.lIslandId)
+		  	  		  return q1.lIslandId < q2.lIslandId;
+		  	  	  return q1.lpos < q2.lpos ;
+
+	  });
+
+	  int oldIsland = -1;
+	  for(auto& qS : quarkStructVec){
+		  if(experiment.readLibraries().front().format().type != ReadType::SINGLE_END){
+			  if(oldIsland == -1 || oldIsland != qS.lIslandId){
+				  oldIsland = qS.lIslandId;
+				  qFile << qS.qcode << "\t" << qS.lIslandId << "," << qS.lpos << "," << qS.rIslandId << "," << qS.rpos << "\n";
+			  }else{
+				  qFile << qS.qcode << "\t" << qS.lpos << "," << qS.rIslandId << "," << qS.rpos << "\n";
+
+			  }
+		  }else{
+			  if(oldIsland == -1 || oldIsland != qS.lIslandId){
+				  oldIsland = qS.lIslandId;
+				  qFile << qS.qcode << "\t" << qS.lIslandId << "," << qS.lpos <<"\n";
+			  }else{
+				  qFile << qS.qcode << "\t" << qS.lpos << "\n";
+
+			  }
+
+		  }
+
+	  }
+
+
+
+	  /*
 	  if(experiment.readLibraries().front().format().type != ReadType::SINGLE_END){
 		  for(auto qcode : qcodes) {
 			  qFile << qcode << "\t" << mapid[i] << ","<< relpos[i] << "," << mapid[i+1] << ","<< relpos[i+1]  << "\n";
@@ -254,7 +301,7 @@ bool GZipWriter::writeEquivCounts(
 			  qFile << qcode << "\t" << mapid[i] << ","<< relpos[i] << "\n";
 			  i = i + 2;
 		  }
-	  }
+	  }*/
 
 
 	  /*

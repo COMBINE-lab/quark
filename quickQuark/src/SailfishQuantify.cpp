@@ -175,12 +175,12 @@ std::string quarkCodeSingle(
 				break;
 			}
 		}
-		if(match >= 31){
-			res.append("M");
-			res.append(std::to_string(match));
-			res.append(readSeq.substr(match));
-			res.append(std::to_string(ore));
-		}else{
+		//if(match >= 31){
+			//res.append("M");
+			//res.append(std::to_string(match));
+			//res.append(readSeq.substr(match));
+			//res.append(std::to_string(ore));
+		//}else{
 
 				// some k-mer down the line
 				// check all the k-mers
@@ -214,7 +214,7 @@ std::string quarkCodeSingle(
 				}
 				res.append(orestr);
 
-		}
+		//}
 
 	}else if(pos < 0){
 		res = "";
@@ -229,12 +229,12 @@ std::string quarkCodeSingle(
 					break;
 				}
 		}
-		if(match >= 31){
-			res.append("M");
-			res.append(std::to_string(match));
-			res.append(readSeq.substr(match+abs(pos)));
-			res.append(std::to_string(ore));
-		}else{
+		//if(match >= 31){
+			//res.append("M");
+			//res.append(std::to_string(match));
+			//res.append(readSeq.substr(match+abs(pos)));
+			//res.append(std::to_string(ore));
+		//}else{
 
 				// some k-mer down the line
 				// check all the k-mers
@@ -265,7 +265,7 @@ std::string quarkCodeSingle(
 				}
 				res.append(orestr);
 
-		}
+		//}
 	}
 	return res;
 }
@@ -363,12 +363,12 @@ std::string quarkCode(
 				break;
 			}
 		}
-		if(match >= 31){
-			res.append("M");
-			res.append(std::to_string(match));
-			res.append(readSeq.substr(match));
-			res.append(std::to_string(ore));
-		}else{
+		//if(match >= 31){
+			//res.append("M");
+			//res.append(std::to_string(match));
+			//res.append(readSeq.substr(match));
+			//res.append(std::to_string(ore));
+		//}else{
 
 				// some k-mer down the line
 				// check all the k-mers
@@ -402,7 +402,7 @@ std::string quarkCode(
 				}
 				res.append(orestr);
 
-		}
+		//}
 
 	}else if(pos < 0){
 		res = "";
@@ -417,12 +417,12 @@ std::string quarkCode(
 					break;
 				}
 		}
-		if(match >= 31){
-			res.append("M");
-			res.append(std::to_string(match));
-			res.append(readSeq.substr(match+abs(pos)));
-			res.append(std::to_string(ore));
-		}else{
+		//if(match >= 31){
+			//res.append("M");
+			//res.append(std::to_string(match));
+			//res.append(readSeq.substr(match+abs(pos)));
+			//res.append(std::to_string(ore));
+		//}else{
 
 				// some k-mer down the line
 				// check all the k-mers
@@ -453,7 +453,7 @@ std::string quarkCode(
 				}
 				res.append(orestr);
 
-		}
+		//}
 	}
 
 
