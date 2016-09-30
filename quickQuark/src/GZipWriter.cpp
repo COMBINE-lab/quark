@@ -1,6 +1,9 @@
 #include <ctime>
 #include <fstream>
+#include <chrono>
+#include <thread>
 #include <memory>
+#include <functional>
 
 #include "cereal/archives/json.hpp"
 #include "spdlog/details/format.h"
@@ -236,34 +239,34 @@ std::vector<uint8_t> fourBitEncode(const std::string& str) {
 	for (auto c : str) {
 		switch(c) {
 			case 'A':
-				bitmap.push_back(0);
-				bitmap.push_back(0);
-				bitmap.push_back(0);
 				bitmap.push_back(1);
+				bitmap.push_back(0);
+				bitmap.push_back(0);
+				bitmap.push_back(0);
 				break;
 			case 'C':
 				bitmap.push_back(0);
-				bitmap.push_back(0);
 				bitmap.push_back(1);
+				bitmap.push_back(0);
 				bitmap.push_back(0);
 				break;
 			case 'G':
-				bitmap.push_back(0);
-				bitmap.push_back(0);
 				bitmap.push_back(1);
 				bitmap.push_back(1);
+				bitmap.push_back(0);
+				bitmap.push_back(0);
 				break;
 			case 'T':
 				bitmap.push_back(0);
-				bitmap.push_back(1);
 				bitmap.push_back(0);
+				bitmap.push_back(1);
 				bitmap.push_back(0);
 				break;
 			case 'N':
-				bitmap.push_back(0);
 				bitmap.push_back(1);
 				bitmap.push_back(0);
 				bitmap.push_back(1);
+				bitmap.push_back(0);
 				break;
 			case '0':
 				bitmap.push_back(0);
@@ -272,16 +275,16 @@ std::vector<uint8_t> fourBitEncode(const std::string& str) {
 				bitmap.push_back(0);
 				break;
 			case '1':
+				bitmap.push_back(1);
+				bitmap.push_back(1);
+				bitmap.push_back(1);
 				bitmap.push_back(0);
-				bitmap.push_back(1);
-				bitmap.push_back(1);
-				bitmap.push_back(1);
 				break;
 			case '2':
+				bitmap.push_back(0);
+				bitmap.push_back(0);
+				bitmap.push_back(0);
 				bitmap.push_back(1);
-				bitmap.push_back(0);
-				bitmap.push_back(0);
-				bitmap.push_back(0);
 				break;
 			case '3':
 				bitmap.push_back(1);
@@ -290,34 +293,34 @@ std::vector<uint8_t> fourBitEncode(const std::string& str) {
 				bitmap.push_back(1);
 				break;
 			case '4':
-				bitmap.push_back(1);
 				bitmap.push_back(0);
 				bitmap.push_back(1);
 				bitmap.push_back(0);
+				bitmap.push_back(1);
 				break;
 			case '5':
 				bitmap.push_back(1);
-				bitmap.push_back(0);
 				bitmap.push_back(1);
+				bitmap.push_back(0);
 				bitmap.push_back(1);
 				break;
 			case '6':
-				bitmap.push_back(1);
-				bitmap.push_back(1);
 				bitmap.push_back(0);
 				bitmap.push_back(0);
+				bitmap.push_back(1);
+				bitmap.push_back(1);
 				break;
 			case '7':
 				bitmap.push_back(1);
-				bitmap.push_back(1);
 				bitmap.push_back(0);
+				bitmap.push_back(1);
 				bitmap.push_back(1);
 				break;
 			case '8':
-				bitmap.push_back(1);
-				bitmap.push_back(1);
-				bitmap.push_back(1);
 				bitmap.push_back(0);
+				bitmap.push_back(1);
+				bitmap.push_back(1);
+				bitmap.push_back(1);
 				break;
 			case '9':
 				bitmap.push_back(1);
@@ -333,7 +336,111 @@ std::vector<uint8_t> fourBitEncode(const std::string& str) {
 	bitmap.push_back(0);
 	bitmap.push_back(0);
 	boost::to_block_range(bitmap, std::back_inserter(bytes));
+
+	/*
+	std::cout << str << "\n";
+	for(auto b : bytes){
+		std::cout << unsigned(b) << "\t";
+	}
+	exit(0);
+	*/
 	return bytes;
+}
+
+template <typename T, typename S, typename P>
+void pushIslandBitmap(T &intervals,S &txpSeq ,P &islandPtr){
+
+	  for(auto interval : intervals) {
+		  //block for $ symbols
+
+		  /*
+		  if(interval.first == interval.second){
+			  std::string txpStr("$");
+			  auto bytes = threeBitEncode(txpStr);
+			  iFile.write(reinterpret_cast<char*>(&bytes[0]), sizeof(bytes[0])* bytes.size());
+		  }else{
+			  std::string txpStr(txpSeq+interval.first,txpSeq+interval.second+1);
+			  auto bytes = threeBitEncode(txpStr);
+			  iFile.write(reinterpret_cast<char*>(&bytes[0]), sizeof(bytes[0])* bytes.size());
+		  }*/
+
+
+
+
+
+		  boost::dynamic_bitset<uint8_t> bitmap;
+		  auto intervalSize = interval.second - interval.first + 1;
+		  bitmap.resize((intervalSize+1) * 3);
+		  auto offset = 0;
+		  for(int ind=interval.first ; ind <= interval.second ; ind++){
+			//iFile<<txpSeq[ind];
+			auto c = txpSeq[ind];
+			switch(c) {
+				case 'A':
+					bitmap[offset] =   0;
+					bitmap[offset+1] = 0;
+					bitmap[offset+2] = 0;
+					break;
+				case 'C':
+					bitmap[offset] =   0;
+					bitmap[offset+1] = 0;
+					bitmap[offset+2] = 1;
+					break;
+				case 'G':
+					bitmap[offset] =   0;
+					bitmap[offset+1] = 1;
+					bitmap[offset+2] = 0;
+					break;
+				case 'T':
+					bitmap[offset] =   0;
+					bitmap[offset+1] = 1;
+					bitmap[offset+2] = 1;
+					break;
+				case 'N':
+					bitmap[offset] =   1;
+					bitmap[offset+1] = 0;
+					bitmap[offset+2] = 0;
+					break;
+				case '$':
+					bitmap[offset] =   1;
+					bitmap[offset+1] = 0;
+					bitmap[offset+2] = 1;
+					break;
+			}
+			offset += 3;
+		  }
+
+
+			std::vector<uint8_t> bytes;
+			bitmap[offset]=1;
+			bitmap[offset+1]=1;
+			bitmap[offset+2]=0;
+			boost::to_block_range(bitmap, std::back_inserter(bytes));
+			islandPtr->write(reinterpret_cast<char*>(&bytes[0]), sizeof(bytes[0])* bytes.size());
+
+			//numOfEquivClasses++;
+
+		  //iFile << "\n";
+
+
+		  //iFile << interval.first << "\t" << interval.second << "\n";
+	  }
+}
+
+std::function<void(redi::opstream*)> closeStreamDeleter(std::string s)  {
+	  std::function<void(redi::opstream*)> deleter =  [s](redi::opstream* ptr) -> void {
+	  ptr->rdbuf()->peof();
+	  //fmt::print(stderr, "\n start writing unmapped\n");
+	  fmt::print(stderr,"\nPtr deleted {}\n", s);
+	  fmt::print(stderr,"status = {}\n", ptr->rdbuf()->status());
+	  std::chrono::seconds wt(2);
+	  std::this_thread::sleep_for(wt);
+	  fmt::print(stderr,"status = {}\n", ptr->rdbuf()->status());
+	  ptr->close();
+	  fmt::print(stderr,"status = {}\n", ptr->rdbuf()->status());
+	  delete ptr;
+	  };
+	  return deleter;
 }
 
 bool GZipWriter::writeEquivCounts(
@@ -343,65 +450,102 @@ bool GZipWriter::writeEquivCounts(
 
   namespace bfs = boost::filesystem;
 
+  using pstream_ptr = std::unique_ptr<redi::opstream, std::function<void(redi::opstream*)>>;
+
   bfs::path auxDir = path_ / opts.auxDir;
   bool auxSuccess = boost::filesystem::create_directories(auxDir);
+
+  bfs::path islandFile = auxDir/"islands.quark";
+  bfs::path islandTxtFile = auxDir/"islands.txt";
+  std::ofstream iFile(islandTxtFile.string());
+
+  pstream_ptr islandPtr(nullptr, closeStreamDeleter("islandPtr"));
+  {
+	  fmt::MemoryWriter w;
+	  w.write("plzip -o {} -f -n {} -", islandFile.string(), 1);
+	  //w.write("gzip -1 - > {}", islandFile.string()+".gz");
+	  islandPtr.reset(new redi::opstream(w.str()));
+	  w.clear();
+  }
   bfs::path eqFilePath = auxDir / "eq_classes.txt";
 
+  //for debugging
+  bfs::path txtFilePath = auxDir/ "reads.txt";
+
+
   //for paired end
+
   bfs::path quarkFilePath_1  = auxDir/ "reads_1.quark";
   bfs::path quarkFilePath_2  = auxDir/ "reads_2.quark";
   bfs::path offsetFilePath_1  = auxDir/ "offset_1.quark";
   bfs::path offsetFilePath_2  = auxDir/ "offset_2.quark";
+  bfs::path chunkFilePath_1  = auxDir/ "chunk_1.quark";
+  bfs::path chunkFilePath_2  = auxDir/ "chunk_2.quark";
 
-  std::unique_ptr<redi::opstream> leftSeqPtr(nullptr);
-  std::unique_ptr<redi::opstream> rightSeqPtr(nullptr);
-  std::unique_ptr<redi::opstream> leftOffsetPtr(nullptr);
-  std::unique_ptr<redi::opstream> rightOffsetPtr(nullptr);
+
+
+
+
+  pstream_ptr leftSeqPtr(nullptr, closeStreamDeleter("leftSeqPtr"));
+  pstream_ptr rightSeqPtr(nullptr, closeStreamDeleter("rightSeqPtr"));
+  pstream_ptr leftOffsetPtr(nullptr, closeStreamDeleter("leftOffsetPtr"));
+  pstream_ptr rightOffsetPtr(nullptr, closeStreamDeleter("rightOffsetPtr"));
+  pstream_ptr leftChunkPtr(nullptr, closeStreamDeleter("leftChunkPtr"));
+  pstream_ptr rightChunkPtr(nullptr, closeStreamDeleter("rightChunkPtr"));
 
   //for single end
   bfs::path quarkFilePath = auxDir/ "reads.quark";
   bfs::path offsetFilePath = auxDir/ "offset.quark";
 
 
-  std::unique_ptr<redi::opstream> seqPtr(nullptr);
-  std::unique_ptr<redi::opstream> offsetPtr(nullptr);
+  pstream_ptr seqPtr(nullptr, closeStreamDeleter("seqPtr"));
+  pstream_ptr offsetPtr(nullptr, closeStreamDeleter("offsetPtr"));
 
-  bfs::path islandFile = auxDir/"islands.quark";
-  fmt::MemoryWriter w;
-  w.write("plzip -o {} -f -n {} -", islandFile.string(), opts.numThreads - 3);
-  redi::opstream iFile(w.str());
-  w.clear();
+
+
+
 
   if(experiment.readLibraries().front().format().type != ReadType::SINGLE_END){
 	fmt::MemoryWriter w1;
-	w1.write("plzip -o {} -f -n {} -", quarkFilePath_1.string(), opts.numThreads - 3);
+	w1.write("plzip -o {} -f -n {} -", quarkFilePath_1.string(), 1);
 	leftSeqPtr.reset(new redi::opstream(w1.str()));
 	w1.clear();
 
 	fmt::MemoryWriter w2;
-	w2.write("plzip -o {} -f -n {} -", quarkFilePath_2.string(), opts.numThreads - 3);
+	w2.write("plzip -o {} -f -n {} -", quarkFilePath_2.string(), 1);
 	rightSeqPtr.reset(new redi::opstream(w2.str()));
 	w2.clear();
 
 	fmt::MemoryWriter w3;
-	w3.write("plzip -o {} -f -n {} -", offsetFilePath_1.string(), opts.numThreads - 3);
+	w3.write("plzip -o {} -f -n {} -", offsetFilePath_1.string(), 1);
 	leftOffsetPtr.reset(new redi::opstream(w3.str()));
 	w3.clear();
 
 	fmt::MemoryWriter w4;
-	w4.write("plzip -o {} -f -n {} -", offsetFilePath_2.string(), opts.numThreads - 3);
+	w4.write("plzip -o {} -f -n {} -", offsetFilePath_2.string(), 1);
 	rightOffsetPtr.reset(new redi::opstream(w4.str()));
 	w4.clear();
+
+	w4.write("plzip -o {} -f -n {} -", chunkFilePath_1.string(), 1);
+	leftChunkPtr.reset(new redi::opstream(w4.str()));
+	w4.clear();
+
+
+	w4.write("plzip -o {} -f -n {} -", chunkFilePath_2.string(), 1);
+	rightChunkPtr.reset(new redi::opstream(w4.str()));
+	w4.clear();
+
+
   }else{
 
 
 	fmt::MemoryWriter w2;
-	w2.write("plzip -o {} -f -n {} -", quarkFilePath.string(), opts.numThreads - 3);
+	w2.write("plzip -o {} -f -n {} -", quarkFilePath.string(),1);
 	seqPtr.reset(new redi::opstream(w2.str()));
 	w2.clear();
 
 	fmt::MemoryWriter w3;
-	w3.write("plzip -o {} -f -n {} -", offsetFilePath.string(), opts.numThreads - 3);
+	w3.write("plzip -o {} -f -n {} -", offsetFilePath.string(),1);
 	offsetPtr.reset(new redi::opstream(w3.str()));
 	w3.clear();
 
@@ -413,8 +557,10 @@ bool GZipWriter::writeEquivCounts(
 
   std::ofstream equivFile(eqFilePath.string());
 
+  //for debugging
+
   //**************previous way of writing*********
-  //std::ofstream qFile(quarkFilePath.string());
+  std::ofstream qFile(txtFilePath.string());
   //std::ofstream iFile(islandFile.string());
   //**********************************************
 
@@ -451,12 +597,13 @@ bool GZipWriter::writeEquivCounts(
   }
 
   // Number of equivalence classes
-  //iFile << eqVec.size() << '\n';
+  iFile << eqVec.size() << '\n';
 
+  int numOfEquivClasses = 0;
   for (auto& q : qVec){
 	  const TranscriptGroup& tgroup = q.first;
 	  const std::vector<uint32_t>& txps = tgroup.txps;
-	  uint64_t count= q.second.count;
+	  uint32_t count= q.second.count;
 	  auto& qcodes = q.second.qcodes;
 	  auto intervals = q.second.intervals;
 
@@ -492,10 +639,11 @@ bool GZipWriter::writeEquivCounts(
 
 
 
-
+      qFile << count << "\n";
 	  if(experiment.readLibraries().front().format().type != ReadType::SINGLE_END){
 		  leftSeqPtr->write(reinterpret_cast<char*>(&count), sizeof(count));
-		  rightSeqPtr->write(reinterpret_cast<char*>(&count), sizeof(count));
+
+		  //rightSeqPtr->write(reinterpret_cast<char*>(&count), sizeof(count));
 		  int i=0;
 
 		  int oldIsland = -1;
@@ -511,10 +659,17 @@ bool GZipWriter::writeEquivCounts(
 			  auto leftBytes = fourBitEncode(seqs[0]);
 			  auto rightBytes = fourBitEncode(seqs[1]);
 
+			  uint8_t leftChunk = leftBytes.size();
+			  uint8_t rightChunk = rightBytes.size();
+
 			  leftSeqPtr->write(reinterpret_cast<char*>(&leftBytes[0]), sizeof(leftBytes[0])* leftBytes.size());
 			  rightSeqPtr->write(reinterpret_cast<char*>(&rightBytes[0]), sizeof(rightBytes[0])* rightBytes.size());
 
-			  //qFile << qcode << "\t" << mapid[i] << ","<< relpos[i] << "," << mapid[i+1] << ","<< relpos[i+1]  << "\n";
+			  leftChunkPtr->write(reinterpret_cast<char*>(&leftChunk), sizeof(leftChunk));
+			  rightChunkPtr->write(reinterpret_cast<char*>(&rightChunk), sizeof(rightChunk));
+
+			  qFile << qS.qcode << "\t" << qS.lIslandId << ","<< qS.lpos << "," << qS.rIslandId << ","<< qS.rpos  << "\n";
+
 			  uint8_t leftIsland = qS.lIslandId;
 			  uint32_t leftPos = qS.lpos;
 			  uint8_t rightIsland = qS.rIslandId;
@@ -535,6 +690,8 @@ bool GZipWriter::writeEquivCounts(
 			  auto bytes = fourBitEncode(qcode);
 
 			  seqPtr->write(reinterpret_cast<char*>(&bytes[0]), sizeof(bytes[0])* bytes.size());
+
+			  qFile << qcode << "\t" << qS.lIslandId << "," << qS.lpos << "\n" ;
 			  //qFile << qcode << "\t" << mapid[i] << ","<< relpos[i] << "\n";
 			  uint8_t leftIsland = qS.lIslandId;
 			  uint32_t leftPos = qS.lpos;
@@ -551,18 +708,23 @@ bool GZipWriter::writeEquivCounts(
 
 	  /*
 	   * Old style encoding
+	   */
+	  /*
+	  int j = 0;
+	  qFile << count << "\n";
 	  if(experiment.readLibraries().front().format().type != ReadType::SINGLE_END){
 		  for(auto qcode : qcodes) {
-			  qFile << qcode << "\t" << mapid[i] << ","<< relpos[i] << "," << mapid[i+1] << ","<< relpos[i+1]  << "\n";
-			  i = i + 2;
+			  qFile << qcode << "\t" << mapid[j] << ","<< relpos[j] << "," << mapid[j+1] << ","<< relpos[j+1]  << "\n";
+			  j = j + 2;
 		  }
 	  }else{
 		  for(auto qcode : qcodes) {
-			  qFile << qcode << "\t" << mapid[i] << ","<< relpos[i] << "\n";
-			  i = i + 2;
+			  qFile << qcode << "\t" << mapid[j] << ","<< relpos[j] << "\n";
+			  j = j + 2;
 		  }
 	  }
 	  */
+	 /* */
 
 
 	  /*
@@ -571,91 +733,60 @@ bool GZipWriter::writeEquivCounts(
 
 	  }*/
 
-	  //iFile << intervals.size()  << "\n";
-	  uint32_t intervalSize = intervals.size();
+
+	  //************** Write islands *********************
+	  iFile << intervals.size()  << "\n";
+	  //uint32_t intervalSize = intervals.size();
 	  //iFile.write(reinterpret_cast<char*>(&intervalSize), sizeof(intervalSize));
-
 	  //iFile << intervals.size() << "," << transcripts[txps[0]].id << ","<< transcripts[txps[0]].RefLength << "\n";
-	  for(auto interval : intervals) {
-		  const char *txpSeq = transcripts[txps[0]].Sequence();
-		  //block for $ symbols
+	  /*
+	  if (numOfEquivClasses % 10000 == 0) {
 
-		  /*
-		  if(interval.first == interval.second){
-			  std::string txpStr("$");
-			  auto bytes = threeBitEncode(txpStr);
-			  iFile.write(reinterpret_cast<char*>(&bytes[0]), sizeof(bytes[0])* bytes.size());
-		  }else{
-			  std::string txpStr(txpSeq+interval.first,txpSeq+interval.second+1);
-			  auto bytes = threeBitEncode(txpStr);
-			  iFile.write(reinterpret_cast<char*>(&bytes[0]), sizeof(bytes[0])* bytes.size());
-		  }*/
+		  fmt::print(stderr, "\n processed {} equivalence classes (cumulative)", numOfEquivClasses);
+
+	  }
+
+	  numOfEquivClasses++;
+	  */
 
 
-		  boost::dynamic_bitset<uint8_t> bitmap;
-		  for(int ind=0 ; ind <= interval.second ; ind++){
-			switch(txpSeq[ind]) {
-				case 'A':
-					bitmap.push_back(0);
-					bitmap.push_back(0);
-					bitmap.push_back(0);
-					break;
-				case 'C':
-					bitmap.push_back(0);
-					bitmap.push_back(0);
-					bitmap.push_back(1);
-					break;
-				case 'G':
-					bitmap.push_back(0);
-					bitmap.push_back(1);
-					bitmap.push_back(0);
-					break;
-				case 'T':
-					bitmap.push_back(0);
-					bitmap.push_back(1);
-					bitmap.push_back(1);
-					break;
-				case 'N':
-					bitmap.push_back(1);
-					bitmap.push_back(0);
-					bitmap.push_back(0);
-					break;
-				case '$':
-					bitmap.push_back(1);
-					bitmap.push_back(0);
-					bitmap.push_back(1);
-					break;
-			}
-		  }
+	  const char *txpSeq = transcripts[txps[0]].Sequence();
+	  //write islands in bitmap fashion
+	  pushIslandBitmap(intervals,txpSeq,islandPtr);
 
-
-		std::vector<uint8_t> bytes;
-		bitmap.push_back(1);
-		bitmap.push_back(1);
-		bitmap.push_back(0);
-		boost::to_block_range(bitmap, std::back_inserter(bytes));
-		iFile.write(reinterpret_cast<char*>(&bytes[0]), sizeof(bytes[0])* bytes.size());
-		  /*
+	  for(auto interval:intervals){
 		  for(int ind = interval.first; ind <= interval.second;ind++)
 			  iFile << txpSeq[ind];
 		  iFile << "\n";
-		  */
-
-		  //iFile << interval.first << "\t" << interval.second << "\n";
 	  }
+
+
 	  boost::dynamic_bitset<uint8_t> bitmapD;
 	  std::vector<uint8_t> delimBytes;
 	  bitmapD.push_back(1);
 	  bitmapD.push_back(1);
 	  bitmapD.push_back(1);
 	  boost::to_block_range(bitmapD, std::back_inserter(delimBytes));
-	  iFile.write(reinterpret_cast<char*>(&delimBytes[0]), sizeof(delimBytes[0])* delimBytes.size());
+	  islandPtr->write(reinterpret_cast<char*>(&delimBytes[0]), sizeof(delimBytes[0])* delimBytes.size());
+
+	  //*****************************************************
+
 
 
 
   }
 
+	  //boost::dynamic_bitset<uint8_t> bitmapC;
+	  //std::vector<uint8_t> delimBytes;
+	  //bitmapC.push_back(1);
+	  //bitmapC.push_back(1);
+	  //bitmapC.push_back(1);
+	  //boost::to_block_range(bitmapC, std::back_inserter(delimBytes));
+	  //islandPtr->write(reinterpret_cast<char*>(&delimBytes[0]), sizeof(delimBytes[0])* delimBytes.size());
   //iFile.close();
+  //(*islandPtr) << redi::peof ;
+
+  fmt::print(stderr, "\n start writing unmapped\n");
 
   //write unmapped sequences
   if(unmapped.size() > 0){
@@ -731,6 +862,8 @@ bool GZipWriter::writeEquivCounts(
   }
 
   equivFile.close();
+
+
   return true;
 }
 

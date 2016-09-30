@@ -355,6 +355,7 @@ std::string quarkCode(
 	}
 
 	if (pos >= 0){
+		/*
 		while(counter < readSeq.size() && (pos+counter) < refLen){
 			if(readSeq[counter] == txpSeq[pos+counter] ){
 			counter++;
@@ -362,13 +363,14 @@ std::string quarkCode(
 			}else{
 				break;
 			}
-		}
-		if(match >= 31){
-			res.append("M");
-			res.append(std::to_string(match));
-			res.append(readSeq.substr(match));
-			res.append(std::to_string(ore));
-		}else{
+		}*/
+
+		//if(match >= 31){
+		//	res.append("M");
+		//	res.append(std::to_string(match));
+		//	res.append(readSeq.substr(match));
+		//	res.append(std::to_string(ore));
+		//}else{
 
 				// some k-mer down the line
 				// check all the k-mers
@@ -385,7 +387,7 @@ std::string quarkCode(
 						if(match < 3){
 							res.append((match==0?(std::string(1,readSeq[ind])):(readSeq.substr(ind-match,match+1))));
 						}else{
-							res.append("M");
+							//res.append("M");
 							res.append(std::to_string(match));
 							res.append(std::string(1,readSeq[ind]));
 						}
@@ -394,7 +396,7 @@ std::string quarkCode(
 					ind++;
 				}
 				if(match > 0){
-					res.append("M");
+					//res.append("M");
 					res.append(std::to_string(match));
 				}
 				if(ind < readSeq.size()){
@@ -402,13 +404,15 @@ std::string quarkCode(
 				}
 				res.append(orestr);
 
-		}
+		//}
 
 	}else if(pos < 0){
 		res = "";
+		res.append(std::to_string(0));
 		res.append(std::to_string(abs(pos)));
 		//res.append(":");
 		res.append(readSeq.substr(0,abs(pos)));
+		/*
 		while(abs(pos)+counter < readSeq.size() && (abs(pos)+counter) < refLen){
 				if(readSeq[counter+abs(pos)] == txpSeq[counter]){
 					counter++ ;
@@ -416,13 +420,13 @@ std::string quarkCode(
 				}else{
 					break;
 				}
-		}
-		if(match >= 31){
-			res.append("M");
-			res.append(std::to_string(match));
-			res.append(readSeq.substr(match+abs(pos)));
-			res.append(std::to_string(ore));
-		}else{
+		}*/
+		//if(match >= 31){
+		//	//res.append("M");
+		//	res.append(std::to_string(match));
+		//	res.append(readSeq.substr(match+abs(pos)));
+		//	res.append(std::to_string(ore));
+		//}else{
 
 				// some k-mer down the line
 				// check all the k-mers
@@ -436,7 +440,7 @@ std::string quarkCode(
 						if(match < 3){
 							res.append((match==0?(std::string(1,readSeq[abs(pos)+ind])):(readSeq.substr(abs(pos)+ind-match,match+1))));
 						}else{
-							res.append("M");
+							//res.append("M");
 							res.append(std::to_string(match));
 							res.append(std::string(1,readSeq[abs(pos)+ind]));
 						}
@@ -445,7 +449,7 @@ std::string quarkCode(
 					ind++;
 				}
 				if(match > 0){
-					res.append("M");
+					//res.append("M");
 					res.append(std::to_string(match));
 				}
 				if(ind+abs(pos) < readSeq.size()){
@@ -453,7 +457,7 @@ std::string quarkCode(
 				}
 				res.append(orestr);
 
-		}
+		//}
 	}
 
 
@@ -2111,6 +2115,7 @@ int mainQuantify(int argc, char* argv[]) {
         // do it here.
         //if (sopt.dumpEq) {
         gzw.writeEquivCounts(sopt, experiment, unmapped);
+        jointLog->info("Done with quark encoding: \n");
 
 
 
