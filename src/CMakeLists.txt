@@ -77,6 +77,7 @@ set(CMAKE_BUILD_WITH_INSTALL_RPATH TRUE)
 
 # Build the Sailfish library
 add_library(sailfish_core STATIC ${SAILFISH_LIB_SRCS} )
+set_target_properties(sailfish_core PROPERTIES LINKER_LANGUAGE CXX)
 
 # Build the Sailfish executable
 add_executable(sailfish ${SAILFISH_MAIN_SRCS})
