@@ -77,8 +77,8 @@ set(DECODER_SRCS BinaryDecoder.cpp)
 # Build the decoder
 add_executable(decoder ${DECODER_SRCS})
 target_link_libraries(decoder
-  ${Boost_LIBRARIES}
   ${PTHREAD_LIB}
+  ${Boost_LIBRARIES}
 )
 
 # Build the Sailfish library
