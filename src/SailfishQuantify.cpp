@@ -146,11 +146,11 @@ std::string revComp(std::string s){
     return s;
 }
 
-//template <typename JointHitsIt>
+template <typename J>
 std::string quarkCodeSingle(
 			Transcript& txp,
 			std::string& read,
-			auto& jointHitsIt){
+                        J& jointHitsIt){
 
 	const char* txpSeq = txp.Sequence();
 	//std::string txpSeq = txpSeqChar ;
@@ -270,10 +270,11 @@ std::string quarkCodeSingle(
 	return res;
 }
 
+template <typename J>
 std::string quarkCode(
 		    Transcript& txp,
             std::string& read,
-			auto& jointHitsIt,
+            J& jointHitsIt,
 			int lor,
 			std::string readHeader)
 	{
