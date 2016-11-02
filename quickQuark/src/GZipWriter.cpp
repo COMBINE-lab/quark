@@ -4,6 +4,8 @@
 #include <thread>
 #include <memory>
 #include <functional>
+#include <stdio.h>
+#include <unistd.h>
 
 #include "cereal/archives/json.hpp"
 #include "spdlog/details/format.h"
@@ -481,6 +483,7 @@ bool GZipWriter::writeEquivCounts(
   bfs::path offsetFilePath_2  = auxDir/ "offset_2.quark";
   bfs::path chunkFilePath_1  = auxDir/ "chunk_1.quark";
   bfs::path chunkFilePath_2  = auxDir/ "chunk_2.quark";
+  //bfs::path mince  = auxDir/ "chunk_2.quark";
 
 
 
@@ -496,6 +499,9 @@ bool GZipWriter::writeEquivCounts(
   //for single end
   bfs::path quarkFilePath = auxDir/ "reads.quark";
   bfs::path offsetFilePath = auxDir/ "offset.quark";
+
+  //debug
+  //bfs::path normalSeq = auxDir/"mapped.reads";
 
 
   pstream_ptr seqPtr(nullptr, closeStreamDeleter("seqPtr"));
@@ -561,6 +567,7 @@ bool GZipWriter::writeEquivCounts(
 
   //**************previous way of writing*********
   std::ofstream qFile(txtFilePath.string());
+  //std::ofstream seqFile(normalSeq.string());
   //std::ofstream iFile(islandFile.string());
   //**********************************************
 
@@ -735,7 +742,7 @@ bool GZipWriter::writeEquivCounts(
 
 
 	  //************** Write islands *********************
-	  iFile << intervals.size()  << "\n";
+	  //iFile << intervals.size()  << "\n";
 	  //uint32_t intervalSize = intervals.size();
 	  //iFile.write(reinterpret_cast<char*>(&intervalSize), sizeof(intervalSize));
 	  //iFile << intervals.size() << "," << transcripts[txps[0]].id << ","<< transcripts[txps[0]].RefLength << "\n";
@@ -754,10 +761,13 @@ bool GZipWriter::writeEquivCounts(
 	  //write islands in bitmap fashion
 	  pushIslandBitmap(intervals,txpSeq,islandPtr);
 
+	  //iFile << intervals.size()  << "\n";
+	  iFile << intervals.size() << "," << transcripts[txps[0]].id << ","<< transcripts[txps[0]].RefLength << "\n";
 	  for(auto interval:intervals){
-		  for(int ind = interval.first; ind <= interval.second;ind++)
-			  iFile << txpSeq[ind];
-		  iFile << "\n";
+		  //for(int ind = interval.first; ind <= interval.second;ind++)
+			//  iFile << txpSeq[ind];
+		  //iFile <<"\n";
+		  iFile << interval.first << "\t" << interval.second <<"\n";
 	  }
 
 
@@ -776,6 +786,12 @@ bool GZipWriter::writeEquivCounts(
 
   }
 
+
+  fmt::MemoryWriter w5;
+  w5.write("plzip -k -f -n 10 {}",islandTxtFile.string());
+  std::system(w5.c_str());
+  w5.clear();
+
 	  //boost::dynamic_bitset<uint8_t> bitmapC;
 	  //std::vector<uint8_t> delimBytes;
 	  //bitmapC.push_back(1);
@@ -788,6 +804,8 @@ bool GZipWriter::writeEquivCounts(
 
   fmt::print(stderr, "\n start writing unmapped\n");
 
+  bfs::path minceScriptFile = auxDir/"run_mince.sh";
+  std::ofstream minceScript(minceScriptFile.string());
   //write unmapped sequences
   if(unmapped.size() > 0){
 	  int uid = 0;
@@ -795,6 +813,22 @@ bool GZipWriter::writeEquivCounts(
 	  if(experiment.readLibraries().front().format().type != ReadType::SINGLE_END){
 		  bfs::path unMappedFile_l = auxDir/"unmapped_1.fastq";
 		  bfs::path unMappedFile_r = auxDir/"unmapped_2.fastq";
+
+
+		  std::string mincePrefix = "unmin" ;
+
+		  //pstream_ptr unlPtr(nullptr, closeStreamDeleter("leftUnmappedPtr"));
+		  //pstream_ptr unrPtr(nullptr, closeStreamDeleter("rightUnmappedPtr"));
+
+		  fmt::MemoryWriter w1;
+		  w1.write("/home/rob/mince/bin/mince -e -l IU -1 {} -2 {} -p 10 -o {}",unMappedFile_l.string(),unMappedFile_r.string(),mincePrefix);
+
+
+		  //fmt::MemoryWriter w2;
+		  //w2.write("cd {}",auxDir.string());
+
+		  //std::cout << "\n " << w1.str() << "\n";
+
 
 		  /*
 		  bfs::path unMappedFile = auxDir/"unmapped.fa";
@@ -838,9 +872,40 @@ bool GZipWriter::writeEquivCounts(
 				  uid++;
 
 		  }
+
+
+		  char cwd[1024];
+		  if (getcwd(cwd, sizeof(cwd)) != NULL)
+		         fprintf(stdout, "Current working dir: %s\n", cwd);
+
+		  auto currDir = cwd ;
+
+
+		  //std::system(w2.c_str());
+		  //chdir(auxDir.string().c_str());
+		  minceScript << w1.str() << "\n";
+
+		  if (getcwd(cwd, sizeof(cwd)) != NULL)
+		         fprintf(stdout, "Changed working dir: %s\n", cwd);
+
+		  w1.clear();
+		  w1.write("chmod +x {}",minceScriptFile.string());
+		  std::system(w1.c_str());
+
+		  //chdir(currDir);
+
+
+		  w1.clear();
+		  //w2.clear();
 	  }else{
 		  bfs::path unMappedFile_l = auxDir/"unmapped.fastq";
+
+		  std::string mincePrefix = "unmin" ;
 		  std::ofstream uFile_l(unMappedFile_l.string());
+
+		  fmt::MemoryWriter w1;
+		  w1.write("/home/rob/mince/bin/mince -e -l U -r {} -p 10 -o {}",unMappedFile_l.string(),mincePrefix);
+
 		  for(auto seqvec : unmapped){
 			  for(auto seq : seqvec){
 				  uFile_l << "@"<<uid<< "\n";
@@ -858,7 +923,14 @@ bool GZipWriter::writeEquivCounts(
 			  }
 		  }
 
+
+		  minceScript << w1.str() << "\n";
+		  w1.clear();
+		  w1.write("chmod +x {}",minceScriptFile.string());
+		  std::system(w1.c_str());
+		  w1.clear();
 	  }
+
   }
 
   equivFile.close();

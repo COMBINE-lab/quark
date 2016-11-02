@@ -148,6 +148,130 @@ char codes[16] = {
 		'6','7','8','9'
 };
 
+
+void readCompressedSingle(std::string &ifname, std::string& ofname){
+
+	    bfs::path seqPathLeft = ifname + "aux/reads.quark.lz";
+		bfs::path offsetPathLeft = ifname + "aux/offset.quark.lz";
+		std::string islandPath = ifname + "aux/islands.txt";
+
+		std::cout << "Sequence File : { " << seqPathLeft << " }\n";
+		std::cout << "Offset File: { " << offsetPathLeft << " }\n";
+		std::cout << "Island file : { " << islandPath << " }\n";
+
+		std::ifstream iFile(islandPath);
+		std::ofstream seqLeftOut;
+		seqLeftOut.open(ofname + "1.seq");
+
+
+		fmt::MemoryWriter w;
+		w.write("plzip -d -c -n {} {}", 2, seqPathLeft.string());
+		redi::ipstream seqLeft(w.str());
+		w.clear();
+
+		w.write("plzip -d -c -n {} {}", 2, offsetPathLeft.string());
+		redi::ipstream offLeft(w.str());
+		w.clear();
+
+		int numOfEquivClasses = 0;
+		iFile >> numOfEquivClasses;
+		for(int eqNum = 0; eqNum < numOfEquivClasses; eqNum++){
+
+			printProgress(double(eqNum)/double(numOfEquivClasses));
+
+			int numOfIslands = 0;
+			iFile >> numOfIslands;
+			std::vector<std::string> islands;
+			islands.resize(numOfIslands);
+
+			for(int i=0 ; i < numOfIslands; i++){
+				iFile >> islands[i];
+			}
+
+			bool isImpLeft = false;
+			//bool isImpRight = false;
+
+			char leftOverHang;
+			//char rightOverHang;
+
+			uint32_t numOfCodes{0};
+			seqLeft.read(reinterpret_cast<char*>(&numOfCodes), sizeof(numOfCodes));
+			uint32_t codeCount{0};
+
+			while(codeCount < numOfCodes){
+				std::string leftEnc{""};
+				uint8_t leftIsland{0};
+				uint32_t leftPos{0};
+
+
+				offLeft.read(reinterpret_cast<char*>(&leftIsland), sizeof(leftIsland));
+				offLeft.read(reinterpret_cast<char*>(&leftPos), sizeof(leftPos));
+
+
+				bool endIt = false;
+
+				if(isImpLeft){
+					leftEnc.append(std::string(1,leftOverHang));
+					isImpLeft = false;
+				}
+
+				while(!endIt){
+					uint8_t temp{0};
+					seqLeft.read(reinterpret_cast<char*>(&temp), sizeof(temp));
+					uint8_t f1{0};
+					uint8_t f2{0};
+					f2 = temp >> 4;
+					f1 = temp & 0x0f ;
+					if(codes[f1] == '|' || codes[f2] == '|'){
+						//we should end it here
+						//because the line ends here
+						//std::cout << "\n should not be here for first time\n" ;
+						if(codes[f2] != '|'){
+							isImpLeft = true;
+							leftOverHang = codes[f2];
+						}else{
+							if(codes[f1] != '|')
+								leftEnc.append(std::string(1,codes[f1]));
+							isImpLeft = false;
+						}
+
+
+						//debug
+						if(leftEnc == "83ACAAAAA0|"){
+							if(codes[f1] == '|'){
+						 	    		std::cout << "\n first four bits are"<< codes[f1] << codes[f2] <<"\n";
+
+						 	    	}else{
+						 	    		std::cout << "\n last four bits are | "<< codes[f1] << codes[f2] <<"\n";
+						 	    	}
+						}
+
+						endIt = true;
+						codeCount++;
+					}else{
+						leftEnc.append(std::string(1,codes[f1]));
+						leftEnc.append(std::string(1,codes[f2]));
+					}
+				}
+
+				std::string ldecoded ;
+
+				if(islands[leftIsland] == "$"){
+					ldecoded = leftEnc ;
+				}else{
+					std::string left = "";
+					left = leftEnc.substr(0,leftEnc.size()-1);
+					ldecoded = decode(islands[leftIsland],left,leftPos);
+					std::string ore = std::string(1,leftEnc[leftEnc.size()-1]);
+					ldecoded = (ore == "0") ? revComp(ldecoded) : ldecoded ;
+				}
+				seqLeftOut << ldecoded << "\n" ;
+
+			}
+
+		}
+}
+
 void readCompressed(std::string &ifname, std::string &ofname){
 
 	    bfs::path seqPathLeft = ifname + "aux/reads_1.quark.lz";
@@ -375,11 +499,7 @@ int main(int argc, char* argv[]){
 
 
 	}else{
-		bfs::path seqPath = args[0] + "reads.quark.lz";
-		bfs::path offsetPath = args[0] + "offset.quark.lz";
-
-		bfs::path islandPath = args[0] + "islands.txt";
-
+		readCompressedSingle(args[0],args[1]);
 	}
 
 	return 0;

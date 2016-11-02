@@ -571,6 +571,9 @@ void processReadsQuasi(paired_parser* parser,
   std::mt19937 gen(rd());
   std::uniform_int_distribution<> dis(0, sfOpts.maxReadOccs);
 
+  //namespace bfs = boost::filesystem;
+
+
 
   while(true) {
     typename paired_parser::job j(*parser); // Get a job from the parser: a bunch of read (at most max_read_group)
