@@ -75,6 +75,15 @@ endif()
 
 set(CMAKE_BUILD_WITH_INSTALL_RPATH TRUE)
 
+set(DECODER_SRCS BinaryDecoder.cpp)
+
+# Build the decoder
+add_executable(decoder ${DECODER_SRCS})
+target_link_libraries(decoder
+  ${Boost_LIBRARIES}
+  ${PTHREAD_LIB}
+)
+
 # Build the Sailfish library
 add_library(sailfish_core STATIC ${SAILFISH_LIB_SRCS} )
 set_target_properties(sailfish_core PROPERTIES LINKER_LANGUAGE CXX)

@@ -15,7 +15,7 @@
 #include <boost/filesystem.hpp>
 
 #include "pstream.h"
-#include "fmt/fmt/format.h"
+#include "spdlog/details/format.h"
 
 namespace bfs = boost::filesystem ;
 
