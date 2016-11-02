@@ -26,7 +26,6 @@
 #include <numeric>
 
 #include "UtilityFunctions.hpp"
-#include "ReadKmerDist.hpp"
 #include "EmpiricalDistribution.hpp"
 
 /**
@@ -44,7 +43,6 @@ class ReadExperiment {
         transcripts_(std::vector<Transcript>()),
     	eqBuilder_(sopt.jointLog),
 		qEqBuilder_(sopt.jointLog),
-        expectedSeqBias_(constExprPow(4, readBias_.getK()), 1.0),
         expectedGC_(101, 1.0),
         observedGC_(101) {
     namespace bfs = boost::filesystem;
@@ -181,18 +179,6 @@ class ReadExperiment {
     }
 
 
-    void setExpectedSeqBias(const std::vector<double>& expectedBiasIn) {
-        expectedSeqBias_ = expectedBiasIn;
-    }
-
-    std::vector<double>& expectedSeqBias() {
-        return expectedSeqBias_;
-    }
-
-    const std::vector<double>& expectedSeqBias() const {
-        return expectedSeqBias_;
-    }
-
     void setExpectedGCBias(const std::vector<double>& expectedBiasIn) {
         expectedGC_ = expectedBiasIn;
     }
@@ -212,11 +198,6 @@ class ReadExperiment {
     std::vector<std::atomic<uint32_t>>& observedGC() {
         return observedGC_;
     }
-
-    //S_AYUSH_CODE
-    ReadKmerDist<6, std::atomic<uint32_t>>& readBias() { return readBias_; }
-    const ReadKmerDist<6, std::atomic<uint32_t>>& readBias() const { return readBias_; }
-    //T_AYUSH_CODE
 
     private:
     /**
@@ -249,13 +230,6 @@ class ReadExperiment {
     //std::unique_ptr<FragmentLengthDistribution> fragLengthDist_;
     EquivalenceClassBuilder eqBuilder_;
     QuarkEquivalenceClassBuilder qEqBuilder_ ;
-
-    //S_AYUSH_CODE
-    // Since multiple threads can touch this dist, we
-    // need atomic counters.
-    ReadKmerDist<6, std::atomic<uint32_t>> readBias_;
-    std::vector<double> expectedSeqBias_;
-    //T_AYUSH_CODE
 
     // One bin for each percentage GC content
     std::vector<std::atomic<uint32_t>> observedGC_;

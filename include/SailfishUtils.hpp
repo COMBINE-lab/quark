@@ -20,7 +20,6 @@
 
 #include "LibraryFormat.hpp"
 #include "ReadLibrary.hpp"
-#include "TranscriptGeneMap.hpp"
 #include "RapMapUtils.hpp"
 #include "Eigen/Dense"
 
@@ -76,12 +75,6 @@ namespace sailfish{
 
         size_t numberOfReadsInFastaFile(const std::string& fname);
 
-        TranscriptGeneMap transcriptGeneMapFromGTF(const std::string& fname, std::string key="gene_id");
-
-        TranscriptGeneMap readTranscriptToGeneMap( std::ifstream &ifile );
-
-        TranscriptGeneMap transcriptToGeneMapFromFasta( const std::string& transcriptsFile );
-
         /*
          * Use atomic compare-and-swap to update val to
          * val + inc (*in log-space*).  Update occurs in a loop in case other
@@ -131,8 +124,6 @@ namespace sailfish{
             val += inc;
         }
 
-
-        void aggregateEstimatesToGeneLevel(TranscriptGeneMap& tgm, boost::filesystem::path& inputPath);
 
         // NOTE: Throws an invalid_argument exception of the quant or quant_bias_corrected files do
         // not exist!

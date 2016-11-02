@@ -18,10 +18,7 @@ SailfishUtils.cpp
 SailfishStringUtils.cpp
 LibraryFormat.cpp
 TranscriptGroup.cpp
-CollapsedEMOptimizer.cpp
-CollapsedGibbsSampler.cpp
 EmpiricalDistribution.cpp
-#HDF5Writer.cpp
 GZipWriter.cpp
 xxhash.c
 ${GAT_SOURCE_DIR}/external/install/src/rapmap/RapMapFileSystem.cpp

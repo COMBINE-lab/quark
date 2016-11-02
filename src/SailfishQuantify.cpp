@@ -19,6 +19,7 @@
 #include <boost/range/irange.hpp>
 
 // TBB include
+#include "tbb/task_scheduler_init.h"
 #include "tbb/atomic.h"
 #include "tbb/blocked_range.h"
 #include "tbb/parallel_for.h"
@@ -33,24 +34,14 @@
 #include "SailfishConfig.hpp"
 #include "SailfishUtils.hpp"
 #include "SailfishIndex.hpp"
-#include "TranscriptGeneMap.hpp"
-#include "CollapsedEMOptimizer.hpp"
-#include "CollapsedGibbsSampler.hpp"
 #include "ReadLibrary.hpp"
 #include "RapMapUtils.hpp"
 #include "HitManager.hpp"
 #include "SASearcher.hpp"
 #include "SACollector.hpp"
 #include "EmpiricalDistribution.hpp"
-#include "TextBootstrapWriter.hpp"
 #include "GZipWriter.hpp"
-//#include "HDF5Writer.hpp"
-
 #include "spdlog/spdlog.h"
-
-//S_AYUSH_CODE
-#include "ReadKmerDist.hpp"
-//T_AYUSH_CODE
 
 /****** QUASI MAPPING DECLARATIONS *********/
 using MateStatus = rapmap::utils::MateStatus;
@@ -528,9 +519,9 @@ void processReadsQuasi(paired_parser* parser,
   auto& qEqBuilder = readExp.quarkEqClassBuilder();
   auto& transcripts = readExp.transcripts();
 
-  auto& readBias = readExp.readBias();
-  auto& observedGC = readExp.observedGC();
-  bool estimateGCBias = sfOpts.gcBiasCorrect;
+  //auto& readBias = readExp.readBias();
+  //auto& observedGC = readExp.observedGC();
+  bool estimateGCBias = false;
   bool strictIntersect = sfOpts.strictIntersect;
   bool discardOrphans = !sfOpts.allowOrphans;
 
@@ -677,8 +668,8 @@ void processReadsQuasi(paired_parser* parser,
 
             double auxSumAll = 0.0;
             double auxSumCompat = 0.0;
-            bool needBiasSample = sfOpts.biasCorrect;
-            bool needGCSample = sfOpts.gcBiasCorrect;
+            bool needBiasSample = false;//sfOpts.biasCorrect;
+            bool needGCSample = false;//sfOpts.gcBiasCorrect;
 
 	    //auto sampleIndex = dis(gen) % jointHits.size();
 	    size_t hitIndex{0};
@@ -688,28 +679,6 @@ void processReadsQuasi(paired_parser* parser,
 
                 int32_t pos = static_cast<int32_t>(h.pos);
                 auto dir = sailfish::utils::boolToDirection(h.fwd);
-
-                // If bias correction is turned on, and we haven't sampled a mapping
-                // for this read yet, and we haven't collected the required number of
-                // samples overall.
-                if(needBiasSample and sfOpts.numBiasSamples > 0){
-                    // the "start" position is the leftmost position if
-                    // we hit the forward strand, and the leftmost
-                    // position + the read length if we hit the reverse complement
-                    int32_t startPos = h.fwd ? pos : pos + h.readLen;
-
-                    if (startPos > 0 and startPos < txp.RefLength) {
-                        const char* txpStart = txp.Sequence();
-                        const char* readStart = txpStart + startPos;
-                        const char* txpEnd = txpStart+ txp.RefLength;
-
-                        bool success = readBias.update(txpStart, readStart, txpEnd, dir);
-                        if (success) {
-                            sfOpts.numBiasSamples -= 1;
-                            needBiasSample = false;
-                        }
-                    }
-                }
 
                 if (!isPaired) {
                     if (remainingFLOps <= 0 and meanFragLen < 0) {
@@ -798,21 +767,6 @@ void processReadsQuasi(paired_parser* parser,
 		// Gather GC samples if we need them
 		bool isPaired = h.mateStatus == rapmap::utils::MateStatus::PAIRED_END_PAIRED;
 		bool failedSample{false};
-		if (needGCSample and isPaired and estimateGCBias) {// and hitIndex == sampleIndex) {
-		  auto transcriptID = h.transcriptID();
-		  auto& txp = transcripts[transcriptID];
-
-          int32_t start = std::min(h.pos, h.matePos);
-          int32_t stop = start + h.fragLen;
-
-		  if (start > 0 and stop < txp.RefLength) {
-		    int32_t gcFrac = txp.gcFrac(start, stop);
-		    observedGC[gcFrac]++;
-		    //needGCSample = false;
-		  } else {
-		    failedSample = true;
-		  }
-		}
 		//if (failedSample) { sampleIndex++; }
 
 		++hitIndex;
@@ -1145,10 +1099,6 @@ void processReadsQuasi(single_parser* parser,
 
     size_t locRead{0};
     uint64_t localUpperBoundHits{0};
-    //S_AYUSH_CODE
-    auto& readBias = readExp.readBias();
-    const char* txomeStr = sidx->seq.c_str();
-    //T_AYUSH_CODE
 
     bool tooManyHits{false};
     size_t readLen{0};
@@ -1228,8 +1178,6 @@ void processReadsQuasi(single_parser* parser,
                 double auxSumAll = 0.0;
                 double auxSumCompat = 0.0;
 
-                bool needBiasSample = sfOpts.biasCorrect;
-
                 for (auto& h : jointHits) {
                     auto transcriptID = h.transcriptID();
                     auto& txp = transcripts[transcriptID];
@@ -1239,32 +1187,6 @@ void processReadsQuasi(single_parser* parser,
 
                     // Note: sidx is a pointer to type IndexT, not RapMapSAIndex!
 
-                    // If bias correction is turned on, and we haven't sampled a mapping
-                    // for this read yet, and we haven't collected the required number of
-                    // samples overall.
-                    if(needBiasSample and sfOpts.numBiasSamples > 0){
-                        // the "start" position is the leftmost position if
-                        // we hit the forward strand, and the leftmost
-                        // position + the read length if we hit the reverse complement
-                        int32_t startPos = h.fwd ? pos : pos + h.readLen;
-
-                        if (startPos > 0 and startPos < txp.RefLength) {
-                            /*
-                            const char* txpStart = txomeStr + sidx->txpOffsets[h.tid];
-                            const char* readStart = txpStart + startPos; // is this correct?
-                            const char* txpEnd = txpStart + sidx->txpLens[h.tid]; //??
-                            */
-
-                            const char* txpStart = txp.Sequence();
-                            const char* readStart = txpStart + startPos; // is this correct?
-                            const char* txpEnd = txpStart+ txp.RefLength;
-                            bool success = readBias.update(txpStart, readStart, txpEnd, dir);
-                            if (success) {
-                                sfOpts.numBiasSamples -= 1;
-                                needBiasSample = false;
-                            }
-                        }
-                    }
 
                     // True if the read is compatible with the
                     // expected library type; false otherwise.
@@ -2033,6 +1955,7 @@ int mainQuantify(int argc, char* argv[]) {
 
         std::vector<std::vector<std::string>> unmapped;
 
+        tbb::task_scheduler_init tbbScheduler(sopt.numThreads);
         std::mutex ioMutex;
 		fmt::print(stderr, "\n\n");
 		quasiMapReads(experiment, sopt, ioMutex, unmapped);
