@@ -1,6 +1,0 @@
-python eqgraph_v1.py -i /mnt/scratch1/hirak/RapCompressData/smalltestbed/quarksailfish/sailfish_quant/aux/eq_classes.txt -g /mnt/scratch1/hirak/RapCompressData/smalltestbed/graph.net -o /mnt/scratch1/hirak/RapCompressData/smalltestbed/eq2readID.txt
-g++ -g -std=c++11 -I../boost_1_60_0/ randomtrav.cpp -o randomtrav -L../boost_1_60_0/lib -lboost_filesystem -lboost_system
-g++ -I./ -O3 -w -std=c++11 Kmer.cpp hash.cpp kseqchunk.cpp cigargen.cc -o kseqchunk -lz
-
-./randomtrav /mnt/scratch1/hirak/RapCompressData/smalltestbed/graph.net /mnt/scratch1/hirak/RapCompressData/smalltestbed/eq2readID.txt /mnt/scratch1/hirak/RapCompressData/smalltestbed/nodes.order
-./kseqchunk /mnt/scratch1/hirak/RapCompressData/smalltestbed/reads/testr1.fq /mnt/scratch1/hirak/RapCompressData/smalltestbed/reads/testr2.fq /mnt/scratch1/hirak/RapCompressData/smalltestbed/nodes.order /mnt/scratch1/hirak/RapCompressData/smalltestbed/tmpeq.aux /mnt/scratch1/hirak/RapCompressData/smalltestbed/quarksailfish/sailfish_quant/aux/unmapped_read.txt /mnt/scratch1/hirak/RapCompressData/smalltestbed/

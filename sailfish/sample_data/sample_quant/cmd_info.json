@@ -1,8 +1,0 @@
-{
-    "sf_version": "0.9.2",
-    "index": "sample_index",
-    "libType": "IU",
-    "mates1": "reads_1.fastq",
-    "mates2": "reads_2.fastq",
-    "output": "sample_quant"
-}
