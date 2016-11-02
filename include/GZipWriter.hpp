@@ -20,7 +20,7 @@ class GZipWriter {
 
     ~GZipWriter();
 
-    bool writeEquivCounts(
+    bool writeEncoding(
         const SailfishOpts& opts,
         ReadExperiment& experiment,
 		std::vector<std::vector<std::string>>& unmapped);

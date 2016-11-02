@@ -445,7 +445,7 @@ std::function<void(redi::opstream*)> closeStreamDeleter(std::string s)  {
 	  return deleter;
 }
 
-bool GZipWriter::writeEquivCounts(
+bool GZipWriter::writeEncoding(
     const SailfishOpts& opts,
     ReadExperiment& experiment,
 	std::vector<std::vector<std::string>>& unmapped) {

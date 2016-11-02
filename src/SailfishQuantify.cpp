@@ -1856,17 +1856,7 @@ int mainQuantify(int argc, char* argv[]) {
         ("mates2,2", po::value<vector<string>>(&mate2ReadFiles)->multitoken(),
          "File containing the #2 mates")
         ("threads,p", po::value<uint32_t>(&(sopt.numThreads))->default_value(sopt.numThreads), "The number of threads to use concurrently.")
-        ("output,o", po::value<std::string>()->required(), "Output quantification file.")
-        ("geneMap,g", po::value<string>(), "File containing a mapping of transcripts to genes.  If this file is provided "
-         "Sailfish will output both quant.sf and quant.genes.sf files, where the latter "
-         "contains aggregated gene-level abundance estimates.  The transcript to gene mapping "
-         "should be provided as either a GTF file, or a in a simple tab-delimited format "
-         "where each line contains the name of a transcript and the gene to which it belongs "
-         "separated by a tab.  The extension of the file is used to determine how the file "
-         "should be parsed.  Files ending in \'.gtf\' or \'.gff\' are assumed to be in GTF "
-         "format; files with any other extension are assumed to be in the simple format.")
-       ("biasCorrect", po::value(&(sopt.biasCorrect))->zero_tokens(), "Perform sequence-specific bias correction")
-       ("gcBiasCorrect", po::value(&(sopt.gcBiasCorrect))->zero_tokens(), "[experimental] Perform fragment GC bias correction");
+        ("output,o", po::value<std::string>()->required(), "Output quantification file.");
 
 
 
@@ -1877,10 +1867,6 @@ int mainQuantify(int argc, char* argv[]) {
      			"e.g. bootstraps, bias parameters, etc. will be written.")
         ("dumpEq", po::bool_switch(&(sopt.dumpEq))->default_value(false), "Dump the equivalence class counts "
             "that were computed during quasi-mapping")
-        ("gcSizeSamp", po::value<std::uint32_t>(&(sopt.gcSampFactor))->default_value(1), "The value by which to down-sample transcripts when representing the "
-             "GC content.  Larger values will reduce memory usage, but may decrease the fidelity of bias modeling results.")
-        ("gcSpeedSamp", po::value<std::uint32_t>(&(sopt.pdfSampFactor))->default_value(1), "The value at which the fragment length PMF is down-sampled "
-             "when evaluating GC fragment bias.  Larger values speed up effective length correction, but may decrease the fidelity of bias modeling results.")
         ("strictIntersect", po::bool_switch(&(sopt.strictIntersect))->default_value(false), "Modifies how orphans are "
             "assigned.  When this flag is set, if the intersection of the quasi-mappings for the left and right "
             "is empty, then all mappings for the left and all mappings for the right read are reported as orphaned "
@@ -1891,10 +1877,6 @@ int mainQuantify(int argc, char* argv[]) {
         ("maxFragLen", po::value<uint32_t>(&(sopt.maxFragLen))->default_value(1000), "The maximum length of a fragment to consider when "
             "building the empirical fragment length distribution")
       	//("readEqClasses", po::value<std::string>(&eqClassFile), "Read equivalence classes in directly")
-        ("txpAggregationKey", po::value<std::string>(&txpAggregationKey)->default_value("gene_id"), "When generating the gene-level estimates, "
-            "use the provided key for aggregating transcripts.  The default is the \"gene_id\" field, but other fields (e.g. \"gene_name\") might "
-            "be useful depending on the specifics of the annotation being used.  Note: this option only affects aggregation when using a "
-            "GTF annotation; not an annotation in \"simple\" format.")
         ("ignoreLibCompat", po::bool_switch(&(sopt.ignoreLibCompat))->default_value(false), "Disables "
              "strand-aware processing completely.  All hits are considered \"valid\".")
         ("enforceLibCompat", po::bool_switch(&(sopt.enforceLibCompat))->default_value(false), "Enforces "
@@ -1907,7 +1889,7 @@ int mainQuantify(int argc, char* argv[]) {
         ("discardOrphans", po::bool_switch(&discardOrphans)->default_value(false), "This option will discard orphaned fragments.  This only "
             "has an effect on paired-end input, but enabling this option will discard, rather than count, any reads where only one of the paired "
             "fragments maps to a transcript.")
-        ("numBiasSamples", po::value<int32_t>(&numBiasSamples)->default_value(1000000),
+        ("numBiasSamples", po::value<int32_t>(&numBiasSamples)->default_value(0),
             "Number of fragment mappings to use when learning the sequence-specific bias model.")
         ("numFragSamples", po::value<int32_t>(&(sopt.numFragSamples))->default_value(10000),
             "Number of fragments from unique alignments to sample when building the fragment "
@@ -1919,22 +1901,12 @@ int mainQuantify(int argc, char* argv[]) {
         ("fldSD" , po::value<size_t>(&(sopt.fragLenDistPriorSD))->default_value(80),
             "The standard deviation used in the fragment length distribution for single-end quantification or "
             "when an empirical distribution cannot be learned.")
-        ("maxReadOcc,w", po::value<uint32_t>(&(sopt.maxReadOccs))->default_value(200), "Reads \"mapping\" to more than this many places won't be considered.")
-        ("noEffectiveLengthCorrection", po::bool_switch(&(sopt.noEffectiveLengthCorrection))->default_value(false), "Disables "
-         "effective length correction when computing the probability that a fragment was generated "
-         "from a transcript.  If this flag is passed in, the fragment length distribution is not taken "
-         "into account when computing this probability.")
-        ("useVBOpt", po::bool_switch(&(sopt.useVBOpt))->default_value(false), "Use the Variational Bayesian EM rather than the "
-     			"traditional EM algorithm to estimate transcript abundances.")
-        ("numGibbsSamples", po::value<uint32_t>(&(sopt.numGibbsSamples))->default_value(0), "[*super*-experimental]: Number of Gibbs sampling rounds to "
-            "perform.")
-        ("numBootstraps", po::value<uint32_t>(&(sopt.numBootstraps))->default_value(0), "[*super*-experimental]: Number of bootstrap samples to generate. Note: "
-            "This is mutually exclusive with Gibbs sampling.");
+        ("maxReadOcc,w", po::value<uint32_t>(&(sopt.maxReadOccs))->default_value(200), "Reads \"mapping\" to more than this many places won't be considered.");
 
-    po::options_description all("sailfish quant options");
+    po::options_description all("quark encode options");
     all.add(generic).add(advanced);
 
-    po::options_description visible("sailfish quant options");
+    po::options_description visible("quark encode options");
     visible.add(generic).add(advanced);
 
     po::variables_map vm;
@@ -1946,10 +1918,9 @@ int mainQuantify(int argc, char* argv[]) {
 
         if ( vm.count("help") ) {
             auto hstring = R"(
-                Quant
+                Encode
                 ==========
-                Perform quasi-mapping-based estimation of
-                transcript abundance from RNA-seq reads
+                Perform semi-reference based compression from RNA-seq data. 
                 )";
             std::cout << hstring << std::endl;
             std::cout << visible << std::endl;
@@ -1983,18 +1954,6 @@ int mainQuantify(int argc, char* argv[]) {
         std::time_t result = std::time(NULL);
         std::string runStartTime(std::asctime(std::localtime(&result)));
         runStartTime.pop_back(); // remove the newline
-
-        // Verify the geneMap before we start doing any real work.
-        bfs::path geneMapPath;
-        if (vm.count("geneMap")) {
-            // Make sure the provided file exists
-            geneMapPath = vm["geneMap"].as<std::string>();
-            if (!bfs::exists(geneMapPath)) {
-                std::cerr << "Could not find transcript <=> gene map file " << geneMapPath << "\n";
-                std::cerr << "Exiting now: please either omit the \'geneMap\' option or provide a valid file\n";
-                return 1;
-            }
-        }
 
         bfs::path outputDirectory(vm["output"].as<std::string>());
         bfs::create_directories(outputDirectory);
@@ -2057,37 +2016,7 @@ int mainQuantify(int argc, char* argv[]) {
 
         jointLog->info("parsing read library format");
 
-        if (sopt.numGibbsSamples > 0 and sopt.numBootstraps > 0) {
-            jointLog->error("You cannot perform both Gibbs sampling and bootstrapping. "
-                            "Please choose one.");
-            jointLog->flush();
-            spdlog::drop_all();
-            return 1;
-        }
-
         vector<ReadLibrary> readLibraries = sailfish::utils::extractReadLibraries(orderedOptions);
-
-        // Verify that no inconsistent options were provided
-        {
-          if (sopt.biasCorrect and sopt.gcBiasCorrect) {
-            sopt.jointLog->error("Enabling both sequence-specific and fragment GC bias correction "
-                "simultaneously is not yet supported. Please disable one of these options.");
-            return 1;
-          }
-          if (sopt.gcBiasCorrect) {
-            for (auto& rl : readLibraries) {
-              // We can't use fragment GC correction with single
-              // end reads yet.
-              if (rl.format().type == ReadType::SINGLE_END) {
-                jointLog->warn("Fragment GC bias correction is currently "
-                    "only implemented for paired-end libraries. "
-                    "It is being disabled");
-                sopt.gcBiasCorrect = false;
-                break;
-              }
-            }
-          }
-        } // Done verifying options
 
         SailfishIndexVersionInfo versionInfo;
         boost::filesystem::path versionPath = indexDirectory / "versionInfo.json";
@@ -2117,96 +2046,11 @@ int mainQuantify(int argc, char* argv[]) {
         // If we are dumping the equivalence classes, then
         // do it here.
         //if (sopt.dumpEq) {
-        gzw.writeEquivCounts(sopt, experiment, unmapped);
+        gzw.writeEncoding(sopt, experiment, unmapped);
         jointLog->info("Done with quark encoding: \n");
-
-
-
-        // Now that we have our reads mapped and our equivalence
-        // classes, iterate the abundance estimates to convergence.
-        CollapsedEMOptimizer optimizer;
-        jointLog->info("Starting optimizer:\n");
-        bool optSuccess = optimizer.optimize(experiment, sopt, 0.01, 10000);
-        if (!optSuccess) {
-            jointLog->error("Encountered error during optimization.\n"
-                            "This should not happen.\n"
-                            "Please file a bug report on GitHub.\n");
-            return 1;
-        }
-        jointLog->info("Finished optimizer");
-
-        size_t tnum{0};
-
-        jointLog->info("writing output \n");
-
-        bfs::path estFilePath = outputDirectory / "quant.sf";
 
         commentStream << "# [ mapping rate ] => { " << experiment.mappingRate() * 100.0 << "\% }\n";
         commentString = commentStream.str();
-
-
-	/*
-	bfs::path hdfFilePath = outputDirectory / "quant.h5";
-	HDF5Writer h5w(hdfFilePath, jointLog);
-	h5w.writeMeta(sopt, experiment);
-	h5w.writeAbundances(sopt, experiment);
-        sailfish::utils::writeAbundancesFromCollapsed(
-                sopt, experiment, estFilePath, commentString);
-	*/
-
-	// Write the main results
-	gzw.writeAbundances(sopt, experiment);
-	// Write meta-information about the run
-	gzw.writeMeta(sopt, experiment, runStartTime);
-
-        if (sopt.numGibbsSamples > 0) {
-            jointLog->info("Starting Gibbs Sampler");
-            CollapsedGibbsSampler sampler;
-	    // The function we'll use as a callback to write samples
-	    std::function<bool(const std::vector<int>&)> bsWriter =
-		[&gzw](const std::vector<int>& alphas) -> bool {
-		    return gzw.writeBootstrap(alphas);
-	    	};
-
-            bool sampleSuccess = sampler.sample(experiment, sopt,
-                                                bsWriter,
-                                                sopt.numGibbsSamples);
-            if (!sampleSuccess) {
-                jointLog->error("Encountered error during Gibb sampling .\n"
-                                "This should not happen.\n"
-                                "Please file a bug report on GitHub.\n");
-                return 1;
-            }
-            jointLog->info("Finished Gibbs Sampler");
-        } else if (sopt.numBootstraps > 0) {
-	    // The function we'll use as a callback to write samples
-	    std::function<bool(const std::vector<double>&)> bsWriter =
-		[&gzw](const std::vector<double>& alphas) -> bool {
-		    return gzw.writeBootstrap(alphas);
-	    	};
-            bool bootstrapSuccess = optimizer.gatherBootstraps(
-                                              experiment, sopt,
-					      bsWriter, 0.01, 10000);
-            if (!bootstrapSuccess) {
-                jointLog->error("Encountered error during bootstrapping.\n"
-                                "This should not happen.\n"
-                                "Please file a bug report on GitHub.\n");
-                return 1;
-            }
-        }
-
-        /** If the user requested gene-level abundances, then compute those now **/
-        if (vm.count("geneMap")) {
-            try {
-                sailfish::utils::generateGeneLevelEstimates(geneMapPath,
-                        outputDirectory,
-                        txpAggregationKey);
-            } catch (std::invalid_argument& e) {
-                fmt::print(stderr, "Error: [{}] when trying to compute gene-level "\
-                        "estimates. The gene-level file(s) may not exist",
-                        e.what());
-            }
-        }
 
         jointLog->flush();
         logFile.close();
