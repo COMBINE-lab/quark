@@ -761,13 +761,13 @@ bool GZipWriter::writeEncoding(
 	  //write islands in bitmap fashion
 	  pushIslandBitmap(intervals,txpSeq,islandPtr);
 
-	  //iFile << intervals.size()  << "\n";
-	  iFile << intervals.size() << "," << transcripts[txps[0]].id << ","<< transcripts[txps[0]].RefLength << "\n";
+	  iFile << intervals.size()  << "\n";
+	  //iFile << intervals.size() << "," << transcripts[txps[0]].id << ","<< transcripts[txps[0]].RefLength << "\n";
 	  for(auto interval:intervals){
-		  //for(int ind = interval.first; ind <= interval.second;ind++)
-			//  iFile << txpSeq[ind];
-		  //iFile <<"\n";
-		  iFile << interval.first << "\t" << interval.second <<"\n";
+		  for(int ind = interval.first; ind <= interval.second;ind++)
+			  iFile << txpSeq[ind];
+		  iFile <<"\n";
+		  //iFile << interval.first << "\t" << interval.second <<"\n";
 	  }
 
 

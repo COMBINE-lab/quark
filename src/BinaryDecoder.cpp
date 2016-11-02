@@ -483,7 +483,7 @@ int main(int argc, char* argv[]){
 	std::cout << "\n Starting Quark Decoder Module ...\n";
 	std::cout << "\n Input directory : " << args[0];
 	std::cout << "\n Output directory : " << args[1];
-	std::cout << "\n Library type : " << args[2];
+	//std::cout << "\n Library type : " << args[2];
 
 	if(args[2] == "S"){
 		std::cout << "\n Library type : SINGLE END\n" ;
@@ -502,6 +502,7 @@ int main(int argc, char* argv[]){
 		readCompressedSingle(args[0],args[1]);
 	}
 
+	std::cout<< "\n";
 	return 0;
 
 }
