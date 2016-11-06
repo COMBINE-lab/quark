@@ -1,9 +1,9 @@
 #Quark 
 
 semi-reference-based short read compression
-<p align="center">
-![Quark](qimage.001.png)
-</p>
+
+![Quark](qimage.001.png?style=centerme)
+
 
 ##Assumption
 The read files are in gzipped format i.e. they should be of the form 1.fastq.gz and 2.fastq.gz
