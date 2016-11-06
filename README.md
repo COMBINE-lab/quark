@@ -2,7 +2,9 @@
 
 semi-reference-based short read compression
 
-![Quark](qimage.001.png?style=centerme)
+<p align="center">
+<img src="qimage.001.png">
+</p>
 
 
 ##Assumption
