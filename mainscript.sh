@@ -1,13 +1,27 @@
 usage() { echo "Usage $0 [-1 left end] [-2 right end]/[-r single end read] [-i path to sailfish index] [-p #threads] [-o output Dir]" 1>&2; 
           echo "Usage $0 -d [to decode] -l [P/S] [-i input directory] [-p #threads] [-o output Dir]" 1>&2; 
+          echo "Usage $0 index -t <transcript file> -o <out dir> -k <kmer length>"
           echo "-h for usage"
           exit 1; 
         }
 
+
+sailfish=$PWD/build/src/sailfish
+decoder=$PWD/build/src/decoder
+mince=$PWD/Mince-Binaries-0.6.1/mince_linux
+
+makeindex() {
+    echo "$sailfish index -t $1 -o $2 -k $3";
+    $sailfish index -t $1 -o $2 -k $3;
+    exit 1;
+}
+
 echo "$#"
 decode=false
 
-[[ $1 == "-h" || "$#" == 0 ]] && usage
+[[ $1 == "-h" || "$#" == 0 ]] && usage 
+
+[[ $1 == "index" ]] && makeindex $3 $5 $7
 
 if [[ $1 == "-d" ]]; then
     decode=true
@@ -75,9 +89,6 @@ else
 fi
 
 
-sailfish=$PWD/build/src/sailfish
-decoder=$PWD/build/src/decoder
-mince=$PWD/Mince-Binaries-0.6.1/mince_linux
 
 pair=false
 if [ "$#" -eq 10 ]; then
