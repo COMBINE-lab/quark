@@ -1,7 +1,22 @@
 #quark
 
 semi-reference-based short read compression
-Run after building the sailfish index
+
+
+To see the options
+
+```{r, engine='bash', encode and decode}
+./mainscript.sh -h
+
+```
+
+To build the index
+
+
+```{r, engine='bash', encode and decode}
+./mainscript.sh index -t <transcript fasta> -o <out dir> -k <k mer length>
+
+```
 
 To Encode
 
