@@ -274,12 +274,19 @@ void readCompressedSingle(std::string &ifname, std::string& ofname){
 
 void readCompressed(std::string &ifname, std::string &ofname){
 
-	    bfs::path seqPathLeft = ifname + "aux/reads_1.quark.lz";
-		bfs::path seqPathRight = ifname + "aux/reads_2.quark.lz";
-		bfs::path offsetPathLeft = ifname + "aux/offset_1.quark.lz";
-		bfs::path offsetPathRight = ifname + "aux/offset_2.quark.lz";
+	    bfs::path seqPathLeft = ifname + "/reads_1.quark.lz";
+		bfs::path seqPathRight = ifname + "/reads_2.quark.lz";
+		bfs::path offsetPathLeft = ifname + "/offset_1.quark.lz";
+		bfs::path offsetPathRight = ifname + "/offset_2.quark.lz";
 
-		std::string islandPath = ifname + "aux/islands.txt";
+		std::string islandPath = ifname + "/islands.txt";
+
+
+
+		std::string unmapped_1 = ifname + "/um_1.fa";
+		std::string unmapped_2 = ifname + "/um_2.fa";
+		std::ifstream um1(unmapped_1);
+		std::ifstream um2(unmapped_2);
 
 
 		std::cout << "Left end : { " << seqPathLeft << " }\n";
@@ -289,10 +296,20 @@ void readCompressed(std::string &ifname, std::string &ofname){
 		std::cout << "Island file : { " << islandPath << " }\n";
 
 		std::ifstream iFile(islandPath);
+
+		//set up output directory
+		bfs::path outdir(ofname);
+		if(!(bfs::exists(outdir))){
+			if(bfs::create_directory(ofname))
+				std::cout << "Output would be written in "<<outdir<<"\n";
+		}
 		std::ofstream seqLeftOut;
 		seqLeftOut.open(ofname + "1.seq");
 		std::ofstream seqRightOut;
 		seqRightOut.open(ofname + "2.seq");
+
+
+
 
 		fmt::MemoryWriter w;
 		w.write("plzip -d -c -n {} {}", 2, seqPathLeft.string());
@@ -315,6 +332,32 @@ void readCompressed(std::string &ifname, std::string &ofname){
 
 		int numOfEquivClasses = 0;
 		iFile >> numOfEquivClasses;
+		int numOfReads = 0;
+
+
+		std::string content;
+		std::string head;
+		while(um1 >> head){
+			um1 >> content;
+			std::string quality(content.size(),'I');
+			seqLeftOut << "@" << numOfReads << "\n";
+			seqLeftOut << content << "\n" ;
+			seqLeftOut << "+" << "\n";
+			seqLeftOut << quality << "\n";
+			numOfReads++;
+		}
+		numOfReads = 0;
+		while(um2 >> head){
+			um2 >> content;
+			std::string quality(content.size(),'I');
+			seqRightOut << "@" << numOfReads << "\n";
+			seqRightOut << content << "\n" ;
+			seqRightOut << "+" << "\n";
+			seqRightOut << quality << "\n";
+			numOfReads++;
+		}
+
+
 		for(int eqNum = 0; eqNum < numOfEquivClasses; eqNum++){
 
 			printProgress(double(eqNum)/double(numOfEquivClasses));
@@ -345,6 +388,9 @@ void readCompressed(std::string &ifname, std::string &ofname){
 			uint32_t codeCount{0};
 
 			while(codeCount < numOfCodes){
+
+				numOfReads++;
+
 				std::string leftEnc{""};
 				std::string rightEnc{""};
 				uint8_t leftIsland{0};
@@ -468,13 +514,23 @@ void readCompressed(std::string &ifname, std::string &ofname){
 					rdecoded = (ore == "0") ? revComp(rdecoded) : rdecoded ;
 				}
 
+
+				std::string quality(ldecoded.size(),'I');
+				seqLeftOut << "@" << numOfReads << "\n";
 				seqLeftOut << ldecoded << "\n" ;
+				seqLeftOut << "+" << "\n";
+				seqLeftOut << quality << "\n";
+
+				seqRightOut << "@" << numOfReads << "\n";
 				seqRightOut << rdecoded << "\n" ;
+				seqRightOut << "+" << "\n";
+				seqRightOut << quality << "\n";
 
 			}
-
-
 		}
+
+
+
 }
 
 
