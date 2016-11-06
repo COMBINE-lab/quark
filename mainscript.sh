@@ -117,13 +117,12 @@ if [ "$decode" = false ];then
     fi
 else
     if [ "$decodepair" = true ];then
-        plzip -d $inputdir/islands.txt.lz -n 10
+        plzip -k -d $inputdir/islands.txt.lz
         cd $inputdir
         $mince -d -i m_ -o um_
-        mv um_* $out/
-        rm um_*
         cd -
         $decoder $inputdir $out P
+        rm $inputdir/um_*
     else
         $mince -d -i $out/aux/m_ -o $out/aux/um_
         $decoder $inputdir $out S

@@ -787,6 +787,7 @@ bool GZipWriter::writeEncoding(
   }
 
 
+  iFile.close();
   fmt::MemoryWriter w5;
   w5.write("plzip -k -f -n 10 {}",islandTxtFile.string());
   std::system(w5.c_str());

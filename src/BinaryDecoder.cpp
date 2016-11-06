@@ -151,9 +151,9 @@ char codes[16] = {
 
 void readCompressedSingle(std::string &ifname, std::string& ofname){
 
-	    bfs::path seqPathLeft = ifname + "aux/reads.quark.lz";
-		bfs::path offsetPathLeft = ifname + "aux/offset.quark.lz";
-		std::string islandPath = ifname + "aux/islands.txt";
+	    bfs::path seqPathLeft = ifname + "reads.quark.lz";
+		bfs::path offsetPathLeft = ifname + "offset.quark.lz";
+		std::string islandPath = ifname + "islands.txt";
 
 		std::cout << "Sequence File : { " << seqPathLeft << " }\n";
 		std::cout << "Offset File: { " << offsetPathLeft << " }\n";
@@ -304,9 +304,9 @@ void readCompressed(std::string &ifname, std::string &ofname){
 				std::cout << "Output would be written in "<<outdir<<"\n";
 		}
 		std::ofstream seqLeftOut;
-		seqLeftOut.open(ofname + "1.seq");
+		seqLeftOut.open(ofname + "1.fastq");
 		std::ofstream seqRightOut;
-		seqRightOut.open(ofname + "2.seq");
+		seqRightOut.open(ofname + "2.fastq");
 
 
 
