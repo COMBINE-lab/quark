@@ -8,6 +8,17 @@ The read files are in gzipped format i.e. they should be of the form 1.fastq.gz 
 The software is tested on paired end data, single end support would be added soon!!
 
 
+##Compile
+```{r, engine='bash', encode and decode}
+git clone www.github.com/COMBINE-lab/quark.git
+cd quark
+mkdir build
+cd build
+cmake ..
+make
+cd ..
+```
+
 To see the options
 
 ```{r, engine='bash', encode and decode}
