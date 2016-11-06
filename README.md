@@ -1,6 +1,9 @@
-#quark
+#Quark 
 
 semi-reference-based short read compression
+
+##Assumption
+The read files are in gzipped format i.e. they should be of the form 1.fastq.gz and 2.fastq.gz
 
 
 To see the options
@@ -29,5 +32,13 @@ To Decode
 
 ```{r, engine='bash', encode and decode}
 ./mainscript.sh -d decode -l [P/S] -i <input dir> -p <threads> -o <out dir>
+
+```
+
+To check the encoded and decoded sequences 
+
+
+```{r, engine='bash', encode and decode}
+./check_pair.sh <original left end> <original right end> <quark left end> <quark right end>
 
 ```
