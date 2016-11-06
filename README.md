@@ -19,6 +19,7 @@ $make
 $cd ..
 ```
 
+##Running Quark
 To see the options
 
 ```{r, engine='bash', encode and decode}
