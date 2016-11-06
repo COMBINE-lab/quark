@@ -8,7 +8,7 @@ semi-reference-based short read compression
 
 
 ##Assumption
-The read files are in gzipped format i.e. they should be of the form 1.fastq.gz and 2.fastq.gz
+The read files are in gzipped format i.e. they should be like .. 1.fastq.gz and 2.fastq.gz
 
 The software is tested on paired end data, single end support would be added soon!!
 
