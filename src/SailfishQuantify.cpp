@@ -158,60 +158,41 @@ std::string quarkCodeSingle(
 	std::string orestr = (ore) ? "1" : "0" ;
 
 	if (pos >= 0){
-		while(counter < readSeq.size() && (pos+counter) < refLen){
-			if(readSeq[counter] == txpSeq[pos+counter] ){
-			counter++;
-			match++;
+		int ind = 0;
+		match = 0;
+		counter = 0;
+		while((ind+pos) < refLen && ind < readSeq.size()){
+			if(txpSeq[pos+ind]==readSeq[ind]){
+				match++;
 			}else{
-				break;
-			}
-		}
-		//if(match >= 31){
-			//res.append("M");
-			//res.append(std::to_string(match));
-			//res.append(readSeq.substr(match));
-			//res.append(std::to_string(ore));
-		//}else{
-
-				// some k-mer down the line
-				// check all the k-mers
-				//A match less than 31 is accepted accepted
-				//It has to align some where
-				//so just keep align
-				int ind = 0;
-				match = 0;
-				counter = 0;
-				while((ind+pos) < refLen && ind < readSeq.size()){
-					if(txpSeq[pos+ind]==readSeq[ind]){
-						match++;
-					}else{
-						if(match < 3){
-							res.append((match==0?(std::string(1,readSeq[ind])):(readSeq.substr(ind-match,match+1))));
-						}else{
-							res.append("M");
-							res.append(std::to_string(match));
-							res.append(std::string(1,readSeq[ind]));
-						}
-						match = 0;
-					}
-					ind++;
-				}
-				if(match > 0){
-					res.append("M");
+				if(match < 3){
+					res.append((match==0?(std::string(1,readSeq[ind])):(readSeq.substr(ind-match,match+1))));
+				}else{
+					//res.append("M");
 					res.append(std::to_string(match));
+					res.append(std::string(1,readSeq[ind]));
 				}
-				if(ind < readSeq.size()){
-					res.append(readSeq.substr(ind,readSeq.size()-1));
-				}
-				res.append(orestr);
-
-		//}
+				match = 0;
+			}
+			ind++;
+		}
+		if(match > 0){
+			//res.append("M");
+			res.append(std::to_string(match));
+		}
+		if(ind < readSeq.size()){
+			res.append(readSeq.substr(ind,readSeq.size()-1));
+		}
+		res.append(orestr);
 
 	}else if(pos < 0){
+
 		res = "";
+		res.append(std::to_string(0));
 		res.append(std::to_string(abs(pos)));
 		//res.append(":");
 		res.append(readSeq.substr(0,abs(pos)));
+		/*
 		while(abs(pos)+counter < readSeq.size() && (abs(pos)+counter) < refLen){
 				if(readSeq[counter+abs(pos)] == txpSeq[counter]){
 					counter++ ;
@@ -219,44 +200,44 @@ std::string quarkCodeSingle(
 				}else{
 					break;
 				}
-		}
+		}*/
 		//if(match >= 31){
-			//res.append("M");
-			//res.append(std::to_string(match));
-			//res.append(readSeq.substr(match+abs(pos)));
-			//res.append(std::to_string(ore));
+		//	//res.append("M");
+		//	res.append(std::to_string(match));
+		//	res.append(readSeq.substr(match+abs(pos)));
+		//	res.append(std::to_string(ore));
 		//}else{
 
 				// some k-mer down the line
 				// check all the k-mers
-				int ind = 0;
-				match = 0;
-				counter = 0;
-				while(ind < refLen && (ind+abs(pos)) < readSeq.size()){
-					if(txpSeq[ind]==readSeq[abs(pos)+ind]){
-						match++;
-					}else{
-						if(match < 3){
-							res.append((match==0?(std::string(1,readSeq[abs(pos)+ind])):(readSeq.substr(abs(pos)+ind-match,match+1))));
-						}else{
-							res.append("M");
-							res.append(std::to_string(match));
-							res.append(std::string(1,readSeq[abs(pos)+ind]));
-						}
-						match = 0;
-					}
-					ind++;
-				}
-				if(match > 0){
-					res.append("M");
+		int ind = 0;
+		match = 0;
+		counter = 0;
+		while(ind < refLen && (ind+abs(pos)) < readSeq.size()){
+			if(txpSeq[ind]==readSeq[abs(pos)+ind]){
+				match++;
+			}else{
+				if(match < 3){
+					res.append((match==0?(std::string(1,readSeq[abs(pos)+ind])):(readSeq.substr(abs(pos)+ind-match,match+1))));
+				}else{
+					//res.append("M");
 					res.append(std::to_string(match));
+					res.append(std::string(1,readSeq[abs(pos)+ind]));
 				}
-				if(ind+abs(pos) < readSeq.size()){
-					res.append(readSeq.substr(ind + abs(pos),readSeq.size()-1));
-				}
-				res.append(orestr);
+				match = 0;
+			}
+			ind++;
+		}
+		if(match > 0){
+			//res.append("M");
+			res.append(std::to_string(match));
+		}
+		if(ind+abs(pos) < readSeq.size()){
+			res.append(readSeq.substr(ind + abs(pos),readSeq.size()-1));
+		}
+		res.append(orestr);
 
-		//}
+		//old code
 	}
 	return res;
 }
