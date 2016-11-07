@@ -62,9 +62,7 @@ $./check_pair.sh <original left end> <original right end> <quark left end> <quar
 
 ```
 Link to the preprint
-```{r, engine='bash', encode and decode}
+
 [Quark enables semi-reference-based compression of RNA-seq data
 Hirak Sarkar, Rob Patro](http://dx.doi.org/10.1101/085878)
-
-```
 
