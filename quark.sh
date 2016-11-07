@@ -48,7 +48,7 @@ if [ "$decode" = false ];then
                     ;;
             esac
         done
-    elif [ "$#" ];then
+    elif [ "$#" -eq 8 ];then
         while getopts ":r:i:p:o:" e; do
             case "${e}" in
                 r)
@@ -123,8 +123,14 @@ if [ "$decode" = false ];then
         rm -r $out/logs
         rm $out/cmd_info.json
     else
-        $quark -i $ind -l U -r <(gunzip -c $read) -p $th -o $out
+        $quark quant -i $ind -l U -r <(gunzip -c $read) -p $th -o $out
+        cd $out/aux
         $mince -e -l U -r $out/aux/unmapped.fastq -o $out/aux/m_
+        cd -
+        cp $out/aux/*.lz $out/
+        rm -r $out/aux
+        rm -r $out/logs
+        rm $out/cmd_info.json
     fi
 else
     if [ "$decodepair" = true ];then
@@ -136,8 +142,13 @@ else
         rm $inputdir/um_*
         rm $inputdir/islands.txt
     else
-        $mince -d -i $out/aux/m_ -o $out/aux/um_
+        plzip -k -d $inputdir/islands.txt.lz
+        cd $inputdir
+        $mince -d -i m_ -o um_
+        cd -
         $decoder $inputdir $out S
+        rm $inputdir/um_*
+        rm $inputdir/islands.txt
     fi
 fi
 

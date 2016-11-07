@@ -159,10 +159,21 @@ void readCompressedSingle(std::string &ifname, std::string& ofname){
 		std::cout << "Offset File: { " << offsetPathLeft << " }\n";
 		std::cout << "Island file : { " << islandPath << " }\n";
 
+		//set up output directory
+		bfs::path outdir(ofname);
+		if(!(bfs::exists(outdir))){
+			if(bfs::create_directory(ofname))
+				std::cout << "Output would be written in "<<outdir<<"\n";
+		}
+
 		std::ifstream iFile(islandPath);
 		std::ofstream seqLeftOut;
-		seqLeftOut.open(ofname + "1.seq");
+		seqLeftOut.open(ofname + "1.fastq");
 
+
+
+		std::string unmapped_1 = ifname + "/um_.fa";
+		std::ifstream um1(unmapped_1);
 
 		fmt::MemoryWriter w;
 		w.write("plzip -d -c -n {} {}", 2, seqPathLeft.string());
@@ -175,6 +186,23 @@ void readCompressedSingle(std::string &ifname, std::string& ofname){
 
 		int numOfEquivClasses = 0;
 		iFile >> numOfEquivClasses;
+		int numOfReads = 0;
+
+
+		std::string content;
+
+		std::string head;
+		while(um1 >> head){
+			um1 >> content;
+			std::string quality(content.size(),'I');
+			seqLeftOut << "@" << numOfReads << "\n";
+			seqLeftOut << content << "\n" ;
+			seqLeftOut << "+" << "\n";
+			seqLeftOut << quality << "\n";
+			numOfReads++;
+		}
+
+
 		for(int eqNum = 0; eqNum < numOfEquivClasses; eqNum++){
 
 			printProgress(double(eqNum)/double(numOfEquivClasses));
@@ -236,15 +264,6 @@ void readCompressedSingle(std::string &ifname, std::string& ofname){
 						}
 
 
-						//debug
-						if(leftEnc == "83ACAAAAA0|"){
-							if(codes[f1] == '|'){
-						 	    		std::cout << "\n first four bits are"<< codes[f1] << codes[f2] <<"\n";
-
-						 	    	}else{
-						 	    		std::cout << "\n last four bits are | "<< codes[f1] << codes[f2] <<"\n";
-						 	    	}
-						}
 
 						endIt = true;
 						codeCount++;
@@ -265,8 +284,14 @@ void readCompressedSingle(std::string &ifname, std::string& ofname){
 					std::string ore = std::string(1,leftEnc[leftEnc.size()-1]);
 					ldecoded = (ore == "0") ? revComp(ldecoded) : ldecoded ;
 				}
-				seqLeftOut << ldecoded << "\n" ;
+				//seqLeftOut << ldecoded << "\n" ;
 
+				std::string quality(ldecoded.size(),'I');
+				seqLeftOut << "@" << numOfReads << "\n";
+				seqLeftOut << ldecoded << "\n" ;
+				seqLeftOut << "+" << "\n";
+				seqLeftOut << quality << "\n";
+				numOfReads++;
 			}
 
 		}
