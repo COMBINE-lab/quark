@@ -2,8 +2,13 @@
 
 semi-reference-based short read compression
 
+<p align="center">
+<img src="qimage.001.png">
+</p>
+
+
 ##Assumption
-The read files are in gzipped format i.e. they should be of the form 1.fastq.gz and 2.fastq.gz
+The read files are in gzipped format i.e. they should be like .. 1.fastq.gz and 2.fastq.gz
 
 The software is tested on paired end data, single end support would be added soon!!
 
@@ -49,7 +54,7 @@ $./mainscript.sh -d decode -l [P/S] -i <input dir> -p <threads> -o <out dir>
 
 ```
 
-To check the encoded and decoded sequences 
+To check the encoded and decoded sequences are same !! (it is lossless) 
 
 
 ```{r, engine='bash', encode and decode}
