@@ -461,6 +461,7 @@ bool GZipWriter::writeEncoding(
   bfs::path islandTxtFile = auxDir/"islands.txt";
   std::ofstream iFile(islandTxtFile.string());
 
+  /*
   pstream_ptr islandPtr(nullptr, closeStreamDeleter("islandPtr"));
   {
 	  fmt::MemoryWriter w;
@@ -469,6 +470,7 @@ bool GZipWriter::writeEncoding(
 	  islandPtr.reset(new redi::opstream(w.str()));
 	  w.clear();
   }
+  */
   bfs::path eqFilePath = auxDir / "eq_classes.txt";
 
   //for debugging
@@ -493,8 +495,8 @@ bool GZipWriter::writeEncoding(
   pstream_ptr rightSeqPtr(nullptr, closeStreamDeleter("rightSeqPtr"));
   pstream_ptr leftOffsetPtr(nullptr, closeStreamDeleter("leftOffsetPtr"));
   pstream_ptr rightOffsetPtr(nullptr, closeStreamDeleter("rightOffsetPtr"));
-  pstream_ptr leftChunkPtr(nullptr, closeStreamDeleter("leftChunkPtr"));
-  pstream_ptr rightChunkPtr(nullptr, closeStreamDeleter("rightChunkPtr"));
+  //pstream_ptr leftChunkPtr(nullptr, closeStreamDeleter("leftChunkPtr"));
+  //pstream_ptr rightChunkPtr(nullptr, closeStreamDeleter("rightChunkPtr"));
 
   //for single end
   bfs::path quarkFilePath = auxDir/ "reads.quark";
@@ -532,6 +534,7 @@ bool GZipWriter::writeEncoding(
 	rightOffsetPtr.reset(new redi::opstream(w4.str()));
 	w4.clear();
 
+	/*
 	w4.write("plzip -o {} -f -n {} -", chunkFilePath_1.string(), 1);
 	leftChunkPtr.reset(new redi::opstream(w4.str()));
 	w4.clear();
@@ -540,6 +543,7 @@ bool GZipWriter::writeEncoding(
 	w4.write("plzip -o {} -f -n {} -", chunkFilePath_2.string(), 1);
 	rightChunkPtr.reset(new redi::opstream(w4.str()));
 	w4.clear();
+	*/
 
 
   }else{
@@ -672,8 +676,8 @@ bool GZipWriter::writeEncoding(
 			  leftSeqPtr->write(reinterpret_cast<char*>(&leftBytes[0]), sizeof(leftBytes[0])* leftBytes.size());
 			  rightSeqPtr->write(reinterpret_cast<char*>(&rightBytes[0]), sizeof(rightBytes[0])* rightBytes.size());
 
-			  leftChunkPtr->write(reinterpret_cast<char*>(&leftChunk), sizeof(leftChunk));
-			  rightChunkPtr->write(reinterpret_cast<char*>(&rightChunk), sizeof(rightChunk));
+			  //leftChunkPtr->write(reinterpret_cast<char*>(&leftChunk), sizeof(leftChunk));
+			  //rightChunkPtr->write(reinterpret_cast<char*>(&rightChunk), sizeof(rightChunk));
 
 			  qFile << qS.qcode << "\t" << qS.lIslandId << ","<< qS.lpos << "," << qS.rIslandId << ","<< qS.rpos  << "\n";
 
@@ -759,7 +763,7 @@ bool GZipWriter::writeEncoding(
 
 	  const char *txpSeq = transcripts[txps[0]].Sequence();
 	  //write islands in bitmap fashion
-	  pushIslandBitmap(intervals,txpSeq,islandPtr);
+	  //pushIslandBitmap(intervals,txpSeq,islandPtr);
 
 	  iFile << intervals.size()  << "\n";
 	  //iFile << intervals.size() << "," << transcripts[txps[0]].id << ","<< transcripts[txps[0]].RefLength << "\n";
@@ -777,7 +781,7 @@ bool GZipWriter::writeEncoding(
 	  bitmapD.push_back(1);
 	  bitmapD.push_back(1);
 	  boost::to_block_range(bitmapD, std::back_inserter(delimBytes));
-	  islandPtr->write(reinterpret_cast<char*>(&delimBytes[0]), sizeof(delimBytes[0])* delimBytes.size());
+	  //islandPtr->write(reinterpret_cast<char*>(&delimBytes[0]), sizeof(delimBytes[0])* delimBytes.size());
 
 	  //*****************************************************
 

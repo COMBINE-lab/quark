@@ -86,7 +86,7 @@ add_library(sailfish_core STATIC ${SAILFISH_LIB_SRCS} )
 set_target_properties(sailfish_core PROPERTIES LINKER_LANGUAGE CXX)
 
 # Build the Sailfish executable
-add_executable(sailfish ${SAILFISH_MAIN_SRCS})
+add_executable(quark ${SAILFISH_MAIN_SRCS})
 
 # Build the Sailfish executable
 add_executable(unitTests ${UNIT_TESTS_SRCS})
@@ -96,7 +96,7 @@ set (SUFFARRAY_LIB ${GAT_SOURCE_DIR}/external/install/lib/libdivsufsort.a)
 set (SUFFARRAY64_LIB ${GAT_SOURCE_DIR}/external/install/lib/libdivsufsort64.a)
 
 # Link the executable
-target_link_libraries(sailfish 
+target_link_libraries(quark 
     sailfish_core 
     ${PTHREAD_LIB}
     ${Boost_LIBRARIES} 
@@ -188,7 +188,7 @@ install(DIRECTORY
 # install(FILES ${Boost_LIBRARIES}
 # 	           DESTINATION ${INSTALL_LIB_DIR})
 
-install(TARGETS sailfish sailfish_core
+install(TARGETS quark sailfish_core
                 RUNTIME DESTINATION bin 
                 LIBRARY DESTINATION lib
                 ARCHIVE DESTINATION lib

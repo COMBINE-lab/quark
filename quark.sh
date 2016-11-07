@@ -6,7 +6,7 @@ usage() { echo "Usage $0 [-1 left end] [-2 right end]/[-r single end read] [-i p
         }
 
 
-sailfish=$PWD/build/src/sailfish
+quark=$PWD/build/src/quark
 decoder=$PWD/build/src/decoder
 mince=$PWD/Mince-Binaries-0.6.1/mince_linux
 
@@ -113,7 +113,7 @@ if [ "$decode" = false ];then
     if [ "$pair" = true ];then
         #encoding
         name=`echo $left | awk -F"/" '{print $NF}' | cut -d \. -f 1 | cut -d \_ -f 1`
-        $sailfish quant -i $ind -l IU -1 <(gunzip -c $left) -2 <(gunzip -c $right) -p $th -o $out
+        $quark quant -i $ind -l IU -1 <(gunzip -c $left) -2 <(gunzip -c $right) -p $th -o $out
         cd $out/aux
         echo $PWD
         $mince -e -l IU -1 unmapped_1.fastq -2 unmapped_2.fastq -p $th -o m_
@@ -123,7 +123,7 @@ if [ "$decode" = false ];then
         rm -r $out/logs
         rm $out/cmd_info.json
     else
-        $sailfish quant -i $ind -l U -r <(gunzip -c $read) -p $th -o $out
+        $quark -i $ind -l U -r <(gunzip -c $read) -p $th -o $out
         $mince -e -l U -r $out/aux/unmapped.fastq -o $out/aux/m_
     fi
 else
@@ -134,6 +134,7 @@ else
         cd -
         $decoder $inputdir $out P
         rm $inputdir/um_*
+        rm $inputdir/islands.txt
     else
         $mince -d -i $out/aux/m_ -o $out/aux/um_
         $decoder $inputdir $out S
