@@ -63,6 +63,5 @@ $./check_pair.sh <original left end> <original right end> <quark left end> <quar
 ```
 Link to the preprint
 
-[Quark enables semi-reference-based compression of RNA-seq data
-Hirak Sarkar, Rob Patro](http://dx.doi.org/10.1101/085878)
+[Quark enables semi-reference-based compression of RNA-seq data](http://dx.doi.org/10.1101/085878) by Hirak Sarkar, Rob Patro
 
