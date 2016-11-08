@@ -60,7 +60,7 @@ $./mainscript.sh -d decode -l [P/S] -i <input dir> -p <threads> -o <out dir>
 
 ```
 
-##To check the encoded and decoded sequences are same !! (it is lossless) 
+#To check the encoded and decoded sequences are same !! (it is lossless) 
 
 
 ```{r, engine='bash', encode and decode}
