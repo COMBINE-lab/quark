@@ -125,7 +125,7 @@ if [ "$decode" = false ];then
     else
         $quark quant -i $ind -l U -r <(gunzip -c $read) -p $th -o $out
         cd $out/aux
-        $mince -e -l U -r $out/aux/unmapped.fastq -o $out/aux/m_
+        $mince -e -l U -r unmapped.fastq -o m_
         cd -
         cp $out/aux/*.lz $out/
         rm -r $out/aux
