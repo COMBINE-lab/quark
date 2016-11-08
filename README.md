@@ -28,7 +28,7 @@ $cd ..
 To see the options
 
 ```{r, engine='bash', encode and decode}
-$./mainscript.sh -h
+$./quark.sh -h
 
 ```
 
@@ -36,31 +36,31 @@ $./mainscript.sh -h
 
 
 ```{r, engine='bash', encode and decode}
-$./mainscript.sh index -t <transcript fasta> -o <out dir> -k <k mer length>
+$./quark.sh index -t <transcript fasta> -o <out dir> -k <k mer length>
 
 ```
 
 ###To Encode
 ####Single End
 ```{r, engine='bash', encode and decode}
-$./mainscript.sh -r <read file> -i <index> -p <threads> -o <out dir>
+$./quark.sh -r <read file> -i <index> -p <threads> -o <out dir>
 
 ```
 ####Paired end
 
 ```{r, engine='bash', encode and decode}
-$./mainscript.sh -1 <left_end> -2 <right_end> -i <index> -p <threads> -o <out dir>
+$./quark.sh -1 <left_end> -2 <right_end> -i <index> -p <threads> -o <out dir>
 
 ```
 
 ###To Decode
 
 ```{r, engine='bash', encode and decode}
-$./mainscript.sh -d decode -l [P/S] -i <input dir> -p <threads> -o <out dir>
+$./quark.sh -d decode -l [P/S] -i <input dir> -p <threads> -o <out dir>
 
 ```
 
-###To check the encoded and decoded sequences are same !! (it is lossless) 
+##To check the encoded and decoded sequences are same !! (it is lossless) 
 
 
 ```{r, engine='bash', encode and decode}
