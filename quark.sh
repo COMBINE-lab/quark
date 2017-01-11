@@ -9,6 +9,7 @@ usage() { echo "Usage $0 [-1 left end] [-2 right end]/[-r single end read] [-i p
 quark=$PWD/build/src/quark
 decoder=$PWD/build/src/decoder
 mince=$PWD/Mince-Binaries-0.6.1/mince_linux
+plzip=$PWD/external/install/bin/plzip
 
 makeindex() {
     echo "$quark index -t $1 -o $2 -k $3";
@@ -134,7 +135,7 @@ if [ "$decode" = false ];then
     fi
 else
     if [ "$decodepair" = true ];then
-        plzip -k -d $inputdir/islands.txt.lz
+        $plzip -k -d $inputdir/islands.txt.lz
         cd $inputdir
         $mince -d -i m_ -o um_
         cd -
@@ -142,7 +143,7 @@ else
         rm $inputdir/um_*
         rm $inputdir/islands.txt
     else
-        plzip -k -d $inputdir/islands.txt.lz
+        $plzip -k -d $inputdir/islands.txt.lz
         cd $inputdir
         $mince -d -i m_ -o um_
         cd -

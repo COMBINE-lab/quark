@@ -304,6 +304,24 @@ ExternalProject_Add(libjellyfish
                     cp config.h <INSTALL_DIR>/include/
 )
 
+
+message("Build system will fetch and build plzip")
+message("==================================================================")
+ExternalProject_Add(
+    plzip
+    DOWNLOAD_DIR ${CMAKE_CURRENT_SOURCE_DIR}/external
+    DOWNLOAD_COMMAND curl -k -L http://download.savannah.gnu.org/releases/lzip/plzip/plzip-1.6-pre1.tar.gz -o plzip-1.6-pre1.tar.gz &&
+    rm -fr plzip-1.6-pre1 &&
+    tar -xzvf plzip-1.6-pre1.tar.gz
+    SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/external/plzip-1.6-pre1
+    INSTALL_DIR ${CMAKE_CURRENT_SOURCE_DIR}/external/install
+    CONFIGURE_COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/external/plzip-1.6-pre1/configure --prefix=<INSTALL_DIR>
+    BUILD_COMMAND ${MAKE}
+    BUILD_IN_SOURCE 1
+    INSTALL_COMMAND make install
+)
+
+
 find_package(TBB)
 ##
 #
