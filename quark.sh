@@ -11,8 +11,8 @@ decoder=$PWD/build/src/decoder
 mince=$PWD/Mince-Binaries-0.6.1/mince_linux
 
 makeindex() {
-    echo "$sailfish index -t $1 -o $2 -k $3";
-    $sailfish index -t $1 -o $2 -k $3;
+    echo "$quark index -t $1 -o $2 -k $3";
+    $quark index -t $1 -o $2 -k $3;
     exit 1;
 }
 
