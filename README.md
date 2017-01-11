@@ -12,6 +12,9 @@ The read files are in gzipped format i.e. they should be like .. 1.fastq.gz and 
 
 The software is tested on paired end and single end data on bash compatible shell (redirection might not work with *fish* kind of ad on), ~~*single end support will be added to the "quark.sh" script soon*.~~
 
+##Dependency
+Quark depends on plzip for downstream compression. More information about Plzip and installation can be found [here](http://www.nongnu.org/lzip/plzip.html). 
+
 
 ##Compile
 ```{r, engine='bash', encode and decode}
