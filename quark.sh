@@ -1,3 +1,5 @@
+#!/bin/bash
+
 usage() { echo "Usage $0 [-1 left end] [-2 right end]/[-r single end read] [-i path to sailfish index] [-p #threads] [-o output Dir]" 1>&2; 
           echo "Usage $0 -d [to decode] -l [P/S] [-i input directory] [-p #threads] [-o output Dir]" 1>&2; 
           echo "Usage $0 index -t <transcript file> -o <out dir> -k <kmer length>"
