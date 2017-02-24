@@ -26,18 +26,20 @@
 struct QStrings {
 	QStrings(const QStrings& o){
 		qcodes = o.qcodes;
+                qualityscores = o.qualityscores;
 		count.store(o.count.load());
 		intervals = o.intervals;
 
 	}
 
-	QStrings(std::string qcode,std::pair<int32_t,int32_t> lint, std::pair<int32_t,int32_t> rint,uint64_t countIn) :
-		qcodes({qcode}),intervals({lint,rint}){
+	QStrings(std::string qcode, std::string quality, std::pair<int32_t,int32_t> lint, std::pair<int32_t,int32_t> rint,uint64_t countIn) :
+		qcodes({qcode}),qualityscores({quality}),intervals({lint,rint}){
 		count.store(countIn);
 	}
 
 
 	mutable std::vector<std::string> qcodes ;
+        mutable std::vector<std::string> qualityscores ;
 	std::atomic<uint64_t> count{0};
 	std::vector<std::pair<int32_t,int32_t>> intervals;
 
@@ -84,10 +86,11 @@ class QuarkEquivalenceClassBuilder{
 
 		        inline void addGroup(TranscriptGroup&& g,
 		                                     std::string qcode,
+                                                     std::string quality,
 											 std::pair<int32_t,int32_t> lint,
 											 std::pair<int32_t,int32_t> rint) {
 
-		                    auto upfn = [&qcode,&lint,&rint](QStrings& x) -> void {
+		                    auto upfn = [&qcode,&quality,&lint,&rint](QStrings& x) -> void {
 		                     // update the count
 		                        // x.scoped_lock {
 #if defined __APPLE__
@@ -97,10 +100,11 @@ class QuarkEquivalenceClassBuilder{
 #endif
 		                        x.count++;
 		                        x.qcodes.push_back(qcode);
+                                        x.qualityscores.push_back(quality);
 		                        x.intervals.push_back(lint);
 		                        x.intervals.push_back(rint);
 		                    };
-		                    QStrings v(qcode,lint,rint,1);
+		                    QStrings v(qcode,quality,lint,rint,1);
 		                    countMap_.upsert(g, upfn, v);
 		                }
 

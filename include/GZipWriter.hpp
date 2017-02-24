@@ -23,7 +23,9 @@ class GZipWriter {
     bool writeEncoding(
         const SailfishOpts& opts,
         ReadExperiment& experiment,
-		std::vector<std::vector<std::string>>& unmapped);
+		std::vector<std::vector<std::string>>& unmapped,
+		bool& qualityScore);
+
 
 
 

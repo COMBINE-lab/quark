@@ -448,7 +448,9 @@ std::function<void(redi::opstream*)> closeStreamDeleter(std::string s)  {
 bool GZipWriter::writeEncoding(
     const SailfishOpts& opts,
     ReadExperiment& experiment,
-	std::vector<std::vector<std::string>>& unmapped) {
+	std::vector<std::vector<std::string>>& unmapped,
+	bool& qualityScore) {
+
 
   namespace bfs = boost::filesystem;
 
@@ -481,6 +483,8 @@ bool GZipWriter::writeEncoding(
 
   bfs::path quarkFilePath_1  = auxDir/ "reads_1.quark";
   bfs::path quarkFilePath_2  = auxDir/ "reads_2.quark";
+  bfs::path qualityFilePath_1  = auxDir/ "quality_1.quark";
+  bfs::path qualityFilePath_2  = auxDir/ "quality_2.quark";
   bfs::path offsetFilePath_1  = auxDir/ "offset_1.quark";
   bfs::path offsetFilePath_2  = auxDir/ "offset_2.quark";
   bfs::path chunkFilePath_1  = auxDir/ "chunk_1.quark";
@@ -500,6 +504,7 @@ bool GZipWriter::writeEncoding(
 
   //for single end
   bfs::path quarkFilePath = auxDir/ "reads.quark";
+  bfs::path qualityFilePath = auxDir/ "quality.quark";
   bfs::path offsetFilePath = auxDir/ "offset.quark";
 
   //debug
@@ -566,6 +571,21 @@ bool GZipWriter::writeEncoding(
 
 
   std::ofstream equivFile(eqFilePath.string());
+  std::ofstream quality_1;
+  std::ofstream quality_2;
+  std::ofstream quality_single;
+
+  //write quality score
+  if(qualityScore){
+	  if(experiment.readLibraries().front().format().type != ReadType::SINGLE_END){
+		  quality_1.open(qualityFilePath_1.string(), std::ofstream::out | std::ofstream::app);
+		  quality_2.open(qualityFilePath_2.string(), std::ofstream::out | std::ofstream::app);
+
+	  }else{
+		  quality_single.open(qualityFilePath.string(), std::ofstream::out | std::ofstream::app);
+
+	  }
+  }
 
   //for debugging
 
@@ -616,6 +636,7 @@ bool GZipWriter::writeEncoding(
 	  const std::vector<uint32_t>& txps = tgroup.txps;
 	  uint32_t count= q.second.count;
 	  auto& qcodes = q.second.qcodes;
+	  auto& qualityscores = q.second.qualityscores ;
 	  auto intervals = q.second.intervals;
 
 	  std::vector<int> mapid;
@@ -624,6 +645,7 @@ bool GZipWriter::writeEncoding(
 
 	  struct quarkStruct{
 	  		  std::string qcode;
+	  		  std::string quality;
 	  		  int lIslandId;
 	  		  int32_t lpos;
 	  		  int rIslandId;
@@ -631,9 +653,15 @@ bool GZipWriter::writeEncoding(
 	  	  };
 
 	  int i = 0;
+	  int quality_index = 0;
 	  	  std::vector<quarkStruct> quarkStructVec;
 	  	  for(auto qcode : qcodes) {
-	  		  quarkStructVec.push_back({qcode,mapid[i],relpos[i],mapid[i+1],relpos[i+1]});
+	  		  if(!qualityScore){
+	  			  quarkStructVec.push_back({qcode,"",mapid[i],relpos[i],mapid[i+1],relpos[i+1]});
+	  		  }else{
+	  			  quarkStructVec.push_back({qcode,qualityscores[quality_index],mapid[i],relpos[i],mapid[i+1],relpos[i+1]});
+	  			  quality_index++;
+	  		  }
 	  		  //qFile << qcode << "\t" << mapid[i] << ","<< relpos[i] << "," << mapid[i+1] << ","<< relpos[i+1]  << "\n";
 	  		  i = i + 2;
 	  	  }
@@ -692,6 +720,15 @@ bool GZipWriter::writeEncoding(
 			  rightOffsetPtr->write(reinterpret_cast<char*>(&rightPos), sizeof(rightPos));
 
 			  i = i + 2;
+
+			  if(qualityScore){
+				  std::vector<std::string> qualities;
+				  auto qualityscores = qS.quality ;
+				  qualities = split(qualityscores,'|');
+				  quality_1 << qualities[0] << "\n";
+				  quality_2 << qualities[1] << "\n";
+
+			  }
 		  }
 	  }else{
 		  seqPtr->write(reinterpret_cast<char*>(&count), sizeof(count));
@@ -711,6 +748,12 @@ bool GZipWriter::writeEncoding(
 			  offsetPtr->write(reinterpret_cast<char*>(&leftPos), sizeof(leftPos));
 
 			  i = i + 2;
+
+			  if(qualityScore){
+				  auto qualityscores = qS.quality ;
+				  quality_single << qualityscores << "\n";
+
+			  }
 		  }
 	  }
 
@@ -847,8 +890,19 @@ bool GZipWriter::writeEncoding(
 
 		  std::ofstream uFile_l(unMappedFile_l.string());
 		  std::ofstream uFile_r(unMappedFile_r.string());
+
+
+
+
 		  for(auto seqvec : unmapped)
 			  for(auto seq : seqvec){
+
+				  std::vector<std::string> qualities;
+				  if(qualityScore){
+					  qualities = split(seq,'|');
+				  }
+
+
 				  int il = 0;
 				  int len = (seq.size()-1)/2;
 				  uFile_l << "@"<<uid<< "\n";
@@ -857,8 +911,13 @@ bool GZipWriter::writeEncoding(
 				  }
 				  uFile_l << "\n";
 				  uFile_l << "+"<< "\n";
-				  for(il = 0; il < len ; il++){
-					  uFile_l << "I";
+
+				  if(!qualityScore){
+					  for(il = 0; il < len ; il++){
+						  uFile_l << "I";
+					  }
+				  }else{
+					 uFile_l << qualities[2] ;
 				  }
 				  uFile_l << "\n";
 
@@ -870,8 +929,13 @@ bool GZipWriter::writeEncoding(
 				  }
 				  uFile_r << "\n";
 				  uFile_r << "+"<< "\n";
-				  for(il = len+1; il < seq.size() ; il++){
-					  uFile_r << "I" ;
+
+				  if(!qualityScore){
+					  for(il = len+1; il < seq.size() ; il++){
+						  uFile_r << "I" ;
+					  }
+				  }else{
+					  uFile_r << qualities[3] ;
 				  }
 				  uFile_r << "\n";
 				  uid++;
@@ -911,16 +975,29 @@ bool GZipWriter::writeEncoding(
 		  fmt::MemoryWriter w1;
 		  w1.write("/home/rob/mince/bin/mince -e -l U -r {} -p 10 -o {}",unMappedFile_l.string(),mincePrefix);
 
+
+
 		  for(auto seqvec : unmapped){
 			  for(auto seq : seqvec){
+
+				  std::vector<std::string> qualities ;
+				  if(qualityScore){
+					  qualities = split(seq,'|');
+				  }
+
 				  uFile_l << "@"<<uid<< "\n";
 				  for(int il = 0; il < seq.size() ; il++){
 					  uFile_l << seq[il];
 				  }
 				  uFile_l << "\n";
 				  uFile_l << "+"<< "\n";
-				  for(int il = 0; il < seq.size() ; il++){
-					  uFile_l << "I";
+
+				  if(!qualityScore){
+					  for(int il = 0; il < seq.size() ; il++){
+						  uFile_l << "I";
+					  }
+				  }else{
+					  uFile_l << qualities[1];
 				  }
 
 				  uFile_l << "\n";

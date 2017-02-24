@@ -475,7 +475,8 @@ void processReadsQuasi(paired_parser* parser,
                FragLengthCountMap& flMap,
                std::atomic<int32_t>& remainingFLOps,
 	           std::mutex& iomutex,
-			   std::vector<std::string>& unmapped_i //store the unmapped sequence
+			   std::vector<std::string>& unmapped_i, //store the unmapped sequence
+			   bool qualityScore
 			   ) {
 
 
@@ -600,6 +601,14 @@ void processReadsQuasi(paired_parser* parser,
         	un.append(j->data[i].first.seq);
         	un.append("|");
         	un.append(j->data[i].second.seq);
+        	if(qualityScore){
+        		un.append("|");
+        		un.append(j->data[i].first.qual);
+        		un.append("|");
+        		un.append(j->data[i].second.qual);
+
+        	}
+
         	unmapped_i.push_back(un);
         	if(j->data[i].first.header == "SRR635193.2542356 2542356 length=54"){
         		std::cout << "\n unmapped ...." ;
@@ -816,6 +825,15 @@ void processReadsQuasi(paired_parser* parser,
 	    	 //double txpLen = transcripts[txpIDsCompat[0]].RefLength ;
              std::string left_name = j->data[i].first.header ;
              std::string right_name = j->data[i].second.header ;
+
+             //record quality scores
+             std::string quality = j->data[i].first.qual ;
+             std::string right_quality = j->data[i].second.qual ;
+             quality.append("|") ;
+             quality.append(right_quality);
+
+
+
              //std::string left_name = split(j->data[i].first.header," ")[0] ;
 	    	 if(left_name == "SRR635193.131241 131241 length="){
 	    		 std::cout << "\n Before quark \n" ;
@@ -899,9 +917,12 @@ void processReadsQuasi(paired_parser* parser,
 	    		 std::cout << rint.first << "," << rint.second <<"\n";
 	    		 //exit(0);
 	    	 }
+	    	 if(!qualityScore){
+	    		 quality = "";
+	    	 }
 
 
-	    	 qEqBuilder.addGroup(std::move(tg),temp_l,lint,rint);
+	    	 qEqBuilder.addGroup(std::move(tg),temp_l,quality,lint,rint);
 	    	 }
 	    }else{
 	    	if (txpIDsAll.size() > 0) {
@@ -929,6 +950,11 @@ void processReadsQuasi(paired_parser* parser,
 	    	    int32_t txl = transcripts[txpIDsAll[0]].RefLength ; // transcript length
 	    	    int rl = jointHitsIt->readLen ; // read length
 
+             //record quality scores
+             std::string quality = j->data[i].first.qual ;
+             std::string right_quality = j->data[i].second.qual ;
+             quality.append("|") ;
+             quality.append(right_quality);
 	    	 //temp_l.append(",");
              //temp_l.append(left_name);
 
@@ -995,7 +1021,11 @@ void processReadsQuasi(paired_parser* parser,
 					 lint = {-1,-1};
 					 rint = std::make_pair(corr_lpos,corr_lpos_end);
 				 }
-                qEqBuilder.addGroup(std::move(tg),temp_l,lint,rint);
+
+                if(!qualityScore){
+                	quality = "";
+                }
+                qEqBuilder.addGroup(std::move(tg),temp_l,quality,lint,rint);
 	    	}
 	    }
 
@@ -1073,7 +1103,8 @@ void processReadsQuasi(single_parser* parser,
         ReadLibrary& rl,
         SailfishOpts& sfOpts,
         std::mutex& iomutex,
-	    std::vector<std::string>& unmapped_i //store the unmapped sequence
+	    std::vector<std::string>& unmapped_i, //store the unmapped sequence
+		bool& qualityScore
 		) {
 
     uint64_t prevObservedFrags{1};
@@ -1146,6 +1177,10 @@ void processReadsQuasi(single_parser* parser,
             if(jointHits.size() == 0) {
             	std::string ss = "";
             	ss.append(j->data[i].seq);
+            	if(qualityScore){
+            		ss.append("|");
+            		ss.append(j->data[i].qual);
+            	}
             	unmapped_i.push_back(ss);
             }
 
@@ -1216,6 +1251,8 @@ void processReadsQuasi(single_parser* parser,
             	    	 TranscriptGroup tg(txpIDsCompat);
                          std::string left_name = j->data[i].header ;
             	    	 std::string temp_l = quarkCode(transcripts[txpIDsCompat[0]],j->data[i].seq, jointHitsIt,1,left_name);
+            	    	 std::string quality = j->data[i].qual ;
+
             	    	 int32_t txl = transcripts[txpIDsCompat[0]].RefLength ; // transcript length
             	    	 int rl = jointHitsIt->readLen ; // read length
 
@@ -1239,7 +1276,12 @@ void processReadsQuasi(single_parser* parser,
 
             	    	 lint = std::make_pair(corr_lpos,corr_lpos_end);
             	    	 rint = {-1,-1};
-            	    	 qEqBuilder.addGroup(std::move(tg),temp_l,lint,rint);
+
+            	    	 if(!qualityScore){
+            	    		 quality = "";
+            	    	 }
+
+            	    	 qEqBuilder.addGroup(std::move(tg),temp_l,quality,lint,rint);
             	    	 }
             	    }else{
             	    	if (txpIDsAll.size() > 0) {
@@ -1260,6 +1302,7 @@ void processReadsQuasi(single_parser* parser,
 							 std::string temp_l = quarkCode(transcripts[txpIDsAll[0]],j->data[i].seq, jointHitsIt,1,left_name);
 							 int32_t txl = transcripts[txpIDsAll[0]].RefLength ; // transcript length
 							 int rl = jointHitsIt->readLen ; // read length
+							 std::string quality = j->data[i].qual ;
 
 							 //start and end
 							 int32_t corr_lpos;
@@ -1281,7 +1324,7 @@ void processReadsQuasi(single_parser* parser,
 
 							 lint = std::make_pair(corr_lpos,corr_lpos_end);
 							 rint = {-1,-1};
-							 qEqBuilder.addGroup(std::move(tg),temp_l,lint,rint);
+							 qEqBuilder.addGroup(std::move(tg),temp_l,quality,lint,rint);
             	    	}
             	    }
 
@@ -1527,7 +1570,8 @@ void quasiMapReads(
         ReadExperiment& readExp,
         SailfishOpts& sfOpts,
         std::mutex& iomutex,
-		std::vector<std::vector<std::string>>& unmapped){
+		std::vector<std::vector<std::string>>& unmapped,
+		bool& qualityScore){
 
 
     std::vector<std::thread> threads;
@@ -1594,7 +1638,8 @@ void quasiMapReads(
                             flMap,
                             remainingFLOps,
                             iomutex,
-							unmapped[i]);
+							unmapped[i],
+							qualityScore);
                 };
                 threads.emplace_back(threadFun);
             } else {
@@ -1608,7 +1653,8 @@ void quasiMapReads(
                             flMap,
                             remainingFLOps,
                             iomutex,
-							unmapped[i]);
+							unmapped[i],
+							qualityScore);
                 };
             threads.emplace_back(threadFun);
             }
@@ -1697,7 +1743,8 @@ void quasiMapReads(
                             rl,
                             sfOpts,
                             iomutex,
-							unmapped[i]);
+							unmapped[i],
+							qualityScore);
                 };
                 threads.emplace_back(threadFun);
             } else {
@@ -1709,7 +1756,8 @@ void quasiMapReads(
                             rl,
                             sfOpts,
                             iomutex,
-							unmapped[i]);
+							unmapped[i],
+							qualityScore);
                 };
                 threads.emplace_back(threadFun);
             }
@@ -1739,6 +1787,7 @@ int mainQuantify(int argc, char* argv[]) {
     sopt.numThreads = std::thread::hardware_concurrency();
     sopt.allowOrphans = true;
     int32_t numBiasSamples{0};
+    bool qualityScore{false};
 
     vector<string> unmatedReadFiles;
     vector<string> mate1ReadFiles;
@@ -1760,7 +1809,8 @@ int mainQuantify(int argc, char* argv[]) {
         ("mates2,2", po::value<vector<string>>(&mate2ReadFiles)->multitoken(),
          "File containing the #2 mates")
         ("threads,p", po::value<uint32_t>(&(sopt.numThreads))->default_value(sopt.numThreads), "The number of threads to use concurrently.")
-        ("output,o", po::value<std::string>()->required(), "Output quantification file.");
+        ("output,o", po::value<std::string>()->required(), "Output quantification file.")
+        ("quality,q", po::bool_switch(&qualityScore)->default_value(false),"Churn out quality scores");
 
 
 
@@ -1939,7 +1989,7 @@ int mainQuantify(int argc, char* argv[]) {
         tbb::task_scheduler_init tbbScheduler(sopt.numThreads);
         std::mutex ioMutex;
 		fmt::print(stderr, "\n\n");
-		quasiMapReads(experiment, sopt, ioMutex, unmapped);
+		quasiMapReads(experiment, sopt, ioMutex, unmapped,qualityScore);
 		fmt::print(stderr, "Done Quasi-Mapping \n\n");
 		fmt::print(stderr, "Done Computing Quark Equivalence Classes \n\n");
 		experiment.equivalenceClassBuilder().finish();
@@ -1951,7 +2001,7 @@ int mainQuantify(int argc, char* argv[]) {
         // If we are dumping the equivalence classes, then
         // do it here.
         //if (sopt.dumpEq) {
-        gzw.writeEncoding(sopt, experiment, unmapped);
+        gzw.writeEncoding(sopt, experiment, unmapped, qualityScore);
         jointLog->info("Done with quark encoding: \n");
 
         commentStream << "# [ mapping rate ] => { " << experiment.mappingRate() * 100.0 << "\% }\n";

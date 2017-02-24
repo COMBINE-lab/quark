@@ -8,9 +8,13 @@ usage() { echo "Usage $0 [-1 left end] [-2 right end]/[-r single end read] [-i p
         }
 
 
-quark=$PWD/build/src/quark
-decoder=$PWD/build/src/decoder
-mince=$PWD/Mince-Binaries-0.6.1/mince_linux
+SCRIPT=$(readlink -f "$0")
+SCRIPTPATH=$(dirname "$SCRIPT")
+
+quark=$SCRIPTPATH/build/src/quark
+decoder=$SCRIPTPATH/build/src/decoder
+mince=$SCRIPTPATH/Mince-Binaries-0.6.1/mince_linux
+echo "$SCRIPTPATH"
 
 makeindex() {
     echo "$quark index -t $1 -o $2 -k $3";
