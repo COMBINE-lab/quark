@@ -9,16 +9,19 @@ semi-reference-based short read compression
 
 
 ##Assumption
+
 The read files are in gzipped format i.e. they should be like .. 1.fastq.gz and 2.fastq.gz
 
 The software is tested on paired end and single end data on bash compatible shell (redirection might not work with *fish* kind of ad on), ~~*single end support will be added to the "quark.sh" script soon*.~~
 
 ##Dependency
+
 Quark depends on `plzip` for downstream compression. More information about Plzip and installation guide can be found [here](http://www.nongnu.org/lzip/plzip.html). 
 
 
 
 ##Compile
+
 ```{r, engine='bash', encode and decode}
 $git clone www.github.com/COMBINE-lab/quark.git
 $cd quark
@@ -30,6 +33,7 @@ $cd ..
 ```
 
 ##Running Quark
+
 To see the options
 
 ```{r, engine='bash', encode and decode}
@@ -38,6 +42,7 @@ $./quark.sh -h
 ```
 
 ###To build the index with kmer size k
+
 ```{r, engine='bash', encode and decode}
 snakemake -s quark.snake make_index --config out="<output dir>" fasta="<fasta file>" kmer=<#k>
 
@@ -45,7 +50,9 @@ snakemake -s quark.snake make_index --config out="<output dir>" fasta="<fasta fi
 
 
 ###To Encode
+
 ####Single End
+
 ```{r, engine='bash', encode and decode}
 snakemake -s quark.snake encode --config out="<output dir>" index="<index dir>" r="<mate>" p=<#threads> lib="single" quality=0
 
@@ -53,6 +60,7 @@ snakemake -s quark.snake encode --config out="<output dir>" index="<index dir>" 
 
 
 ####Paired end
+
 ```{r, engine='bash', encode and decode}
 snakemake -s quark.snake encode --config out="<output dir>" index="<index dir>" m1="<mate1>" m2="<mate2>" p=<#threads> lib="paired" quality=0
 ```
