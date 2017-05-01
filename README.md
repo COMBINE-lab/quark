@@ -1,4 +1,5 @@
-#Quark 
+Quark
+=====
 
 semi-reference-based short read compression
 
@@ -37,14 +38,11 @@ $./quark.sh -h
 ```
 
 ###To build the index with kmer size k
-```snakemake -s quark.snake make_index --config out="<output dir>" fasta="<fasta file>" kmer=<#k>
-
-```
-
 ```{r, engine='bash', encode and decode}
-$./quark.sh index -t <transcript fasta> -o <out dir> -k <k mer length>
+snakemake -s quark.snake make_index --config out="<output dir>" fasta="<fasta file>" kmer=<#k>
 
 ```
+
 
 ###To Encode
 ####Single End
@@ -53,19 +51,10 @@ snakemake -s quark.snake encode --config out="<output dir>" index="<index dir>" 
 
 ```
 
-```{r, engine='bash', encode and decode}
-#$./quark.sh -r <read file> -i <index> -p <threads> -o <out dir>
 
-```
 ####Paired end
 ```{r, engine='bash', encode and decode}
 snakemake -s quark.snake encode --config out="<output dir>" index="<index dir>" m1="<mate1>" m2="<mate2>" p=<#threads> lib="paired" quality=0
-```
-
-
-```{r, engine='bash', encode and decode}
-$./quark.sh -1 <left_end> -2 <right_end> -i <index> -p <threads> -o <out dir>
-
 ```
 
 ###To Decode
@@ -74,10 +63,7 @@ $./quark.sh -1 <left_end> -2 <right_end> -i <index> -p <threads> -o <out dir>
 snakemake -s quark.snake decode --config in="<in dir>" out="<out dir>" lib="paired/single" quality=0
 ``` 
 
-```{r, engine='bash', encode and decode}
-$./quark.sh -d decode -l [P/S] -i <input dir> -p <threads> -o <out dir>
 
-```
 
 ##To check the encoded and decoded sequences are same !! (it is lossless) 
 
