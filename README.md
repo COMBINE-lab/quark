@@ -45,7 +45,6 @@ $./quark.sh -h
 
 ```{r, engine='bash', encode and decode}
 snakemake -s quark.snake make_index --config out="<output dir>" fasta="<fasta file>" kmer=<#k>
-
 ```
 
 
@@ -55,7 +54,6 @@ snakemake -s quark.snake make_index --config out="<output dir>" fasta="<fasta fi
 
 ```{r, engine='bash', encode and decode}
 snakemake -s quark.snake encode --config out="<output dir>" index="<index dir>" r="<mate>" p=<#threads> lib="single" quality=0
-
 ```
 
 
