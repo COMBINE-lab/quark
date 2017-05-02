@@ -1,0 +1,81 @@
+import os
+
+currdir=os.getcwd()
+mince=os.path.abspath("./Mince-Binaries-0.6.1/mince_linux")
+quark=os.path.abspath("./build/src/quark")
+decoder=os.path.abspath("./build/src/decoder")
+
+
+#index related parameters
+
+#common
+output_path=config["out"]
+
+
+rule make_index:
+    run:
+        if(not os.path.isdir(output_path)):
+            shell("mkdir -p {}".format(output_path))
+        shell("{} index -t {} -o {} -k {}".format(quark,config['fasta'],output_path,config['kmer']))
+
+
+rule encode:
+    run:
+        if(not os.path.isdir(output_path)):
+            shell("mkdir -p {}".format(output_path))
+        if(config['lib'] == "paired"):
+            mate_1=config['m1']
+            mate_2=config['m2']
+            if(config['quality'] == "1"):
+                print("We are in the quality branch")
+                shell("{} quant -i {} -l IU -1 <(gunzip -c {}) -2 <(gunzip -c {}) -p {} -o {} --quality".format(quark,config['index'],mate_1,mate_2,config['p'],output_path))
+            else:
+                print("We are not in the quality branch")
+                shell("{} quant -i {} -l IU -1 <(gunzip -c {}) -2 <(gunzip -c {}) -p {} -o {}".format(quark,config['index'],mate_1,mate_2,config['p'],output_path))
+            os.chdir(os.path.join(output_path,'aux'))
+            print (os.getcwd())
+            shell("{} -e -l IU -1 unmapped_1.fastq -2 unmapped_2.fastq -p {} -o m_".format(mince,config['p']))
+            os.chdir(currdir)
+            shell("cp {}/aux/*.lz {}/".format(output_path,output_path))
+            shell("rm -r {}/aux".format(output_path))
+            shell("rm -r {}/logs".format(output_path))
+            shell("rm {}/cmd_info.json".format(output_path))
+        else:
+            mate=config['r']
+            if(config['quality'] == "1"):
+                shell("{} quant -i {} -l U -r <(gunzip -c {}) -p {} -o {} --quality".format(quark,config['index'],mate,config['p'],output_path))
+            else:
+                shell("{} quant -i {} -l U -r <(gunzip -c {}) -p {} -o {} ".format(quark,config['index'],mate,config['p'],output_path))
+            os.chdir(os.path.join(output_path,'aux'))
+            shell("{} -e -l U -r unmapped.fastq -p {} -o m_".format(mince,config['p']))
+            os.chdir(currdir)
+            shell("cp {}/aux/*.lz {}/".format(output_path,output_path))
+            shell("rm -r {}/aux".format(output_path))
+            shell("rm -r {}/logs".format(output_path))
+            shell("rm {}/cmd_info.json".format(output_path))
+
+rule decode:
+    run:
+        input_path=config['out']
+        output_path=config['in']
+        if(not os.path.isdir(input_path)):
+            shell("mkdir -p {}".format(input_path))
+        shell("plzip -k -d {}/islands.txt.lz".format(output_path))
+        os.chdir(output_path)
+        shell("{} -d -i m_ -o um_".format(mince))
+        os.chdir(currdir)
+        if(config['lib'] == "paired"):
+            if(config['quality'] == "1"):
+                shell("plzip -k -d {}/quality_1.quark.lz".format(output_path))
+                shell("plzip -k -d {}/quality_2.quark.lz".format(output_path))
+                shell("{} {} {} P Q".format(decoder, output_path, output_path))
+            else:
+                shell("{} {} {} P N".format(decoder, output_path, input_path))
+        else:
+            if(config['quality'] == "1"):
+                shell("plzip -k -d {}/quality.quark.lz".format(output_path))
+                shell("{} {} {} S Q".format(decoder, output_path, input_path))
+            else:
+                shell("{} {} {} S N".format(decoder, output_path, input_path))
+        shell("rm {}/um_*".format(output_path))
+        shell("rm {}/islands.txt".format(output_path))

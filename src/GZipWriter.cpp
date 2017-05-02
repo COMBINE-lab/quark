@@ -836,9 +836,12 @@ bool GZipWriter::writeEncoding(
 
   iFile.close();
   fmt::MemoryWriter w5;
-  w5.write("plzip -k -f -n 10 {}",islandTxtFile.string());
+  w5.write("plzip -k -f -n {} {}",opts.numThreads,islandTxtFile.string());
   std::system(w5.c_str());
   w5.clear();
+
+
+
 
 	  //boost::dynamic_bitset<uint8_t> bitmapC;
 	  //std::vector<uint8_t> delimBytes;
@@ -869,7 +872,7 @@ bool GZipWriter::writeEncoding(
 		  //pstream_ptr unrPtr(nullptr, closeStreamDeleter("rightUnmappedPtr"));
 
 		  fmt::MemoryWriter w1;
-		  w1.write("/home/rob/mince/bin/mince -e -l IU -1 {} -2 {} -p 10 -o {}",unMappedFile_l.string(),unMappedFile_r.string(),mincePrefix);
+		  w1.write("/home/rob/mince/bin/mince -e -l IU -1 {} -2 {} -p {} -o {}",unMappedFile_l.string(),unMappedFile_r.string(),opts.numThreads,mincePrefix);
 
 
 		  //fmt::MemoryWriter w2;
@@ -912,13 +915,13 @@ bool GZipWriter::writeEncoding(
 				  uFile_l << "\n";
 				  uFile_l << "+"<< "\n";
 
-				  if(!qualityScore){
-					  for(il = 0; il < len ; il++){
-						  uFile_l << "I";
-					  }
-				  }else{
-					 uFile_l << qualities[2] ;
+				  for(il = 0; il < len ; il++){
+					  uFile_l << "I";
 				  }
+
+				 if(qualityScore){
+					quality_1 << qualities[2] << "\n";
+				 }
 				  uFile_l << "\n";
 
 
@@ -930,12 +933,11 @@ bool GZipWriter::writeEncoding(
 				  uFile_r << "\n";
 				  uFile_r << "+"<< "\n";
 
-				  if(!qualityScore){
-					  for(il = len+1; il < seq.size() ; il++){
-						  uFile_r << "I" ;
-					  }
-				  }else{
-					  uFile_r << qualities[3] ;
+				  for(il = len+1; il < seq.size() ; il++){
+					  uFile_r << "I" ;
+				  }
+				  if(qualityScore){
+					  quality_2 << qualities[3] <<"\n";
 				  }
 				  uFile_r << "\n";
 				  uid++;
@@ -973,7 +975,7 @@ bool GZipWriter::writeEncoding(
 		  std::ofstream uFile_l(unMappedFile_l.string());
 
 		  fmt::MemoryWriter w1;
-		  w1.write("/home/rob/mince/bin/mince -e -l U -r {} -p 10 -o {}",unMappedFile_l.string(),mincePrefix);
+		  w1.write("/home/rob/mince/bin/mince -e -l U -r {} -p {} -o {}",unMappedFile_l.string(),opts.numThreads,mincePrefix);
 
 
 
@@ -992,12 +994,11 @@ bool GZipWriter::writeEncoding(
 				  uFile_l << "\n";
 				  uFile_l << "+"<< "\n";
 
-				  if(!qualityScore){
-					  for(int il = 0; il < seq.size() ; il++){
-						  uFile_l << "I";
-					  }
-				  }else{
-					  uFile_l << qualities[1];
+				  for(int il = 0; il < seq.size() ; il++){
+					  uFile_l << "I";
+				  }
+				  if(qualityScore){
+					  quality_single << qualities[1] << "\n";
 				  }
 
 				  uFile_l << "\n";
@@ -1011,6 +1012,42 @@ bool GZipWriter::writeEncoding(
 		  w1.write("chmod +x {}",minceScriptFile.string());
 		  std::system(w1.c_str());
 		  w1.clear();
+	  }
+
+  }
+
+
+  if(qualityScore){
+	  if(experiment.readLibraries().front().format().type != ReadType::SINGLE_END){
+		  quality_1.close();
+		  fmt::MemoryWriter w6;
+		  w6.write("plzip -k -f -n {} {}",opts.numThreads,qualityFilePath_1.string());
+		  std::system(w6.c_str());
+		  w6.clear();
+		  w6.write("rm {}",qualityFilePath_1.string());
+		  std::system(w6.c_str());
+		  w6.clear();
+
+
+		  quality_2.close();
+		  fmt::MemoryWriter w7;
+		  w7.write("plzip -k -f -n {} {}",opts.numThreads,qualityFilePath_2.string());
+		  std::system(w7.c_str());
+		  w7.clear();
+		  w7.write("rm {}",qualityFilePath_2.string());
+		  std::system(w7.c_str());
+		  w7.clear();
+
+	  }else{
+
+		  quality_single.close();
+		  fmt::MemoryWriter w6;
+		  w6.write("plzip -k -f -n {} {}",opts.numThreads,qualityFilePath.string());
+		  std::system(w6.c_str());
+		  w6.clear();
+		  w6.write("rm {}",qualityFilePath.string());
+		  std::system(w6.c_str());
+		  w6.clear();
 	  }
 
   }

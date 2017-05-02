@@ -922,7 +922,7 @@ void processReadsQuasi(paired_parser* parser,
 	    	 }
 
 
-	    	 qEqBuilder.addGroup(std::move(tg),temp_l,quality,lint,rint);
+	    	 qEqBuilder.addGroup(std::move(tg),temp_l,quality,lint,rint,qualityScore);
 	    	 }
 	    }else{
 	    	if (txpIDsAll.size() > 0) {
@@ -1025,7 +1025,7 @@ void processReadsQuasi(paired_parser* parser,
                 if(!qualityScore){
                 	quality = "";
                 }
-                qEqBuilder.addGroup(std::move(tg),temp_l,quality,lint,rint);
+                qEqBuilder.addGroup(std::move(tg),temp_l,quality,lint,rint,qualityScore);
 	    	}
 	    }
 
@@ -1281,7 +1281,7 @@ void processReadsQuasi(single_parser* parser,
             	    		 quality = "";
             	    	 }
 
-            	    	 qEqBuilder.addGroup(std::move(tg),temp_l,quality,lint,rint);
+            	    	 qEqBuilder.addGroup(std::move(tg),temp_l,quality,lint,rint,qualityScore);
             	    	 }
             	    }else{
             	    	if (txpIDsAll.size() > 0) {
@@ -1324,7 +1324,7 @@ void processReadsQuasi(single_parser* parser,
 
 							 lint = std::make_pair(corr_lpos,corr_lpos_end);
 							 rint = {-1,-1};
-							 qEqBuilder.addGroup(std::move(tg),temp_l,quality,lint,rint);
+							 qEqBuilder.addGroup(std::move(tg),temp_l,quality,lint,rint,qualityScore);
             	    	}
             	    }
 

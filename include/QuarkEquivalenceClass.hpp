@@ -88,9 +88,11 @@ class QuarkEquivalenceClassBuilder{
 		                                     std::string qcode,
                                                      std::string quality,
 											 std::pair<int32_t,int32_t> lint,
-											 std::pair<int32_t,int32_t> rint) {
+											 std::pair<int32_t,int32_t> rint,
+											 bool qualityScore) {
 
-		                    auto upfn = [&qcode,&quality,&lint,&rint](QStrings& x) -> void {
+
+		                    auto upfn = [&qcode,&quality,&lint,&rint,&qualityScore](QStrings& x) -> void {
 		                     // update the count
 		                        // x.scoped_lock {
 #if defined __APPLE__
@@ -100,6 +102,7 @@ class QuarkEquivalenceClassBuilder{
 #endif
 		                        x.count++;
 		                        x.qcodes.push_back(qcode);
+		                        if(qualityScore)
                                         x.qualityscores.push_back(quality);
 		                        x.intervals.push_back(lint);
 		                        x.intervals.push_back(rint);

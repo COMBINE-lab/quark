@@ -149,15 +149,20 @@ char codes[16] = {
 };
 
 
-void readCompressedSingle(std::string &ifname, std::string& ofname){
+void readCompressedSingle(std::string &ifnamestr, std::string& ofname, bool qualityScore){
 
-	    bfs::path seqPathLeft = ifname + "reads.quark.lz";
-		bfs::path offsetPathLeft = ifname + "offset.quark.lz";
-		std::string islandPath = ifname + "islands.txt";
+		bfs::path ifname(ifnamestr) ;
+
+	    bfs::path seqPathLeft = ifname / "reads.quark.lz";
+		bfs::path offsetPathLeft = ifname / "offset.quark.lz";
+		bfs::path islandPath = ifname / "islands.txt";
+		bfs::path qualityPath = ifname / "quality.quark";
 
 		std::cout << "Sequence File : { " << seqPathLeft << " }\n";
 		std::cout << "Offset File: { " << offsetPathLeft << " }\n";
 		std::cout << "Island file : { " << islandPath << " }\n";
+		if(qualityScore)
+			std::cout << "Quality file : { " << qualityPath << " }\n";
 
 		//set up output directory
 		bfs::path outdir(ofname);
@@ -166,21 +171,29 @@ void readCompressedSingle(std::string &ifname, std::string& ofname){
 				std::cout << "Output would be written in "<<outdir<<"\n";
 		}
 
-		std::ifstream iFile(islandPath);
+		std::ifstream iFile(islandPath.string());
+
+
+		std::ifstream qualityFile;
+		if(qualityScore){
+			qualityFile.open(qualityPath.string(),std::ofstream::in);
+		}
+
+
 		std::ofstream seqLeftOut;
-		seqLeftOut.open(ofname + "1.fastq");
+		seqLeftOut.open(ofname + "/1.fastq");
 
 
 
-		std::string unmapped_1 = ifname + "/um_.fa";
-		std::ifstream um1(unmapped_1);
+		bfs::path unmapped_1 = ifname / "um_.fa";
+		std::ifstream um1(unmapped_1.string());
 
 		fmt::MemoryWriter w;
-		w.write("plzip -d -c -n {} {}", 2, seqPathLeft.string());
+		w.write("plzip -d -c -n {} {}", 2, seqPathLeft);
 		redi::ipstream seqLeft(w.str());
 		w.clear();
 
-		w.write("plzip -d -c -n {} {}", 2, offsetPathLeft.string());
+		w.write("plzip -d -c -n {} {}", 2, offsetPathLeft);
 		redi::ipstream offLeft(w.str());
 		w.clear();
 
@@ -189,19 +202,8 @@ void readCompressedSingle(std::string &ifname, std::string& ofname){
 		int numOfReads = 0;
 
 
-		std::string content;
 
-		std::string head;
-		while(um1 >> head){
-			um1 >> content;
-			std::string quality(content.size(),'I');
-			seqLeftOut << "@" << numOfReads << "\n";
-			seqLeftOut << content << "\n" ;
-			seqLeftOut << "+" << "\n";
-			seqLeftOut << quality << "\n";
-			numOfReads++;
-		}
-
+		std::string qScore ;
 
 		for(int eqNum = 0; eqNum < numOfEquivClasses; eqNum++){
 
@@ -286,18 +288,47 @@ void readCompressedSingle(std::string &ifname, std::string& ofname){
 				}
 				//seqLeftOut << ldecoded << "\n" ;
 
-				std::string quality(ldecoded.size(),'I');
+				//read the quality file and then write one by one
+
+
 				seqLeftOut << "@" << numOfReads << "\n";
 				seqLeftOut << ldecoded << "\n" ;
 				seqLeftOut << "+" << "\n";
-				seqLeftOut << quality << "\n";
+				if(qualityScore){
+					qualityFile >> qScore ;
+					seqLeftOut << qScore << "\n";
+				}
+				else{
+					std::string quality(ldecoded.size(),'I');
+					seqLeftOut << quality << "\n" ;
+				}
 				numOfReads++;
 			}
 
 		}
+
+		std::string content;
+
+		std::string head;
+		while(um1 >> head){
+			um1 >> content;
+			qualityFile >> qScore ;
+			seqLeftOut << "@" << numOfReads << "\n";
+			seqLeftOut << content << "\n" ;
+			seqLeftOut << "+" << "\n";
+			if(qualityScore){
+				qualityFile >> qScore ;
+				seqLeftOut << qScore << "\n";
+			}
+			else{
+				std::string quality(content.size(),'I');
+				seqLeftOut << quality << "\n" ;
+			}
+			numOfReads++;
+		}
 }
 
-void readCompressed(std::string &ifname, std::string &ofname){
+void readCompressed(std::string &ifname, std::string &ofname, bool qualityScore){
 
 	    bfs::path seqPathLeft = ifname + "/reads_1.quark.lz";
 		bfs::path seqPathRight = ifname + "/reads_2.quark.lz";
@@ -561,9 +592,30 @@ void readCompressed(std::string &ifname, std::string &ofname){
 
 int main(int argc, char* argv[]){
 	std::vector<std::string> args(argv+1,argv+argc);
+	bool qualityScore{false} ;
+
+	if(argc < 4){
+		if(args[0] == "--help"){
+			std::cout << "\n Correct syntax is \n"
+					  << "./decoder <input dir> <output dir> <P/S> <Q/N>" ;
+			return 0;
+		}else{
+			std::cout << "\n Invoked incorrectly \n" ;
+			return 0;
+		}
+	}
 	std::cout << "\n Starting Quark Decoder Module ...\n";
 	std::cout << "\n Input directory : " << args[0];
 	std::cout << "\n Output directory : " << args[1];
+
+
+	if(args[3] == "Q"){
+		std::cout << "\n Quality will be added ";
+		qualityScore = true ;
+	}else{
+		std::cout << "\n No quality score file found ";
+		qualityScore = false ;
+	}
 	//std::cout << "\n Library type : " << args[2];
 
 	if(args[2] == "S"){
@@ -574,13 +626,10 @@ int main(int argc, char* argv[]){
 	//std::cout << "\n Number of theads : " << args[4] << "\n\n";
 
 	if(args[2] != "S"){
-		readCompressed(args[0],args[1]);
-
-
-
+		readCompressed(args[0],args[1],qualityScore);
 
 	}else{
-		readCompressedSingle(args[0],args[1]);
+		readCompressedSingle(args[0],args[1],qualityScore);
 	}
 
 	std::cout<< "\n";

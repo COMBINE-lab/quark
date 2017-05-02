@@ -1,0 +1,55 @@
+import os
+from glob import glob
+
+mouse_index="/mnt/scratch1/hirak/quark_data/mouse_index/"
+human_index="/mnt/scratch1/hirak/quark_data/sailfish_index/"
+
+quark=os.path.abspath("./build/src/quark")
+
+output_path=os.path.abspath(config['stat'])
+srrnames = ["/mnt/scratch1/hirak/quark_data/SRR1265495/", 
+            "/mnt/scratch1/hirak/quark_data/SRR1265496/",
+            "/mnt/scratch1/hirak/quark_data/SRR037452/",
+            "/mnt/scratch1/hirak/quark_data/SRR1294122/",
+            "/mnt/scratch1/hirak/quark_data/SRR445718/",
+            "/mnt/scratch1/hirak/quark_data/SRR490961/",
+            "/mnt/scratch1/hirak/quark_data/SRR635193/",
+            "/mnt/scratch1/hirak/quark_data/SRR689233/"]
+
+rule runbatchencode:
+    run:
+        for srrdir in srrnames:
+            inputfiles=glob(os.path.join(srrdir,"*.fastq.gz"))
+            shell("echo {} {} >> {}".format(os.path.basename(os.path.normpath(srrdir)),len(inputfiles),output_path))
+            quark_out=os.path.join(srrdir,"only_quark_out")
+            if(not os.path.isdir(quark_out)):
+                shell("mkdir -p {}".format(quark_out))
+            if(len(inputfiles) == 2):
+                mate_1=""
+                mate_2=""
+                if(inputfiles[0].split("_")[-1].split(".")[0] == "1"):
+                    mate_1 = inputfiles[0]
+                    mate_2 = inputfiles[1]
+                else:
+                    mate_2 = inputfiles[0]
+                    mate_1 = inputfiles[1]
+                #run quark
+                #if mouse
+                if(os.path.basename(os.path.normpath(srrdir)) == "SRR689233"):
+                    shell("/usr/bin/time -o {} -a {} quant -i {} -l IU -1 <(gunzip -c {}) -2 <(gunzip -c {}) -p 20 -o {}"\
+                    .format(output_path, quark, mouse_index, mate_1,mate_2,quark_out))
+                else:
+                    shell("/usr/bin/time -o {} -a {} quant -i {} -l IU -1 <(gunzip -c {}) -2 <(gunzip -c {}) -p 20 -o {}"\
+                    .format(output_path, quark, human_index, mate_1,mate_2,quark_out))
+            else:
+                mate=inputfiles[0]
+                shell("/usr/bin/time -o {} -a {} quant -i {} -l U -r <(gunzip -c {}) -p 20 -o {}"\
+                    .format(output_path, quark, human_index, mate, quark_out))
+rule runbatchdecode:
+    run:
+        for srrdir in srrnames:
+            leonfiles=glob(srrdir,"*.fastq.leon")
+            shell("echo {} {} >> {}".format(os.path.basename(os.path.normpath(srrdir)),len(leonfiles),output_path))
+            #run leon
+
+
