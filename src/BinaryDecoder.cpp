@@ -334,6 +334,8 @@ void readCompressed(std::string &ifname, std::string &ofname, bool qualityScore)
 		bfs::path seqPathRight = ifname + "/reads_2.quark.lz";
 		bfs::path offsetPathLeft = ifname + "/offset_1.quark.lz";
 		bfs::path offsetPathRight = ifname + "/offset_2.quark.lz";
+		bfs::path qualityPathLeft = ifname + "quality_1.quark";
+		bfs::path qualityPathRight = ifname + "quality_2.quark";
 
 		std::string islandPath = ifname + "/islands.txt";
 
@@ -350,6 +352,10 @@ void readCompressed(std::string &ifname, std::string &ofname, bool qualityScore)
 		std::cout << "Left Offset : { " << offsetPathLeft << " }\n";
 		std::cout << "Right Offset : { " << offsetPathRight << " }\n";
 		std::cout << "Island file : { " << islandPath << " }\n";
+		if(qualityScore){
+					std::cout << "Left quality file : { " << qualityPathLeft << " }\n";
+					std::cout << "Right quality file : { " << qualityPathRight << " }\n";
+		}
 
 		std::ifstream iFile(islandPath);
 
@@ -363,6 +369,13 @@ void readCompressed(std::string &ifname, std::string &ofname, bool qualityScore)
 		seqLeftOut.open(ofname + "1.fastq");
 		std::ofstream seqRightOut;
 		seqRightOut.open(ofname + "2.fastq");
+
+		std::ifstream qualityFile1 ;
+		std::ifstream qualityFile2 ;
+		if(qualityScore){
+			qualityFile1.open(qualityPathLeft.string(), std::ofstream::in);
+			qualityFile2.open(qualityPathRight.string(), std::ofstream::in);
+		}
 
 
 
@@ -390,28 +403,8 @@ void readCompressed(std::string &ifname, std::string &ofname, bool qualityScore)
 		iFile >> numOfEquivClasses;
 		int numOfReads = 0;
 
+		std::string qScore;
 
-		std::string content;
-		std::string head;
-		while(um1 >> head){
-			um1 >> content;
-			std::string quality(content.size(),'I');
-			seqLeftOut << "@" << numOfReads << "\n";
-			seqLeftOut << content << "\n" ;
-			seqLeftOut << "+" << "\n";
-			seqLeftOut << quality << "\n";
-			numOfReads++;
-		}
-		numOfReads = 0;
-		while(um2 >> head){
-			um2 >> content;
-			std::string quality(content.size(),'I');
-			seqRightOut << "@" << numOfReads << "\n";
-			seqRightOut << content << "\n" ;
-			seqRightOut << "+" << "\n";
-			seqRightOut << quality << "\n";
-			numOfReads++;
-		}
 
 
 		for(int eqNum = 0; eqNum < numOfEquivClasses; eqNum++){
@@ -571,18 +564,67 @@ void readCompressed(std::string &ifname, std::string &ofname, bool qualityScore)
 				}
 
 
-				std::string quality(ldecoded.size(),'I');
 				seqLeftOut << "@" << numOfReads << "\n";
 				seqLeftOut << ldecoded << "\n" ;
 				seqLeftOut << "+" << "\n";
-				seqLeftOut << quality << "\n";
+				if(qualityScore){
+					qualityFile1 >> qScore ;
+					seqLeftOut << qScore << "\n" ;
+				}else{
+					std::string quality(ldecoded.size(),'I');
+					seqLeftOut << quality << "\n";
+				}
 
 				seqRightOut << "@" << numOfReads << "\n";
 				seqRightOut << rdecoded << "\n" ;
 				seqRightOut << "+" << "\n";
-				seqRightOut << quality << "\n";
+				if(qualityScore){
+					qualityFile2 >> qScore ;
+					seqRightOut << qScore << "\n" ;
+				}else{
+					std::string quality(rdecoded.size(),'I');
+					seqRightOut << quality << "\n";
+				}
+				//seqRightOut << quality << "\n";
 
 			}
+		}
+
+		int numOfReads2 = numOfReads;
+		std::string content;
+		std::string head;
+		while(um1 >> head){
+			um1 >> content;
+			std::string quality(content.size(),'I');
+			seqLeftOut << "@" << numOfReads << "\n";
+			seqLeftOut << content << "\n" ;
+			seqLeftOut << "+" << "\n";
+			if(qualityScore){
+				qualityFile1 >> qScore ;
+				seqLeftOut << qScore << "\n" ;
+			}else{
+				//std::string quality(ldecoded.size(),'I');
+				seqLeftOut << quality << "\n";
+			}
+			//seqLeftOut << quality << "\n";
+			numOfReads++;
+		}
+		//numOfReads = 0;
+		while(um2 >> head){
+			um2 >> content;
+			std::string quality(content.size(),'I');
+			seqRightOut << "@" << numOfReads2 << "\n";
+			seqRightOut << content << "\n" ;
+			seqRightOut << "+" << "\n";
+			if(qualityScore){
+				qualityFile2 >> qScore ;
+				seqRightOut << qScore << "\n" ;
+			}else{
+				//std::string quality(ldecoded.size(),'I');
+				seqRightOut << quality << "\n";
+			}
+			//seqRightOut << quality << "\n";
+			numOfReads2++;
 		}
 
 

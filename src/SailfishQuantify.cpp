@@ -379,6 +379,7 @@ std::string quarkCode(
 
 		//}
 
+
 	}else if(pos < 0){
 		res = "";
 		res.append(std::to_string(0));

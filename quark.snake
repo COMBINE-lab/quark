@@ -37,7 +37,7 @@ rule encode:
             shell("{} -e -l IU -1 unmapped_1.fastq -2 unmapped_2.fastq -p {} -o m_".format(mince,config['p']))
             os.chdir(currdir)
             shell("cp {}/aux/*.lz {}/".format(output_path,output_path))
-            shell("rm -r {}/aux".format(output_path))
+            #shell("rm -r {}/aux".format(output_path))
             shell("rm -r {}/logs".format(output_path))
             shell("rm {}/cmd_info.json".format(output_path))
         else:
@@ -56,26 +56,26 @@ rule encode:
 
 rule decode:
     run:
-        input_path=config['out']
-        output_path=config['in']
-        if(not os.path.isdir(input_path)):
-            shell("mkdir -p {}".format(input_path))
-        shell("plzip -k -d {}/islands.txt.lz".format(output_path))
-        os.chdir(output_path)
+        input_path=config['in']
+        output_path=config['out']
+        if(not os.path.isdir(output_path)):
+            shell("mkdir -p {}".format(output_path))
+        shell("plzip -k -d {}/islands.txt.lz".format(input_path))
+        os.chdir(input_path)
         shell("{} -d -i m_ -o um_".format(mince))
         os.chdir(currdir)
         if(config['lib'] == "paired"):
             if(config['quality'] == "1"):
-                shell("plzip -k -d {}/quality_1.quark.lz".format(output_path))
-                shell("plzip -k -d {}/quality_2.quark.lz".format(output_path))
-                shell("{} {} {} P Q".format(decoder, output_path, output_path))
+                shell("plzip -k -d {}/quality_1.quark.lz".format(input_path))
+                shell("plzip -k -d {}/quality_2.quark.lz".format(input_path))
+                shell("{} {} {} P Q".format(decoder, input_path, output_path))
             else:
-                shell("{} {} {} P N".format(decoder, output_path, input_path))
+                shell("{} {} {} P N".format(decoder, input_path, output_path))
         else:
             if(config['quality'] == "1"):
-                shell("plzip -k -d {}/quality.quark.lz".format(output_path))
-                shell("{} {} {} S Q".format(decoder, output_path, input_path))
+                shell("plzip -k -d {}/quality.quark.lz".format(input_path))
+                shell("{} {} {} S Q".format(decoder, input_path, output_path))
             else:
-                shell("{} {} {} S N".format(decoder, output_path, input_path))
-        shell("rm {}/um_*".format(output_path))
-        shell("rm {}/islands.txt".format(output_path))
+                shell("{} {} {} S N".format(decoder, input_path, output_path))
+        shell("rm {}/um_*".format(input_path))
+        shell("rm {}/islands.txt".format(input_path))

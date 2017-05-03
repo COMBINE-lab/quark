@@ -905,10 +905,14 @@ bool GZipWriter::writeEncoding(
 					  qualities = split(seq,'|');
 				  }
 
+				  if(qualities[0] == "GGGGGGAGGGGGGGTTGTTAGGGGGTCGGAGGAAAAGGTTGGGGAACAGCTAAATAGGTTGTTGTTGATTTGGTTA"){
+					  std::cout << "\n Now in this seq with qual " << qualities[2] << " other qual " << qualities[3] << "\n" ;
+				  }
 
 				  int il = 0;
-				  int len = (seq.size()-1)/2;
+				  int len = (seq.size()-3)/4;
 				  uFile_l << "@"<<uid<< "\n";
+
 				  for(il = 0; il < len ; il++){
 					  uFile_l << seq[il];
 				  }
@@ -927,13 +931,16 @@ bool GZipWriter::writeEncoding(
 
 
 				  uFile_r << "@"<<uid<< "\n";
-				  for(il = len+1; il < seq.size() ; il++){
-					  uFile_r << seq[il] ;
-				  }
+				  //if(!qualityScore){
+					  for(il = len+1; il < 2*len + 1 ; il++){
+						  uFile_r << seq[il] ;
+					  }
+
+
 				  uFile_r << "\n";
 				  uFile_r << "+"<< "\n";
 
-				  for(il = len+1; il < seq.size() ; il++){
+				  for(il = len+1; il < 2*len +1 ; il++){
 					  uFile_r << "I" ;
 				  }
 				  if(qualityScore){
