@@ -134,6 +134,8 @@ std::string revComp(std::string s){
         s[i] = complement(s[n-1-i]);
         s[n-1-i] = temp;
     }
+     if(s.size()%2 != 0)
+        s[halfLength] = complement(s[halfLength]);
     return s;
 }
 
@@ -1875,7 +1877,7 @@ int mainQuantify(int argc, char* argv[]) {
             auto hstring = R"(
                 Encode
                 ==========
-                Perform semi-reference based compression from RNA-seq data. 
+                Perform semi-reference based compression from RNA-seq data.
                 )";
             std::cout << hstring << std::endl;
             std::cout << visible << std::endl;

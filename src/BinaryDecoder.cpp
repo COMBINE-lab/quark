@@ -65,6 +65,8 @@ std::string revComp(std::string s){
         s[i] = complement(s[n-1-i]);
         s[n-1-i] = temp;
     }
+    if(s.size()%2 != 0)
+        s[halfLength] = complement(s[halfLength]);
     return s;
 }
 
