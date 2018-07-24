@@ -1,7 +1,7 @@
 #ifndef __SAILFISH_INDEX_VERSION_INFO_HPP__
 #define __SAILFISH_INDEX_VERSION_INFO_HPP__
 
-#include "spdlog/fmt/fmt.h"
+#include "spdlog/details/format.h"
 #include "boost/filesystem.hpp"
 #include "cereal/archives/json.hpp"
 

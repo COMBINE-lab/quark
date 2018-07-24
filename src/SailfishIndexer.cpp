@@ -61,7 +61,7 @@
 #include "SailfishUtils.hpp"
 #include "SailfishIndex.hpp"
 #include "spdlog/spdlog.h"
-#include "spdlog/fmt/fmt.h"
+#include "spdlog/details/format.h"
 
 int mainIndex( int argc, char *argv[] ) {
     using std::string;
