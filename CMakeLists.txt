@@ -135,15 +135,17 @@ include(ExternalProject)
 ##
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${WARNING_IGNORE_FLAGS}")
 
-if (CMAKE_BUILD_TYPE MATCHES Debug)
-    message ("Making Debug build")
-    set (CMAKE_CXX_FLAGS_DEBUG "-g ${CMAKE_CXX_FLAGS}")
-elseif (CMAKE_BUILD_TYPE MATCHES Release)
-    message ("Making Release build")
-    set (CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS}")
-else ()
-    message ("Making Default build type")
-endif ()
+#if (CMAKE_BUILD_TYPE MATCHES Debug)
+#    message ("Making Debug build")
+#    set (CMAKE_CXX_FLAGS_DEBUG "-g ${CMAKE_CXX_FLAGS}")
+#elseif (CMAKE_BUILD_TYPE MATCHES Release)
+#    message ("Making Release build")
+#    set (CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS}")
+#else ()
+#    message ("Making Default build type")
+#endif ()
+
+set (CMAKE_CXX_FLAGS_DEBUG "-g ${CMAKE_CXX_FLAGS}")
 
 ##
 # Record this top-level path
@@ -353,7 +355,7 @@ ExternalProject_Add_Step(libtbb reconfigure
 )
 endif()
 
-## 
+##
 #  Find HDF5, and prefer the static libs
 ##
 #set(HDF5_USE_STATIC_LIBRARIES TRUE)
@@ -421,41 +423,41 @@ set (FAST_MALLOC_LIB "")
 set (HAVE_FAST_MALLOC FALSE)
 
 # See if we have Jemalloc
-find_package(Jemalloc)
-if (Jemalloc_FOUND)
-    message("Found Jemalloc library --- using this memory allocator")
-    set (FAST_MALLOC_LIB ${JEMALLOC_LIBRARIES})
-    set (HAVE_FAST_MALLOC TRUE)
-endif()
+#find_package(Jemalloc)
+#if (Jemalloc_FOUND)
+#    message("Found Jemalloc library --- using this memory allocator")
+#    set (FAST_MALLOC_LIB ${JEMALLOC_LIBRARIES})
+#    set (HAVE_FAST_MALLOC TRUE)
+#endif()
 
-if (NOT HAVE_FAST_MALLOC)
-    # See if we have Tcmalloc
-    find_package(Tcmalloc)
-    if (Tcmalloc_FOUND)
-        message("Fount TCMalloc library --- using this memory allocator")
-        set (TCMALLOC_LIB ${Tcmalloc_LIBRARIES})
-        set (FAST_MALLOC_LIB ${TCMALLOC_LIB})
-        set (HAVE_FAST_MALLOC TRUE)
-    endif()
-endif()
+#if (NOT HAVE_FAST_MALLOC)
+#    # See if we have Tcmalloc
+#    find_package(Tcmalloc)
+#    if (Tcmalloc_FOUND)
+#        message("Fount TCMalloc library --- using this memory allocator")
+#        set (TCMALLOC_LIB ${Tcmalloc_LIBRARIES})
+#        set (FAST_MALLOC_LIB ${TCMALLOC_LIB})
+#        set (HAVE_FAST_MALLOC TRUE)
+#    endif()
+#endif()
 
-if (NOT HAVE_FAST_MALLOC)
-    message("Build system will fetch and use JEMalloc")
-    message("==================================================================")
-    ExternalProject_Add(libjemalloc
-        DOWNLOAD_DIR ${CMAKE_CURRENT_SOURCE_DIR}/external
-        DOWNLOAD_COMMAND curl -k -L https://github.com/COMBINE-lab/jemalloc/archive/3.6.0.tar.gz -o jemalloc-3.6.0.tar.gz &&
-        tar -xzf jemalloc-3.6.0.tar.gz
-        SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/external/jemalloc-3.6.0
-        BUILD_IN_SOURCE TRUE
-        INSTALL_DIR ${CMAKE_CURRENT_SOURCE_DIR}/external/install
-        CONFIGURE_COMMAND sh -c "CC=${CMAKE_C_COMPILER} ./autogen.sh --prefix=<INSTALL_DIR>"
-        INSTALL_COMMAND cp -r lib <INSTALL_DIR>/ && cp -r include <INSTALL_DIR>/
-        )
 
-    set (FAST_MALLOC_LIB ${CMAKE_CURRENT_SOURCE_DIR}/external/install/lib/libjemalloc.a)
-    set (HAVE_FAST_MALLOC TRUE)
-endif ()
+message("Build system will fetch and use JEMalloc")
+message("==================================================================")
+ExternalProject_Add(libjemalloc
+    DOWNLOAD_DIR ${CMAKE_CURRENT_SOURCE_DIR}/external
+    DOWNLOAD_COMMAND curl -k -L https://github.com/COMBINE-lab/jemalloc/archive/3.6.0.tar.gz -o jemalloc-3.6.0.tar.gz &&
+    tar -xzf jemalloc-3.6.0.tar.gz
+    SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/external/jemalloc-3.6.0
+    BUILD_IN_SOURCE TRUE
+    INSTALL_DIR ${CMAKE_CURRENT_SOURCE_DIR}/external/install
+    CONFIGURE_COMMAND sh -c "CC=${CMAKE_C_COMPILER} ./autogen.sh --prefix=<INSTALL_DIR>"
+    INSTALL_COMMAND cp -r lib <INSTALL_DIR>/ && cp -r include <INSTALL_DIR>/
+    )
+
+set (FAST_MALLOC_LIB ${CMAKE_CURRENT_SOURCE_DIR}/external/install/lib/libjemalloc.a)
+set (HAVE_FAST_MALLOC TRUE)
+
 
 ##
 ## This depenency is for RapMap

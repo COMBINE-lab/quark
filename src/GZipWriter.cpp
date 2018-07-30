@@ -868,85 +868,85 @@ bool GZipWriter::writeEncoding(
 
 		  std::string mincePrefix = "unmin" ;
 
-		  //pstream_ptr unlPtr(nullptr, closeStreamDeleter("leftUnmappedPtr"));
-		  //pstream_ptr unrPtr(nullptr, closeStreamDeleter("rightUnmappedPtr"));
-
 		  fmt::MemoryWriter w1;
 		  w1.write("/home/rob/mince/bin/mince -e -l IU -1 {} -2 {} -p {} -o {}",unMappedFile_l.string(),unMappedFile_r.string(),opts.numThreads,mincePrefix);
 
 
-		  //fmt::MemoryWriter w2;
-		  //w2.write("cd {}",auxDir.string());
-
-		  //std::cout << "\n " << w1.str() << "\n";
-
-
-		  /*
-		  bfs::path unMappedFile = auxDir/"unmapped.fa";
-		  std::ofstream uFile(unMappedFile.string());
-		  for(auto& seqvec : unmapped){
-			  for(auto& seq : seqvec){
-				  uFile << seq << "\n";
-			  }
-		  }
-		  */
-
 		  std::ofstream uFile_l(unMappedFile_l.string());
 		  std::ofstream uFile_r(unMappedFile_r.string());
 
-
-
-
 		  for(auto seqvec : unmapped)
 			  for(auto seq : seqvec){
-
 				  std::vector<std::string> qualities;
 				  if(qualityScore){
-					  qualities = split(seq,'|');
+
+                      // Format L|R|Q1|Q2
+				      qualities = split(seq,'|');
+                      int il = 0;
+                      int len = (seq.size()-3)/4;
+
+                    // Left end
+                    uFile_l << "@"<<uid<< "\n";
+
+                    for(il = 0; il < len ; il++){
+                     uFile_l << seq[il];
+                    }
+                    uFile_l << "\n";
+                    uFile_l << "+"<< "\n";
+
+                    for(il = 0; il < len ; il++){
+                     uFile_l << "I";
+                    }
+                    uFile_l << "\n";
+
+                    quality_1 << qualities[2] << "\n";
+
+                    // Right end
+                    uFile_r << "@"<<uid<< "\n";
+  					for(il = len+1; il < 2*len + 1 ; il++){
+  				       uFile_r << seq[il] ;
+  					}
+                    uFile_r << "\n";
+                     uFile_r << "+"<< "\n";
+
+                     for(il = len+1; il < 2*len +1 ; il++){
+                         uFile_r << "I" ;
+                     }
+
+                     quality_2 << qualities[3] <<"\n";
+
+                     uFile_r << "\n";
+
 				  }
+                  else{
+                      int il = 0;
+                      int len = (seq.size()-1)/2;
+                      uFile_l << "@"<<uid<< "\n";
+                      for(il = 0; il < len ; il++){
+                          uFile_l << seq[il];
+                      }
+                      uFile_l << "\n";
+                      uFile_l << "+"<< "\n";
 
-				  if(qualities[0] == "GGGGGGAGGGGGGGTTGTTAGGGGGTCGGAGGAAAAGGTTGGGGAACAGCTAAATAGGTTGTTGTTGATTTGGTTA"){
-					  std::cout << "\n Now in this seq with qual " << qualities[2] << " other qual " << qualities[3] << "\n" ;
-				  }
+                      for(il = 0; il < len ; il++){
+                          uFile_l << "I";
+                      }
+                      uFile_l << "\n";
+                      uFile_r << "@"<<uid<< "\n";
+                     for(il = len+1; il < seq.size() ; il++){
+                         uFile_r << seq[il] ;
+                     }
+                     uFile_r << "\n";
+                     uFile_r << "+"<< "\n";
 
-				  int il = 0;
-				  int len = (seq.size()-3)/4;
-				  uFile_l << "@"<<uid<< "\n";
+                     for(il = len+1; il < seq.size() ; il++){
+                         uFile_r << "I" ;
+                     }
 
-				  for(il = 0; il < len ; il++){
-					  uFile_l << seq[il];
-				  }
-				  uFile_l << "\n";
-				  uFile_l << "+"<< "\n";
-
-				  for(il = 0; il < len ; il++){
-					  uFile_l << "I";
-				  }
-
-				 if(qualityScore){
-					quality_1 << qualities[2] << "\n";
-				 }
-				  uFile_l << "\n";
-
-
-
-				  uFile_r << "@"<<uid<< "\n";
-				  //if(!qualityScore){
-					  for(il = len+1; il < 2*len + 1 ; il++){
-						  uFile_r << seq[il] ;
-					  }
+                     uFile_r << "\n";
+                  }
 
 
-				  uFile_r << "\n";
-				  uFile_r << "+"<< "\n";
-
-				  for(il = len+1; il < 2*len +1 ; il++){
-					  uFile_r << "I" ;
-				  }
-				  if(qualityScore){
-					  quality_2 << qualities[3] <<"\n";
-				  }
-				  uFile_r << "\n";
 				  uid++;
 
 		  }
@@ -1241,4 +1241,3 @@ bool GZipWriter::writeBootstrap<double>(const std::vector<double>& abund);
 
 template
 bool GZipWriter::writeBootstrap<int>(const std::vector<int>& abund);
-

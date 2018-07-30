@@ -73,9 +73,6 @@ std::string revComp(std::string s){
 std::string decode(std::string& island, std::string& encread,uint32_t pos){
 
 	//debug
-	if(encread == "83ACAAAAA0|"){
-		std::cout << pos << "\n";
-	}
 
 	int ind = 0;
 	std::string real = "";
@@ -121,12 +118,7 @@ std::string decode(std::string& island, std::string& encread,uint32_t pos){
 			}
 			int matches = std::stoi(digit);
 			//debug
-			if(encread == "83ACAAAAA0|"){
-				std::cout << "current check " << read[ind] << "\n";
-				std::cout << "digit index: " << digitInd << "\n";
-				std::cout << "matches: " << matches << "\n";
-				std::cout << "pos: " << pos << "\n";
-			}
+
 			std::string matchChars = island.substr(pos,matches);
 			real.append(matchChars);
 			pos += matches;
@@ -486,15 +478,7 @@ void readCompressed(std::string &ifname, std::string &ofname, bool qualityScore)
 						}
 
 
-						//debug
-						if(leftEnc == "83ACAAAAA0|"){
-							if(codes[f1] == '|'){
-						 	    		std::cout << "\n first four bits are"<< codes[f1] << codes[f2] <<"\n";
 
-						 	    	}else{
-						 	    		std::cout << "\n last four bits are | "<< codes[f1] << codes[f2] <<"\n";
-						 	    	}
-						}
 
 						endIt = true;
 						codeCount++;
@@ -539,11 +523,6 @@ void readCompressed(std::string &ifname, std::string &ofname, bool qualityScore)
 				std::string ldecoded;
 				std::string rdecoded;
 
-				if(leftEnc == "83ACAAAAA0|" || rightEnc == "83ACAAAAA0|"){
-					std::cout << leftPos << "\n";
-					std::cout << rightPos << "\n";
-					//exit(0);
-				}
 
 				if(islands[leftIsland] == "$"){
 					ldecoded = leftEnc ;
