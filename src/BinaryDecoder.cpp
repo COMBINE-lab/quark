@@ -224,7 +224,7 @@ void readCompressedSingle(std::string &ifnamestr, std::string& ofname, bool qual
 
 			while(codeCount < numOfCodes){
 				std::string leftEnc{""};
-				uint8_t leftIsland{0};
+				uint16_t leftIsland{0};
 				uint32_t leftPos{0};
 
 
@@ -436,9 +436,9 @@ void readCompressed(std::string &ifname, std::string &ofname, bool qualityScore)
 
 				std::string leftEnc{""};
 				std::string rightEnc{""};
-				uint8_t leftIsland{0};
+				uint16_t leftIsland{0};
 				uint32_t leftPos{0};
-				uint8_t rightIsland{0};
+				uint16_t rightIsland{0};
 				uint32_t rightPos{0};
 
 				// read the position and island ids

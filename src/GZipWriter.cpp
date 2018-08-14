@@ -709,9 +709,9 @@ bool GZipWriter::writeEncoding(
 
 			  qFile << qS.qcode << "\t" << qS.lIslandId << ","<< qS.lpos << "," << qS.rIslandId << ","<< qS.rpos  << "\n";
 
-			  uint8_t leftIsland = qS.lIslandId;
+			  uint16_t leftIsland = qS.lIslandId;
 			  uint32_t leftPos = qS.lpos;
-			  uint8_t rightIsland = qS.rIslandId;
+			  uint16_t rightIsland = qS.rIslandId;
 			  uint32_t rightPos = qS.rpos;
 
 			  leftOffsetPtr->write(reinterpret_cast<char*>(&leftIsland), sizeof(leftIsland));
@@ -741,7 +741,7 @@ bool GZipWriter::writeEncoding(
 
 			  qFile << qcode << "\t" << qS.lIslandId << "," << qS.lpos << "\n" ;
 			  //qFile << qcode << "\t" << mapid[i] << ","<< relpos[i] << "\n";
-			  uint8_t leftIsland = qS.lIslandId;
+			  uint16_t leftIsland = qS.lIslandId;
 			  uint32_t leftPos = qS.lpos;
 
 			  offsetPtr->write(reinterpret_cast<char*>(&leftIsland), sizeof(leftIsland));
