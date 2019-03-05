@@ -328,8 +328,8 @@ void readCompressed(std::string &ifname, std::string &ofname, bool qualityScore)
 		bfs::path seqPathRight = ifname + "/reads_2.quark.lz";
 		bfs::path offsetPathLeft = ifname + "/offset_1.quark.lz";
 		bfs::path offsetPathRight = ifname + "/offset_2.quark.lz";
-		bfs::path qualityPathLeft = ifname + "quality_1.quark";
-		bfs::path qualityPathRight = ifname + "quality_2.quark";
+		bfs::path qualityPathLeft = ifname + "/quality_1.quark";
+		bfs::path qualityPathRight = ifname + "/quality_2.quark";
 
 		std::string islandPath = ifname + "/islands.txt";
 

@@ -135,6 +135,7 @@ if [ "$decode" = false ];then
         name=`echo $left | awk -F"/" '{print $NF}' | cut -d \. -f 1 | cut -d \_ -f 1`
         if [ "$quality" = true ];then
             echo "Encoding with quality score"
+            echo "$quark quant -i $ind -l IU -1 <(gunzip -c $left) -2 <(gunzip -c $right) -p $th -o $out --quality"
             $quark quant -i $ind -l IU -1 <(gunzip -c $left) -2 <(gunzip -c $right) -p $th -o $out --quality
         else
             echo "Encoding without quality score"
